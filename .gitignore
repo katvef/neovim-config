@@ -1,1 +1,3 @@
-./plugin/*
+/tmp
+/undo
+lazy-lock.json

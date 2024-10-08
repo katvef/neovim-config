@@ -2,7 +2,7 @@ return {
 	{ "EdenEast/nightfox.nvim", priority = 1000, config = function() vim.cmd("colorscheme nightfox") end, },
 	{ "nvim-treesitter/nvim-treesitter", build  = ":TSUpdate" },
 	{ "nvim-treesitter/playground" },
-	{ "theprimeagen/harpoon" },
+	{ "theprimeagen/harpoon", branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
 	{ "mbbill/undotree" },
 	{ "tpope/vim-fugitive" },
 	{ "VonHeikemen/lsp-zero.nvim", branch = "v4.x" },
@@ -11,12 +11,9 @@ return {
 	{ "williamboman/mason.nvim" },
 	{ "williamboman/mason-lspconfig.nvim" },
 	{ "neovim/nvim-lspconfig" },
-	{ "freddiehaddad/feline.nvim" },
-	{ "nanozuki/tabby.nvim",
-		-- event = 'VimEnter', -- if you want lazy load, see below
-		dependencies = "nvim-tree/nvim-web-devicons",
-		config = function()
-			-- configs...
-		end,
-	},
+	{ "nanozuki/tabby.nvim", priority = 1000, dependencies = { "nvim-tree/nvim-web-devicons" } },
+	{ "nvim-lualine/lualine.nvim", priority = 1000, dependencies = { "nvim-tree/nvim-web-devicons" } },
+	{ "nanozuki/tabby.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
+	{ "linrongbin16/lsp-progress.nvim", config = function() require("lsp-progress").setup() end, },
+	{ "HiPhish/rainbow-delimiters.nvim" }
 }
