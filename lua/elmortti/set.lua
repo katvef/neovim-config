@@ -10,6 +10,8 @@ vim.opt.smartindent = true
 
 vim.opt.wrap = false
 
+vim.opt.undofile = true
+vim.opt.undodir = "./undo"
 vim.opt.swapfile = false
 vim.opt.backup = false
 
@@ -28,5 +30,7 @@ vim.opt.colorcolumn = "80"
 
 vim.g.mapleader = " "
 
-vim.opt.list = false
-vim.opt.listchars = { tab = '↣ ', trail = '∙', nbsp = '⎵' }
+vim.opt.list = true
+vim.opt.listchars = { tab = '⟶ ', trail = '∙', nbsp = '∐' }
+
+vim.opt.colorcolumn = ""

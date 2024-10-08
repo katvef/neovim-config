@@ -1,3 +1,4 @@
+require("elmortti.lazy")
 require("elmortti.remap")
 require("elmortti.set")
-require("elmortti.packer")
+require("elmortti.setups")
