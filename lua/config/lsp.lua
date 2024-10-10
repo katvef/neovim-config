@@ -1,13 +1,13 @@
 local lsp_zero = require('lsp-zero')
 
-local cmp = require('cmp')
-local cmp_select = {behavior = cmp.SelectBehavior.Select}
-local cmp_mappings = cmp.mapping.preset.insert({
-	['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-	['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-	['<C-y>'] = cmp.mapping.confirm({ select = true }),
-	['<C-Space>'] = cmp.mapping.complete(),
-})
+-- local cmp = require('cmp')
+-- local cmp_select = {behavior = cmp.SelectBehavior.Select}
+-- local cmp_mappings = cmp.mapping.preset.insert({
+-- 	['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+-- 	['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+-- 	['<C-y>'] = cmp.mapping.confirm({ select = true }),
+-- 	['<C-Space>'] = cmp.mapping.complete(),
+-- })
 
 -- lsp_attach is where you enable features that only work
 -- if there is a language server active in the file
@@ -90,47 +90,50 @@ require("lspconfig").pylsp.setup( {
 })
 
 require('lspconfig').lua_ls.setup {
-  on_init = function(client)
-    if client.workspace_folders then
-      local path = client.workspace_folders[1].name
-      if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
-        return
-      end
-    end
+	on_init = function(client)
+		if client.workspace_folders then
+			local path = client.workspace_folders[1].name
+			if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+				return
+			end
+		end
 
-    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-      runtime = {
-        -- Tell the language server which version of Lua you're using
-        -- (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT'
-      },
-      -- Make the server aware of Neovim runtime files
-      workspace = {
-        checkThirdParty = false,
-        library = {
-          vim.env.VIMRUNTIME
-          -- Depending on the usage, you might want to add additional paths here.
-          -- "${3rd}/luv/library"
-          -- "${3rd}/busted/library",
-        }
-        -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-        -- library = vim.api.nvim_get_runtime_file("", true)
-      }
-    })
-  end,
-  settings = {
-    Lua = {}
-  }
-}
+		client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+			runtime = {
+				-- Tell the language server which version of Lua you're using
+				-- (most likely LuaJIT in the case of Neovim)
+				version = 'LuaJIT'
+			},
+			-- Make the server aware of Neovim runtime files
+			workspace = {
+				checkThirdParty = false,
+				library = {
+					vim.env.VIMRUNTIME
+					-- Depending on the usage, you might want to add additional paths here.
+					-- "${3rd}/luv/library"
+					-- "${3rd}/busted/library",
+				}
+				-- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+				-- library = vim.api.nvim_get_runtime_file("", true)
+			},
+			-- completion = {
+				-- 	dispayContext = 5,
+				-- }
+			})
+		end,
+		settings = {
+			Lua = {}
+		}
+	}
 
-require('lspconfig').eslint.setup({})
+	require('lspconfig').eslint.setup({})
 
-require('lspconfig').ltex.setup({
-	filetypes = { "md", "txt", "html", "tex", "bib" }
-})
+	require('lspconfig').ltex.setup({
+		filetypes = { "md", "txt", "html", "tex", "bib" }
+	})
 
-require('lspconfig').ts_ls.setup({})
+	require('lspconfig').ts_ls.setup({})
 
-require('lspconfig').bashls.setup({})
+	require('lspconfig').bashls.setup({})
 
-require('lspconfig').arduino_language_server.setup({})
+	require('lspconfig').arduino_language_server.setup({})

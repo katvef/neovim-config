@@ -1,5 +1,5 @@
 vim.opt.nu = true
-vim.opt.relativenumber = true
+vim.opt.rnu = true
 
 vim.opt.tabstop = 3
 vim.opt.softtabstop = 3
@@ -26,11 +26,12 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80"
-
 vim.g.mapleader = " "
 
 vim.opt.list = true
-vim.opt.listchars = { tab = '⟶ ', trail = '∙', nbsp = '∐' }
+vim.opt.listchars = { tab = '⟶ ', trail = '∙', nbsp = '⍽' }
 
-vim.opt.colorcolumn = ""
+vim.opt.colorcolumn = "120"
+
+vim.opt.cursorline = true
+vim.opt.cursorcolumn = true
