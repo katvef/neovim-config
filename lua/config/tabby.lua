@@ -7,6 +7,7 @@ local theme = {
 	tail = 'TabLine',
 	separator = '',
 }
+local winCount = 0
 require('tabby').setup({
 	preset = 'active_wins_at_end',
 	line = function(line)
@@ -22,13 +23,15 @@ require('tabby').setup({
 				}
 			end),
 			-- List tabs
+			-- line.tabs().foreach(function(tab)line.wins_in_tab(line.api.get_current_tab()).foreach(function(win) winCount = winCount + 1 end) return{ winCount } end),
 			line.tabs().foreach(function(tab)
 				local hl = tab.is_current() and theme.current_tab or theme.tab
-				local winCount = 0
+				winCount = 0
 				return {
 					line.sep('', hl, theme.fill),
 					{ ' ', hl = hl },
 					tab.number(),
+					line.wins_in_tab(line.api.get_current_tab()).foreach(function(win) winCount = winCount + 1 end),
 					{ '[', winCount, '] ' },
 					tab.is_current() and {
 						line.sep('', hl, theme.fill) or line.sep('', hl, theme.fill),
