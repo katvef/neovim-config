@@ -18,97 +18,106 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- Delete to void and paste
-vim.keymap.set("x", "<leader>p", "\"_dp")
+vim.keymap.set("v", "<leader>p", "\"_d<left>p", { desc = "Delete to void and paste" })
 
 -- Copy to clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y")
 vim.keymap.set({ "n", "v" }, "<leader>Y", "\"+Y")
 vim.keymap.set({ "n", "v" }, "<leader>Y", "\"+Y")
-vim.keymap.set({ "n", "v" }, "<leader>P", "\"+p")
+
+-- Paste from clipboard
+vim.keymap.set("n", "<leader>p", "\"+p")
+
+-- Paste latest yank
+vim.keymap.set("n", "<leader>P", "\"0p")
 
 -- Delete to void
 vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d")
 vim.keymap.set({ "n", "v" }, "<leader>D", "\"_D")
-vim.keymap.set( "n", "<leader>dd", "\"_dd")
 
 -- Centering stuff
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+vim.keymap.set("n", "G", "Gm`10kzz``")
 
 -- Complicated stuff
 vim.keymap.set("n", "<leader>sg", ":%s/\\<<C-r><C-w>\\>/<C-r><C-W>/gI<Left><Left><Left>")
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
--- Exit insert on double j
-vim.keymap.set("i", "jj", "<Esc>")
-
--- Block arrow keys for movement
--- vim.keymap.set("n", "<left>", function() print "use h to move left" end)
--- vim.keymap.set("n", "<right>", function() print "use l to move right" end)
--- vim.keymap.set("n", "<up>", function() print "use k to move left" end)
--- vim.keymap.set("n", "<down>", function() print "use j to move left" end)
-
--- Arrows navigate tabs and windows
-vim.keymap.set("n", "<up>", "<C-w>w")
-vim.keymap.set("n", "<down>", "<C-w>W")
-vim.keymap.set("n", "<left>", ":tabp<CR>")
-vim.keymap.set("n", "<right>", ":tabn<CR>")
+-- Ctrl+c is esc in visual mode
+vim.keymap.set("v", "<C-c>", "<Esc>")
 
 -- Ctrl+arrow enters cmd
 vim.keymap.set({ "n", "v" }, "<C-down>", ":")
 vim.keymap.set({ "n", "v" }, "<C-up>", ":<up>")
 
 -- Easy access to long distance movement
-vim.keymap.set("n", "<leader>h", "_")
+-- vim.keymap.set("n", "<leader>h", "_")
 vim.keymap.set("n", "<leader>l", "$")
 vim.keymap.set("n", "<leader>j", "}")
 vim.keymap.set("n", "<leader>k", "{")
 
 -- Quick write
-vim.keymap.set("n", "<leader>sw", ":w !sudo tee %<CR>")
-vim.keymap.set("n", "<leader>ww", vim.cmd.write)
-vim.keymap.set("n", "<leader>ws", ":w<CR>:so<CR>")
+vim.keymap.set("n", "<leader>sw", "<cmd>w !sudo tee %<CR>", { desc = "Write with sudo" })
+vim.keymap.set("n", "<leader>w", vim.cmd.w, { desc = "Write" })
+vim.keymap.set("n", "<leader>ws", function() vim.cmd.w() vim.cmd.so() end, { desc = "Write & source" })
 
 -- Swap comma and semicolon
 vim.keymap.set("n", ",", ";")
 vim.keymap.set("n", ";", ",")
 
--- Brackets auto format
-vim.keymap.set("i", "<localleader>(", "()<left>")
-vim.keymap.set("i", "<localleader>[", "[]<left>")
-vim.keymap.set("i", "<localleader>{", "{}<left>")
+-- Brackets and quotes
+vim.keymap.set("i", "<localleader>(", "(  )<left><left>")
+vim.keymap.set("i", "<localleader>[", "[  ]<left><left>")
+vim.keymap.set("i", "<localleader>{", "{  }<left><left>")
 
 vim.keymap.set("i", "<localleader>)", "(<CR>)<up><end><CR>")
 vim.keymap.set("i", "<localleader>]", "[<CR>]<up><end><CR>")
 vim.keymap.set("i", "<localleader>}", "{<CR>}<up><end><CR>")
 
--- vim.keymap.set("n", "<leader>op", "<Esc><C-v>a%")
-
 -- Buffers, windows & tabs
 vim.keymap.set("n", "<leader>bd", vim.cmd.bd)
-vim.keymap.set("n", "<leader>nv", "<C-w>v<C-w>w:Ex<CR>")
-vim.keymap.set("n", "<leader>ns", "<C-w>s<C-w>w:Ex<CR>")
+vim.keymap.set("n", "<leader>nv", function() vim.cmd.Vexplore({ bang = true }) end)
+vim.keymap.set("n", "<leader>ns", vim.cmd.Sex)
 
--- Format whole file
-vim.keymap.set("n", "<leader>=", "jgg=G<C-o>kzz")
+-- Indent whole file
+vim.keymap.set("n", "<leader>=",  function() return "m`gg=G``" end, { expr = true })
 
 -- Stay in visual mode when indenting
 vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "<", "<gv")
-
-vim.keymap.set("n", "<C- >", ":")
-
--- Center on G
-vim.keymap.set("n", "G", "Gzz")
 
 -- Scroll the page easily wihout moving cursor
 vim.keymap.set("n", "<M-j>", "<ScrollWheelDown>")
 vim.keymap.set("n", "<M-k>", "<ScrollWheelUp>")
 
 -- Shift arrow in insert mode enters visual mode
-vim.keymap.set("i", "<S-left>", "<Esc><C-v>h")
-vim.keymap.set("i", "<S-down>", "<Esc>l<C-v>j")
-vim.keymap.set("i", "<S-up>", "<Esc>l<C-v>k")
-vim.keymap.set("i", "<S-right>", "<Esc><C-v>l")
+vim.keymap.set("i", "<S-left>", "<Esc><C-v><C-g><Left>")
+vim.keymap.set("i", "<S-down>", "<Right><Esc><C-v><C-g><Down>")
+vim.keymap.set("i", "<S-up>", "<Right><Esc><C-v><C-g><Up>")
+vim.keymap.set("i", "<S-right>", "<Right><Esc><C-v><C-g><Right>")
+
+-- Insert brackets around selection
+vim.keymap.set("v", "<leader>(", "<Esc>`>a)<Esc>`<i(<Esc>gv")
+vim.keymap.set("v", "<leader>[", "<Esc>`>a]<Esc>`<i[<Esc>gv")
+vim.keymap.set("v", "<leader>{", "<Esc>`>a}<Esc>`<i{<Esc>gv")
+
+-- Insert empty lines above or below using enter
+vim.keymap.set("n", "<CS-CR>", "m`O<Esc>0\"_D``")
+vim.keymap.set("n", "<C-CR>", "m`o<Esc>0\"_D``")
+
+-- Toggle foldcollumn
+vim.keymap.set("n", "<leader>fh", function() vim.opt.foldcolumn = "0" end )
+vim.keymap.set("n", "<leader>fe", function() vim.opt.foldcolumn = "auto" end )
+vim.keymap.set("n", "<leader>ft", function()
+	if vim.o.foldcolumn ~= "0"
+		then
+			vim.opt.foldcolumn = "0"
+			vim.opt.foldenable = false
+		else
+			vim.opt.foldcolumn = "auto"
+			vim.opt.foldenable = true
+		end
+	end )

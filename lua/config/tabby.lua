@@ -1,3 +1,5 @@
+vim.o.showtabline = 2
+
 local theme = {
 	fill = 'TabLineFill',
 	head = 'TabLine',
@@ -7,98 +9,89 @@ local theme = {
 	tail = 'TabLine',
 	separator = '',
 }
-local winCount = 0
+
 require('tabby').setup({
 	preset = 'active_wins_at_end',
+
+	option = {
+		tab_name = {
+			name_fallback = function()
+				return ''
+			end
+		}
+	},
+
 	line = function(line)
+		local winsInTab = line.wins_in_tab(line.api.get_current_tab())
 		return {
-			{
-			},
+
+			-- Header
 			line.tabs().foreach(function(tab)
 				return {
 					tab.is_current() and {
-						{ '   ', tab.name(), ' ', line.sep('', theme.head, theme.fill) },
+						'  ', line.sep('', theme.head, theme.fill)
 					},
 					hl = theme.head,
 				}
 			end),
-			-- List tabs
-			-- line.tabs().foreach(function(tab)line.wins_in_tab(line.api.get_current_tab()).foreach(function(win) winCount = winCount + 1 end) return{ winCount } end),
+
+			-- Tabs
 			line.tabs().foreach(function(tab)
 				local hl = tab.is_current() and theme.current_tab or theme.tab
-				winCount = 0
+				local winCount = #vim.api.nvim_tabpage_list_wins(vim.api.nvim_list_tabpages()[tab.number()])
 				return {
 					line.sep('', hl, theme.fill),
-					{ ' ', hl = hl },
-					tab.number(),
-					line.wins_in_tab(line.api.get_current_tab()).foreach(function(win) winCount = winCount + 1 end),
-					{ '[', winCount, '] ' },
-					tab.is_current() and {
-						line.sep('', hl, theme.fill) or line.sep('', hl, theme.fill),
-						line.wins_in_tab(line.api.get_current_tab()).foreach(function(win)
-							local hl2 = win.is_current() and theme.current_tab or theme.tab
-							return {
-								line.sep('', hl2, theme.fill),
-								win.buf_name(),
-								line.sep('', hl2, theme.fill),
-								hl = hl2,
-								margin = ' ',
-							}
-						end),
-						{
-							{
-								line.wins_in_tab(line.api.get_current_tab()).foreach(function(win)
-									return {
-										win.is_current() and {
-											line.sep('', theme.win, theme.fill),
-											win.file_icon(),
-											win.is_current() and line.sep('', theme.win, theme.fill),
-											margin = ' ',
-										},
-										hl = theme.win,
-									}
-								end),
-							},
-						},
-					} or line.sep('', hl, theme.fill),
+					{
+						tab.number(),
+						winCount > 1 and { '[', winCount, ']' }
+					},
+					tab.name(),
+					line.sep('', hl, theme.fill),
 					hl = hl,
-					margin = '',
+					margin = ' ',
 				}
 			end),
 
-			-- Close button
-			-- line.tabs().foreach(function(tab)
-				-- 	return {
-					-- 		{
-						-- 			line.wins_in_tab(line.api.get_current_tab()).foreach(function(win)
-							-- 				return {
-								-- 				win.is_current() and tab.is_current() and line.sep('', theme.current_tab, theme.fill),
-								-- 				win.is_current() and tab.is_current() and tab.close_btn(' 󰱞 '),
-								-- 				win.is_current() and tab.is_current() and win.is_current() and line.sep('', theme.current_tab, theme.fill),
-								-- 					hl = theme.current_tab,
-								-- 				}
-								-- 			end),
-								-- 		},
-								-- 	}
-								-- end),
-								{  },
-								line.spacer(),
-								{
-									line.sep('', theme.tail, theme.fill),
-									{ '  ', hl = theme.tail },
-								},
-								hl = theme.fill,
-							}
-						end,
-						-- option = {}, -- setup modules' option,
-					})
+			line.spacer(),
 
-					-- Remaps
+			-- Windows in tab
+			winsInTab.foreach(function(win)
 
-					vim.api.nvim_set_keymap("n", "<leader>ta", ":$tabnew<CR>:Ex<CR>", { noremap = true })
-					vim.api.nvim_set_keymap("n", "<leader>tc", ":tabclose<CR>", { noremap = true })
-					vim.api.nvim_set_keymap("n", "<leader>to", ":tabonly<CR>", { noremap = true })
-					vim.api.nvim_set_keymap("n", "<leader>tn", ":tabn<CR>", { noremap = true })
-					vim.api.nvim_set_keymap("n", "<leader>tp", ":tabp<CR>", { noremap = true })
-					vim.api.nvim_set_keymap("n", "<leader>tmp", ":-tabmove<CR>", { noremap = true })
-					vim.api.nvim_set_keymap("n", "<leader>tmn", ":+tabmove<CR>", { noremap = true })
+				return {
+					line.sep('', theme.win, theme.fill),
+					win.buf_name(),
+					line.sep('', theme.win, theme.fill),
+					margin = ' ',
+					hl = theme.win
+				}
+			end),
+
+			-- Tail
+			{
+				line.sep('', theme.tail, theme.fill),
+				{ '  ', hl = theme.tail },
+			},
+
+		}
+	end,
+	-- option = {}, -- setup modules' option,
+})
+
+-- Remaps
+vim.api.nvim_set_keymap("n", "<leader>ta", ":$tabnew<CR>:Ex<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tc", ":tabclose<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>to", ":tabonly<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tn", ":tabn<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tp", ":tabp<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tmp", ":-tabmove<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tmn", ":+tabmove<CR>", { noremap = true })
+
+vim.keymap.set("n", "<leader>tr", function ()
+	local tabName = vim.fn.input("Tab name: ")
+	if tabName == '' then
+		print("Rename aborted")
+	else
+		vim.cmd.TabRename{ args = {tabName} }
+		print("Renamed tab to " .. tabName)
+	end
+end)

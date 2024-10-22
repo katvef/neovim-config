@@ -1,2 +1,5 @@
 require("elmortti.remap")
 require("elmortti.set")
+require("elmortti.colors")
+require("elmortti.diagraphs")
+require("elmortti.folds")

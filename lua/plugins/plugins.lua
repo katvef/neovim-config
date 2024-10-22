@@ -1,10 +1,4 @@
 return {
-	{ "EdenEast/nightfox.nvim", priority = 1000,
-	config = function()
-		vim.cmd("colorscheme nightfox")
-		vim.cmd("hi cursorline guibg=#1b293b")
-		vim.cmd("hi cursorcolumn guibg=#1b293b")
-	end },
 	{ "nvim-treesitter/nvim-treesitter", build  = ":TSUpdate" },
 	{ "nvim-treesitter/playground" },
 	{ "theprimeagen/harpoon", branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
@@ -27,13 +21,38 @@ return {
 	{ "hrsh7th/nvim-cmp" },
 	{ "L3MON4D3/LuaSnip", priority = 1000, version = "v2.*", build = "make install_jsregexp" },
 	{ "saadparwaiz1/cmp_luasnip", priority = 999 },
-	{ "nvim-telescope/telescope.nvim", tag = '0.1.8' },
+	{ "nvim-telescope/telescope.nvim", tag = "0.1.8" },
+	{ "ckolkey/ts-node-action", dependencies = { "nvim-treesitter" }, },
+	{ "tpope/vim-fugitive", priority = 1000 },
+	{ "brenoprata10/nvim-highlight-colors"  },
+
+	{ "kylechui/nvim-surround",
+	version = "*",
+	config = function()
+		require("nvim-surround").setup({
+			aliases = {
+				["a"] = ">",
+				["p"] = ")",
+				["b"] = "}",
+				["r"] = "]",
+				["q"] = { '"', "'", "`" },
+				["B"] = { "}", "]", ")", ">" },
+				["s"] = { "}", "]", ")", ">", '"', "'", "`" },
+			},
+		})
+	end },
+
+	{ "EdenEast/nightfox.nvim", priority = 1000,
+	config = function()
+		vim.cmd("colorscheme nightfox")
+	end },
+
 	{ "anuvyklack/animation.nvim", dependencies = { "anuvyklack/middleclass" },
 	config = function ()
-		local Animation = require('animation')
+		local Animation = require("animation")
 		local duration = 100 -- ms
 		local fps = 60 -- frames per second
-		local easing = require('animation.easing')
+		local easing = require("animation.easing")
 		local i = 0
 		local function callback(fraction)
 			i = i + 1
@@ -42,15 +61,33 @@ return {
 		local animation = Animation(duration, fps, easing.line, callback)
 		animation:run()
 	end },
+
 	{ "anuvyklack/windows.nvim",
 	config = function()
 		vim.o.winwidth = 10
 		vim.o.winminwidth = 10
 		vim.o.equalalways = false
-		require('windows').setup()
+		require("windows").setup()
 	end },
-	{ "ckolkey/ts-node-action", dependencies = { 'nvim-treesitter' }, },
-	{ "tpope/vim-fugitive", priority = 1000 },
-	{ "brenoprata10/nvim-highlight-colors"  },
-	{ "declancm/cinnamon.nvim" },
+
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
+			-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+		}
+	},
+
+	{
+		"s1n7ax/nvim-window-picker",
+		name = "window-picker",
+		event = "VeryLazy",
+		version = "2.*",
+		config = function()
+			require("window-picker").setup()
+		end,
+	},
 }

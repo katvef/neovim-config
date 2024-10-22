@@ -1,5 +1,3 @@
-local cmp = require'cmp'
-
 local import_cmp, cmp = pcall(require, 'cmp')
 if not import_cmp then return end
 
@@ -21,11 +19,12 @@ cmp.setup({
 		-- completion = cmp.config.window.bordered(),
 		-- documentation = cmp.config.window.bordered(),
 	},
-	mapping = cmp.mapping.preset.insert({
+	mapping = cmp.mapping({
 		['<C-d>'] = cmp.mapping.scroll_docs(-4),
 		['<C-f>'] = cmp.mapping.scroll_docs(4),
-		['<S<Space>>'] = cmp.mapping.complete(),
+		['<M-Space>'] = cmp.mapping.complete(),
 		['<CR>'] = cmp.mapping.confirm({ select = true }),
+
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
@@ -35,6 +34,17 @@ cmp.setup({
 				fallback()
 			end
 		end, {"i", "s"}),
+
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			else
+				fallback()
+			end
+		end, {"i", "s"}),
+
 	}),
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },

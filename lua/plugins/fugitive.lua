@@ -1,9 +1,12 @@
 return {
-	vim.keymap.set("n", "GS", vim.cmd.Git),
-	-- Extra fugitive binds
-	vim.keymap.set("n", "GF", ":Git fetch<CR>"),
-	vim.keymap.set("n", "GD", ":Git diff<CR>"),
-	vim.keymap.set("n", "GD", ":Git commit<CR>"),
-	vim.keymap.set("n", "GP", ":Git pull<CR>"),
-	vim.keymap.set("n", "Gp", ":Git push<CR>"),
+	vim.keymap.set("n", "<leader>gs", vim.cmd.Git),
+	vim.keymap.set("n", "<leader>gsf", "<cmd>Git fetch<CR>"),
+	vim.keymap.set("n", "<leader>gsd", "<cmd>Git diff<CR>"),
+	vim.keymap.set("n", "<leader>gsc", "<cmd>Git commit<CR>"),
+	vim.keymap.set("n", "<leader>gsp", "<cmd>Git pull<CR>"),
+	vim.keymap.set("n", "<leader>gsP", "<cmd>Git push<CR>"),
+	vim.keymap.set("n", "<leader>gsa", function()
+		local input = vim.fn.input("Git files to add: ")
+		vim.cmd.Git{ args = { "add " .. input } }
+	end),
 }

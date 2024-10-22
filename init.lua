@@ -1,3 +1,4 @@
 require("elmortti")
+require("elmortti.lazy")
 require("config")
-require("config.lazy")
+ColorMyPencils()
