@@ -1,6 +1,4 @@
----@module Foldtext
 ---Based on https://www.reddit.com/r/neovim/comments/16sqyjz/finally_we_can_have_highlighted_folds/
----Updated with vim.treesitter._fold.foldtext()
 
 local function parse_line(linenr)
 	local bufnr = vim.api.nvim_get_current_buf()

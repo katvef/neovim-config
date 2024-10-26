@@ -109,8 +109,6 @@ vim.keymap.set("n", "<CS-CR>", "m`O<Esc>0\"_D``")
 vim.keymap.set("n", "<C-CR>", "m`o<Esc>0\"_D``")
 
 -- Toggle foldcollumn
-vim.keymap.set("n", "<leader>fh", function() vim.opt.foldcolumn = "0" end )
-vim.keymap.set("n", "<leader>fe", function() vim.opt.foldcolumn = "auto" end )
 vim.keymap.set("n", "<leader>ft", function()
 	if vim.o.foldcolumn ~= "0"
 		then
@@ -120,4 +118,39 @@ vim.keymap.set("n", "<leader>ft", function()
 			vim.opt.foldcolumn = "auto"
 			vim.opt.foldenable = true
 		end
-	end )
+	end, { desc = "Toggle folds and foldcolumn" } )
+
+	-- Append a character to the end of the line
+			vim.keymap.set("n", "<leader>A", function()
+				local CurPos = vim.api.nvim_win_get_cursor(0)
+				local Char = io.read(1)
+
+				if Char == ""
+					then
+						vim.cmd.normal{ args = { "A" }, bang = true }
+					elseif Char == ""
+						then
+
+						else
+							vim.cmd("normal! A" .. Char .. "")
+						end
+						vim.api.nvim_win_set_cursor(0, CurPos)
+						Char = ""
+					end, { desc = "Append a character to the end of the line" })
+
+			vim.keymap.set("n", "<leader>I", function()
+				local CurPos = vim.api.nvim_win_get_cursor(0)
+				local Char = io.read(1)
+
+				if Char == ""
+					then
+						vim.cmd.normal{ args = { "_a" }, bang = true }
+					elseif Char == ""
+						then
+
+						else
+							vim.cmd("normal! I" .. Char .. "")
+						end
+						vim.api.nvim_win_set_cursor(0, CurPos)
+						Char = ""
+					end, { desc = "Insert a character to the beginning of the line" })

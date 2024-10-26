@@ -1,5 +1,5 @@
 return {
-	{ "nvim-treesitter/nvim-treesitter", build  = ":TSUpdate" },
+	{ "nvim-treesitter/nvim-treesitter" },
 	{ "nvim-treesitter/playground" },
 	{ "theprimeagen/harpoon", branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
 	{ "mbbill/undotree" },
