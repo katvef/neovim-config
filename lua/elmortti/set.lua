@@ -12,6 +12,7 @@ vim.opt.wrap = false
 
 vim.opt.undofile = true
 vim.opt.undodir = "./undo"
+vim.opt.undolevels = 10000
 vim.opt.swapfile = false
 vim.opt.backup = false
 
@@ -26,8 +27,6 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.g.mapleader = " "
-
 vim.opt.list = true
 vim.opt.listchars = { tab = '│ ', trail = '·', nbsp = '⍽', extends = '→', multispace = '  +'}
 
@@ -35,6 +34,8 @@ vim.opt.colorcolumn = "120"
 
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = true
+
+vim.opt.virtualedit = "onemore"
 
 vim.opt.spr = true
 
@@ -46,9 +47,3 @@ vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldmethod = "expr"
 vim.opt.foldlevelstart = 99
 vim.opt.foldcolumn = "1"
-
-vim.api.nvim_create_autocmd("QuickFixCmdPost", {
-	group = vim.api.nvim_create_augroup("AutoOpenQuickfix", { clear = false }),
-	pattern = { "[^l]*" },
-	command = "cwindow",
-})

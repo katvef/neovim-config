@@ -108,6 +108,18 @@ vim.keymap.set("v", "<leader>{", "<Esc>`>a}<Esc>`<i{<Esc>gv")
 vim.keymap.set("n", "<CS-CR>", "m`O<Esc>0\"_D``")
 vim.keymap.set("n", "<C-CR>", "m`o<Esc>0\"_D``")
 
+-- Toggle search highlighting
+vim.keymap.set("n", "<C-h>", vim.cmd("set hlsearch!"))
+
+-- Handy insert mode editing shortcuts
+vim.keymap.set("i", "", "<C-o>\"_db")
+vim.keymap.set("i", "<C-Del>", "<C-o>\"_dw")
+vim.keymap.set("i", "<CS-Del>", "<C-o>\"_dw")
+vim.keymap.set("i", "<C-d>", "<C-o>diw")
+vim.keymap.set("i", "<C-D>", "<C-o>diW")
+vim.keymap.set("i", "<C-z>", "<C-o>u")
+vim.keymap.set("i", "<C-y>", "<C-o><C-r>")
+
 -- Toggle foldcollumn
 vim.keymap.set("n", "<leader>ft", function()
 	if vim.o.foldcolumn ~= "0"
@@ -121,22 +133,22 @@ vim.keymap.set("n", "<leader>ft", function()
 	end, { desc = "Toggle folds and foldcolumn" } )
 
 	-- Append a character to the end of the line
-			vim.keymap.set("n", "<leader>A", function()
-				local CurPos = vim.api.nvim_win_get_cursor(0)
-				local Char = io.read(1)
+	vim.keymap.set("n", "<leader>A", function()
+		local CurPos = vim.api.nvim_win_get_cursor(0)
+		local Char = io.read(1)
 
-				if Char == ""
-					then
-						vim.cmd.normal{ args = { "A" }, bang = true }
-					elseif Char == ""
-						then
+		if Char == ""
+			then
+				vim.cmd.normal{ args = { "A" }, bang = true }
+			elseif Char == ""
+				then
 
-						else
-							vim.cmd("normal! A" .. Char .. "")
-						end
-						vim.api.nvim_win_set_cursor(0, CurPos)
-						Char = ""
-					end, { desc = "Append a character to the end of the line" })
+				else
+					vim.cmd("normal! A" .. Char .. "")
+				end
+				vim.api.nvim_win_set_cursor(0, CurPos)
+				Char = ""
+			end, { desc = "Append a character to the end of the line" })
 
 			vim.keymap.set("n", "<leader>I", function()
 				local CurPos = vim.api.nvim_win_get_cursor(0)

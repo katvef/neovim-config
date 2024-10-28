@@ -40,7 +40,7 @@ return {
 						reset = '<BS>',
 						reveal_cwd = '@',
 						show_help = 'g?',
-						synchronize = '=',
+						synchronize = 'Y',
 						trim_left = '<',
 						trim_right = '>',
 					},
@@ -68,6 +68,7 @@ return {
 					},
 			})
 		end,
-		vim.keymap.set("n", "<leader>pe", function() MiniFiles.open() end)
+		vim.keymap.set("n", "<leader>pe", function() MiniFiles.open() end),
+		vim.keymap.set("n", "<C-n>", function() MiniFiles.open() end),
 	},
 }

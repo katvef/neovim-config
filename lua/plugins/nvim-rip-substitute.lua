@@ -21,7 +21,7 @@ return {
 					noMatchHlGroup = "ErrorMsg",
 					hideSearchReplaceLabels = false,
 					---@type "top"|"bottom"
-					position = "bottom",
+					position = "top",
 				},
 				prefill = {
 					---@type "cursorWord"| false

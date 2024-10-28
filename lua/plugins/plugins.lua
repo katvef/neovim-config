@@ -1,6 +1,6 @@
 return {
-	{ "nvim-treesitter/nvim-treesitter" },
-	{ "nvim-treesitter/playground" },
+	{ "nvim-treesitter/nvim-treesitter", build  = ":TSUpdate" },
+	{ "nvim-treesitter/playground", dependencies = { "nvim-treesitter/nvim-treesitter"  } },
 	{ "theprimeagen/harpoon", branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
 	{ "mbbill/undotree" },
 	{ "VonHeikemen/lsp-zero.nvim", branch = "v4.x" },
@@ -25,6 +25,8 @@ return {
 	{ "ckolkey/ts-node-action", dependencies = { "nvim-treesitter" }, },
 	{ "tpope/vim-fugitive", priority = 1000 },
 	{ "brenoprata10/nvim-highlight-colors"  },
+	{ "yorickpeterse/nvim-tree-pairs", config = function() require("tree-pairs").setup() end, },
+	{ "akinsho/toggleterm.nvim", version = "*", config = true, vim.keymap.set("n", "þ", vim.cmd.ToggleTerm, { desc = "Toggle split terminal" })},
 
 	{ "kylechui/nvim-surround",
 	version = "*",
