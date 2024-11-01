@@ -6,24 +6,15 @@ end
 ColorMyPencils()
 vim.cmd("command! ColorMyPencils lua ColorMyPencils()")
 
--- Compile current file 
-CompileGpp = function()
-	local input
-	local file
-	local args
-
-	input=vim.fn.input("Executable name (ommit to use filename): ")
-	if input == "" then
-		file=vim.fn.expand("%:t:r")
-	else
-		file = input
+-- Compile current file
+CompileGpp = function(args)
+	if args[1] == nil then
+		args[1] = vim.fn.expand("%:t:r")
+	elseif args[1]:sub(1, 1) == "-" then
+		table.insert(args, 1, vim.fn.expand("%:t:r"))
 	end
+	table.insert(args, 2, "")
 
-	input=vim.fn.input("Arguments to pass: ")
-	if input ~= "" then
-		args = " " .. input
-	end
-
-	vim.cmd("!g++ -o " .. file .. "%" .. args)
+	vim.cmd("!g++ -o " .. args[1] .. " % " .. unpack(args, 2, #args))
 end
-vim.cmd("command! CompileGpp lua CompileGpp()")
+vim.cmd("command! -nargs=* CompileGpp lua CompileGpp({<f-args>})")

@@ -12,7 +12,7 @@ local lsp_zero = require('lsp-zero')
 -- lsp_attach is where you enable features that only work
 -- if there is a language server active in the file
 local lsp_attach = function(client, bufnr)
-	local opts = {buffer = bufnr}
+	local opts = { buffer = bufnr }
 
 	vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
 	vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
@@ -22,7 +22,8 @@ local lsp_attach = function(client, bufnr)
 	vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
 	vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
 	vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-	vim.keymap.set({"n", "x"}, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
+	vim.keymap.set("n", "gR", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
+	vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
 	vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 	vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 end
@@ -34,10 +35,17 @@ lsp_zero.extend_lspconfig({
 })
 
 require('lspconfig').clangd.setup({
-	cmd = {'clangd', '--background-index', '--clang-tidy', '--log=verbose'},
+	cmd = { 'clangd', '--background-index', '--clang-tidy', '--log=verbose', '--query-driver=C:/tools/gcc-11.4.0/bin/g++.exe' },
 	init_options = {
-		fallback_flags = { '-std=c++17' },
-	}
+		fallback_flags = { '-std=c++20' },
+	},
+	settings = {
+		["clangd"] = {
+			format = {
+				insertSpaces = false,
+			},
+		},
+	},
 })
 
 require('lspconfig').rust_analyzer.setup({
@@ -62,7 +70,7 @@ require('lspconfig').rust_analyzer.setup({
 	}
 })
 
-require("lspconfig").pylsp.setup( {
+require("lspconfig").pylsp.setup({
 	on_attach = custom_attach,
 	settings = {
 		pylsp = {
@@ -94,7 +102,7 @@ require('lspconfig').lua_ls.setup {
 	on_init = function(client)
 		if client.workspace_folders then
 			local path = client.workspace_folders[1].name
-			if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+			if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
 				return
 			end
 		end
@@ -118,23 +126,21 @@ require('lspconfig').lua_ls.setup {
 				-- library = vim.api.nvim_get_runtime_file("", true)
 			},
 			-- completion = {
-				-- 	dispayContext = 5,
-				-- }
-			})
-		end,
-		settings = {
-			Lua = {}
-		}
+			-- 	dispayContext = 5,
+			-- }
+		})
+	end,
+	settings = {
+		Lua = {}
 	}
+}
 
-	require('lspconfig').eslint.setup({})
+require('lspconfig').ltex.setup({
+	filetypes = { "md", "txt", "html", "tex", "bib" }
+})
 
-	require('lspconfig').ltex.setup({
-		filetypes = { "md", "txt", "html", "tex", "bib" }
-	})
+require('lspconfig').ts_ls.setup({})
 
-	require('lspconfig').ts_ls.setup({})
+require('lspconfig').bashls.setup({})
 
-	require('lspconfig').bashls.setup({})
-
-	require('lspconfig').arduino_language_server.setup({})
+require('lspconfig').arduino_language_server.setup({})
