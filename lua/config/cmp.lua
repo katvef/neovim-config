@@ -22,29 +22,47 @@ cmp.setup({
 	mapping = cmp.mapping({
 		['<C-d>'] = cmp.mapping.scroll_docs(-4),
 		['<C-f>'] = cmp.mapping.scroll_docs(4),
-		['<M-Space>'] = cmp.mapping.complete(),
 		['<CR>'] = cmp.mapping.confirm({ select = true }),
 
-		["<Tab>"] = cmp.mapping(function(fallback)
+		['<M-Space>'] = cmp.mapping(function()
 			if cmp.visible() then
-				cmp.select_next_item()
-			elseif luasnip.expand_or_jumpable() then
+				cmp.close()
+			else
+				cmp.complete({ reason = cmp.ContextReason.Auto })
+			end
+		end, { "i", "s" }),
+
+		['<Tab>'] = cmp.mapping(function(fallback)
+			if luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump()
 			else
 				fallback()
 			end
-		end, {"i", "s"}),
+		end, { "i", "s" }),
 
 		["<S-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.expand_or_jumpable() then
-				luasnip.expand_or_jump()
+				cmp.select_next_item()
 			else
 				fallback()
 			end
-		end, {"i", "s"}),
+		end, { "i", "s" }),
 
+		["<S-Down>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+
+		["<S-Up>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
 	}),
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },

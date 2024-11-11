@@ -26,7 +26,6 @@ return {
 	{ "tpope/vim-fugitive", priority = 1000 },
 	{ "brenoprata10/nvim-highlight-colors"  },
 	{ "yorickpeterse/nvim-tree-pairs", config = function() require("tree-pairs").setup() end, },
-	{ "akinsho/toggleterm.nvim", version = "*", config = true, vim.keymap.set("n", "þ", vim.cmd.ToggleTerm, { desc = "Toggle split terminal" })},
 
 	{ "kylechui/nvim-surround",
 	version = "*",

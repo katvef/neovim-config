@@ -13,8 +13,13 @@ CompileGpp = function(args)
 	elseif args[1]:sub(1, 1) == "-" then
 		table.insert(args, 1, vim.fn.expand("%:t:r"))
 	end
-	table.insert(args, 2, "")
+	local arg = ""
 
-	vim.cmd("!g++ -o " .. args[1] .. " % " .. unpack(args, 2, #args))
+	table.insert(args, "")
+	for i = 2, #args, 1 do
+		arg = arg .. " " .. args[i]
+	end
+
+	vim.cmd("!g++ -o " .. args[1] .. " %" .. arg)
 end
 vim.cmd("command! -nargs=* CompileGpp lua CompileGpp({<f-args>})")

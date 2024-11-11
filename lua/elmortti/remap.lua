@@ -16,7 +16,7 @@ vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("v", "<leader>p", "\"_d<left>p", { desc = "Delete to void and paste" })
+vim.keymap.set("v", "<leader>p", "\"_dp", { desc = "Delete to void and paste" })
 
 -- Copy to clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y")
@@ -40,7 +40,8 @@ vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "G", "Gm`10kzz``")
 
-vim.keymap.set("n", "<leader>sg", ":%s/\\<<C-r><C-w>\\>/<C-r><C-W>/gI<Left><Left><Left>", { desc = "Search and replace word under cursor" })
+vim.keymap.set("n", "<leader>sg", ":%s/\\<<C-r><C-w>\\>/<C-r><C-W>/gI<Left><Left><Left>",
+	{ desc = "Search and replace word under cursor" })
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Add execute permissions" })
 
 vim.keymap.set("v", "<C-c>", "<Esc>")
@@ -87,12 +88,16 @@ vim.keymap.set("i", "<S-up>", "<Right><Esc><C-v><C-g><Up>")
 vim.keymap.set("i", "<S-right>", "<Right><Esc><C-v><C-g><Right>")
 
 -- Insert brackets around selection
-vim.keymap.set("v", "<leader>(", "<Esc>`>a )<Esc>`<i( <Esc>gv")
-vim.keymap.set("v", "<leader>[", "<Esc>`>a ]<Esc>`<i[ <Esc>gv")
-vim.keymap.set("v", "<leader>{", "<Esc>`>a }<Esc>`<i{ <Esc>gv")
+vim.keymap.set("v", "<leader>(", "<Esc>`>a )<Esc>`<i( <Esc>gvolloll")
+vim.keymap.set("v", "<leader>[", "<Esc>`>a ]<Esc>`<i[ <Esc>gvolloll")
+vim.keymap.set("v", "<leader>{", "<Esc>`>a }<Esc>`<i{ <Esc>gvolloll")
+
+vim.keymap.set("v", "<leader>(", "<Esc>`>a)<Esc>`<i(<Esc>gvolol")
+vim.keymap.set("v", "<leader>[", "<Esc>`>a]<Esc>`<i[<Esc>gvolol")
+vim.keymap.set("v", "<leader>{", "<Esc>`>a}<Esc>`<i{<Esc>gvolol")
 
 -- Insert empty lines above or below using enter
-vim.keymap.set("n", "<CS-CR>", "m`O<Esc>0\"_D``")
+vim.keymap.set({ "n", "i" }, "<CS-CR>", "m`O<Esc>0\"_D``")
 vim.keymap.set("n", "<C-CR>", "m`o<Esc>0\"_D``")
 
 vim.keymap.set("n", "H", function()

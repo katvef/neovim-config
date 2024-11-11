@@ -13,7 +13,6 @@ vim.opt.wrap = false
 vim.opt.undofile = true
 vim.opt.undodir = "./undo"
 vim.opt.undolevels = 10000
-vim.opt.swapfile = false
 vim.opt.backup = false
 
 vim.opt.hlsearch = false
@@ -29,8 +28,7 @@ vim.opt.updatetime = 50
 
 vim.opt.list = true
 vim.opt.listchars = { tab = '│ ', trail = '·', nbsp = '⍽', extends = '→', multispace = '  ·'}
-
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "95"
 
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = true
@@ -46,6 +44,6 @@ vim.opt.foldtext = "v:lua.HighlightedFoldtext()"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldmethod = "expr"
 vim.opt.foldlevelstart = 99
-vim.opt.foldcolumn = "1"
+vim.opt.foldcolumn = "auto:1"
 
 vim.opt.fileformat = "unix"
