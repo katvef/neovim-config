@@ -11,7 +11,7 @@ vim.opt.smartindent = true
 vim.opt.wrap = false
 
 vim.opt.undofile = true
-vim.opt.undodir = "./undo"
+vim.opt.undodir = "./.undo"
 vim.opt.undolevels = 10000
 vim.opt.backup = false
 

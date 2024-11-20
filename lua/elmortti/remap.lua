@@ -1,3 +1,5 @@
+-- Register "Z is used for remap macros
+
 -- Leader
 vim.g.mapleader = " "
 vim.g.maplocalleader = "´"
@@ -16,7 +18,12 @@ vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("v", "<leader>p", "\"_dp", { desc = "Delete to void and paste" })
+vim.keymap.set("v", "<leader>p",
+	function()
+		if vim.fn.mode() == "V" then vim.api.nvim_feedkeys("\"_dkp", "v", false) end
+		vim.api.nvim_feedkeys("\"_dhp", "n", false)
+	end,
+	{ desc = "Delete to void and paste" })
 
 -- Copy to clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y")
@@ -42,6 +49,8 @@ vim.keymap.set("n", "G", "Gm`10kzz``")
 
 vim.keymap.set("n", "<leader>sg", ":%s/\\<<C-r><C-w>\\>/<C-r><C-W>/gI<Left><Left><Left>",
 	{ desc = "Search and replace word under cursor" })
+vim.keymap.set("v", "<leader>sg", "\"zy:%s/<C-r>z/<C-r>z/gI<Left><Left><Left>",
+	{ desc = "Search and replace selected text" })
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Add execute permissions" })
 
 vim.keymap.set("v", "<C-c>", "<Esc>")
