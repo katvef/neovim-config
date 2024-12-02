@@ -7,6 +7,7 @@ return {
 	vim.keymap.set("n", "<leader>gsp", "<cmd>Git pull<CR>", { desc = "Git pull" }),
 	vim.keymap.set("n", "<leader>gsP", "<cmd>Git push<CR>", {  desc = "Git push" }),
 	vim.keymap.set("n", "<leader>gw", "<cmd>Gw<CR>", { desc = "Git write" }),
+	vim.keymap.set("n", "<leader>gsA", "<cmd>Git add .<CR>", { desc = "Git write" }),
 	vim.keymap.set("n", "<leader>gsa", function()
 		local input = vim.fn.input("Git files to add: ")
 		vim.cmd.Git{ args = { "add " .. input } }

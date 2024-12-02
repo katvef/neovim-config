@@ -1,4 +1,5 @@
 .*
+_*
 /tmp
 /.undo
 lazy-lock.json

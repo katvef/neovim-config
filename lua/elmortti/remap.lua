@@ -20,8 +20,11 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("v", "<leader>p",
 	function()
-		if vim.fn.mode() == "V" then vim.api.nvim_feedkeys("\"_dkp", "v", false) end
-		vim.api.nvim_feedkeys("\"_dhp", "n", false)
+		if vim.fn.mode() == "V" then
+			vim.api.nvim_feedkeys("\"_dkp", "v", false)
+		else
+			vim.api.nvim_feedkeys("\"_dhp", "n", false)
+		end
 	end,
 	{ desc = "Delete to void and paste" })
 
@@ -106,8 +109,11 @@ vim.keymap.set("v", "<leader>[", "<Esc>`>a]<Esc>`<i[<Esc>gvolol")
 vim.keymap.set("v", "<leader>{", "<Esc>`>a}<Esc>`<i{<Esc>gvolol")
 
 -- Insert empty lines above or below using enter
-vim.keymap.set({ "n", "i" }, "<CS-CR>", "m`O<Esc>0\"_D``")
+vim.keymap.set("n", "<CS-CR>", "m`O<Esc>0\"_D``")
 vim.keymap.set("n", "<C-CR>", "m`o<Esc>0\"_D``")
+
+vim.keymap.set("i", "<CS-CR>", "<Up><End><CR>")
+vim.keymap.set("i", "<C-CR>", "<End><CR>")
 
 vim.keymap.set("n", "H", function()
 	vim.opt.hlsearch = not (vim.opt.hlsearch:get())

@@ -1,8 +1,8 @@
 return {
 	{ "nvim-treesitter/nvim-treesitter", build  = ":TSUpdate" },
 	{ "nvim-treesitter/playground", dependencies = { "nvim-treesitter/nvim-treesitter"  } },
-	{ "theprimeagen/harpoon", branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
-	{ "mbbill/undotree" },
+	{ "theprimeagen/harpoon", event = "VeryLazy", branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
+	{ "mbbill/undotree", event = "VeryLazy" },
 	{ "VonHeikemen/lsp-zero.nvim", branch = "v4.x" },
 	{ "hrsh7th/cmp-nvim-lsp" },
 	{ "williamboman/mason.nvim" },
@@ -28,6 +28,7 @@ return {
 	{ "yorickpeterse/nvim-tree-pairs", config = function() require("tree-pairs").setup() end, },
 
 	{ "kylechui/nvim-surround",
+	event = "VeryLazy",
 	version = "*",
 	config = function()
 		require("nvim-surround").setup({
@@ -64,6 +65,7 @@ return {
 	end },
 
 	{ "anuvyklack/windows.nvim",
+	event = "VeryLazy",
 	config = function()
 		vim.o.winwidth = 10
 		vim.o.winminwidth = 10
@@ -73,6 +75,7 @@ return {
 
 	{
 		"nvim-neo-tree/neo-tree.nvim",
+		event = "VeryLazy",
 		branch = "v3.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
