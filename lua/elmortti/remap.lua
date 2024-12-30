@@ -80,8 +80,16 @@ vim.keymap.set("i", "<localleader>}", "{<CR>}<up><end><CR>")
 
 -- Buffers, windows & tabs
 vim.keymap.set("n", "<leader>bd", vim.cmd.bd)
-vim.keymap.set("n", "<leader>nv", function() vim.cmd.Vexplore({ bang = true }) end)
-vim.keymap.set("n", "<leader>ns", vim.cmd.Sex)
+
+vim.keymap.set("n", "<leader>ns", function()
+	vim.cmd.split()
+	vim.cmd("lua MiniFiles.open()")
+end)
+
+vim.keymap.set("n", "<leader>nv", function()
+	vim.cmd.vsplit()
+	vim.cmd("lua MiniFiles.open()")
+end)
 
 vim.keymap.set("n", "<leader>=", vim.cmd("lua vim.lsp.buf.format()"), { desc = "Indent whole file" })
 

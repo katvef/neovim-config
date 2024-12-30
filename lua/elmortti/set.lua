@@ -46,4 +46,5 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldlevelstart = 99
 vim.opt.foldcolumn = "auto:1"
 
+vim.opt.fileformats = "unix,dos,mac"
 vim.opt.fileformat = "unix"

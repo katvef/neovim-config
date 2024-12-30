@@ -98,7 +98,7 @@ require("lspconfig").pylsp.setup({
 	capabilities = capabilities,
 })
 
-require('lspconfig').lua_ls.setup {
+require('lspconfig').lua_ls.setup({
 	on_init = function(client)
 		if client.workspace_folders then
 			local path = client.workspace_folders[1].name
@@ -133,14 +133,27 @@ require('lspconfig').lua_ls.setup {
 	settings = {
 		Lua = {}
 	}
+})
+
+require('lspconfig').denols.setup({
+	cmd = { "deno", "lsp" },
+	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+	root_dir = require('lspconfig').util.root_pattern("module.json", "deno.json", "deno.jsonc", ".git"),
+	single_file_support = true,
+})
+vim.g.markdown_fenced_languages = {
+	"ts=typescript"
 }
+
 
 require('lspconfig').ltex.setup({
 	filetypes = { "md", "txt", "html", "tex", "bib" }
 })
 
-require('lspconfig').ts_ls.setup({})
-
 require('lspconfig').bashls.setup({})
 
 require('lspconfig').arduino_language_server.setup({})
+
+require('lspconfig').jsonls.setup({})
+
+require('lspconfig').cssls.setup({})
