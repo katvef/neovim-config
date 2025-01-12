@@ -44,7 +44,7 @@ vim.opt.foldtext = "v:lua.HighlightedFoldtext()"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldmethod = "expr"
 vim.opt.foldlevelstart = 99
-vim.opt.foldcolumn = "auto:1"
+vim.opt.foldcolumn = "0"
 
 vim.opt.fileformats = "unix,dos,mac"
 vim.opt.fileformat = "unix"

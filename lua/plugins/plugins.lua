@@ -26,6 +26,9 @@ return {
 	{ "tpope/vim-fugitive", priority = 1000 },
 	{ "brenoprata10/nvim-highlight-colors"  },
 	{ "yorickpeterse/nvim-tree-pairs", config = function() require("tree-pairs").setup() end, },
+	{ "zbirenbaum/copilot.lua", cmd = "Copilot", event = "InsertEnter" },
+	{ "AndreM222/copilot-lualine" },
+	{ "aserowy/tmux.nvim" },
 
 	{ "kylechui/nvim-surround",
 	event = "VeryLazy",
@@ -65,10 +68,11 @@ return {
 	end },
 
 	{ "anuvyklack/windows.nvim",
+	dependencies = { "anuvyklack/middleclass", "anuvyklack/animation.nvim" },
 	event = "VeryLazy",
 	config = function()
-		vim.o.winwidth = 10
-		vim.o.winminwidth = 10
+		vim.o.winwidth = 15
+		vim.o.winminwidth = 15
 		vim.o.equalalways = false
 		require("windows").setup()
 	end },
@@ -86,12 +90,10 @@ return {
 	},
 
 	{
-		"s1n7ax/nvim-window-picker",
-		name = "window-picker",
-		event = "VeryLazy",
-		version = "2.*",
-		config = function()
-			require("window-picker").setup()
-		end,
-	},
+		"yorickpeterse/nvim-window",
+		keys = {
+			{ "<leader>wj", "<cmd>lua require('nvim-window').pick()<cr>", desc = "nvim-window: Jump to window" },
+		},
+		config = true,
+	}
 }

@@ -1,18 +1,13 @@
+vim.opt.signcolumn = 'yes'
+
 local lsp_zero = require('lsp-zero')
 
--- local cmp = require('cmp')
--- local cmp_select = {behavior = cmp.SelectBehavior.Select}
--- local cmp_mappings = cmp.mapping.preset.insert({
--- 	['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
--- 	['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
--- 	['<C-y>'] = cmp.mapping.confirm({ select = true }),
--- 	['<C-Space>'] = cmp.mapping.complete(),
--- })
-
--- lsp_attach is where you enable features that only work
+-- this is where you enable features that only work
 -- if there is a language server active in the file
-local lsp_attach = function(client, bufnr)
-	local opts = { buffer = bufnr }
+vim.api.nvim_create_autocmd("LspAttach", {
+	desc = "LSP actions",
+	callback = function(event)
+	local opts = { buffer = event.buf }
 
 	vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
 	vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
@@ -26,7 +21,8 @@ local lsp_attach = function(client, bufnr)
 	vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 	vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 	vim.keymap.set("n", "<leader>ga", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-end
+end,
+})
 
 lsp_zero.extend_lspconfig({
 	sign_text = true,
@@ -145,6 +141,9 @@ vim.g.markdown_fenced_languages = {
 	"ts=typescript"
 }
 
+require('lspconfig').jdtls.setup({
+	cmd = { "jdtls", "-configuration", "/home/user/.cache/jdtls/config", "-data", "/home/user/.cache/jdtls/workspace" },
+})
 
 require('lspconfig').ltex.setup({
 	filetypes = { "md", "txt", "html", "tex", "bib" }
