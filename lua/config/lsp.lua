@@ -31,7 +31,7 @@ lsp_zero.extend_lspconfig({
 })
 
 require('lspconfig').clangd.setup({
-	cmd = { 'clangd', '--background-index', '--clang-tidy', '--log=verbose', '--query-driver=C:/tools/gcc-14.2.0/bin/g++.exe' },
+	cmd = { 'clangd', '--background-index', '--clang-tidy', '--log=verbose' },
 	init_options = {
 		fallback_flags = { '-std=c++20' },
 	},
