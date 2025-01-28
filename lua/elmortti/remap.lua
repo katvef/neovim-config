@@ -43,9 +43,7 @@ vim.keymap.set("n", "<leader>P", "\"0p")
 vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d")
 vim.keymap.set({ "n", "v" }, "<leader>D", "\"_D")
 
--- Centering stuff
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+-- Movement stuff
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "G", "Gm`10kzz``")
@@ -181,3 +179,9 @@ vim.keymap.set("n", "<leader>I",
 		vim.api.nvim_win_set_cursor(0, CurPos)
 		Char = ""
 	end, { desc = "Insert a character to the beginning of the line" })
+
+-- Window movement
+vim.keymap.set("n", "<C-h>", "<C-w>h")
+vim.keymap.set("n", "<C-j>", "<C-w>j")
+vim.keymap.set("n", "<C-k>", "<C-w>k")
+vim.keymap.set("n", "<C-l>", "<C-w>h")

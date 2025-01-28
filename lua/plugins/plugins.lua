@@ -28,7 +28,8 @@ return {
 	{ "yorickpeterse/nvim-tree-pairs", config = function() require("tree-pairs").setup() end, },
 	{ "zbirenbaum/copilot.lua", cmd = "Copilot", event = "InsertEnter" },
 	{ "AndreM222/copilot-lualine" },
-	{ "aserowy/tmux.nvim" },
+	{ "aserowy/tmux.nvim", config = function() return require("tmux").setup() end },
+	{ "lambdalisue/suda.vim" },
 
 	{ "kylechui/nvim-surround",
 	event = "VeryLazy",
