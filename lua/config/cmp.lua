@@ -1,3 +1,5 @@
+local compare = require('cmp.config.compare')
+
 local import_cmp, cmp = pcall(require, 'cmp')
 if not import_cmp then return end
 
@@ -24,11 +26,25 @@ cmp.setup({
 		['<C-f>'] = cmp.mapping.scroll_docs(4),
 		['<CR>'] = cmp.mapping.confirm({ select = true }),
 
-		['<M-Space>'] = cmp.mapping(function()
+		['<C-Space>'] = cmp.mapping(function()
 			if cmp.visible() then
 				cmp.close()
 			else
-				cmp.complete({ reason = cmp.ContextReason.Auto })
+				cmp.complete({
+					reason = cmp.ContextReason.Auto,
+					config = {
+						sources = cmp.config.sources({
+							{ name = 'nvim_lsp:*' },
+							{ name = 'buffer' },
+							{ name = 'luasnip' },
+							{ name = 'cmdline' },
+							{ name = 'path' },
+							per_filetype = {
+								codecompanion = { "codecompanion" },
+							}
+						}),
+					},
+				})
 			end
 		end, { "i", "s" }),
 
@@ -67,7 +83,21 @@ cmp.setup({
 				fallback()
 			end
 		end, { "i", "s" }),
+
+		['<C-x>'] = cmp.mapping(
+			cmp.mapping.complete({
+				config = {
+					sources = cmp.config.sources({
+						{ name = 'cmp_ai' },
+					}),
+				},
+			}),
+			{ 'i' }
+		),
 	}),
+
+
+
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },
 		-- { name = 'vsnip' }, -- For vsnip users.
@@ -77,9 +107,24 @@ cmp.setup({
 	}, {
 		{ name = 'buffer' },
 	}),
+
 	formatting = {
 		format = require("nvim-highlight-colors").format
-	}
+	},
+
+	sorting = {
+		priority_weight = 2,
+		comparators = {
+			compare.offset,
+			compare.exact,
+			compare.score,
+			compare.recently_used,
+			compare.kind,
+			compare.sort_text,
+			compare.length,
+			compare.order,
+		},
+	},
 })
 
 -- `/` cmdline setup.
@@ -100,6 +145,3 @@ cmp.setup.cmdline(':', {
 	}),
 	matching = { disallow_symbol_nonprefix_matching = false }
 })
-
--- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()

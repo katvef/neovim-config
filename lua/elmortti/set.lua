@@ -26,7 +26,7 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.list = true
-vim.opt.listchars = { tab = '│ ', trail = '·', nbsp = '⍽', extends = '→', multispace = '  ·'}
+vim.opt.listchars = { tab = '│ ', trail = '·', nbsp = '⍽', extends = '→', multispace = '  ·' }
 vim.opt.colorcolumn = "100"
 
 vim.opt.cursorline = true
@@ -45,5 +45,5 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldlevelstart = 99
 vim.opt.foldcolumn = "0"
 
-vim.opt.fileformats = "unix,dos,mac"
+vim.opt.fileformats = "unix"
 vim.opt.fileformat = "unix"
