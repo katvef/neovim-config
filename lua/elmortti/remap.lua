@@ -29,9 +29,9 @@ vim.keymap.set("v", "<leader>p",
 	{ desc = "Delete to void and paste" })
 
 -- Copy to clipboard
-vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y")
-vim.keymap.set({ "n", "v" }, "<leader>Y", "\"+Y")
-vim.keymap.set({ "n", "v" }, "<leader>Y", "\"+Y")
+vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y", { remap = true })
+vim.keymap.set({ "n", "v" }, "<leader>Y", "\"+Y", { remap = true })
+vim.keymap.set({ "n", "v" }, "<leader>Y", "\"+Y", { remap = true })
 
 -- Paste from clipboard
 vim.keymap.set("n", "<leader>p", "\"+p")
@@ -185,3 +185,16 @@ vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>h")
+
+-- Replace work in different ways
+vim.keymap.set("n", "<leader>rw", "\"_diwhp")
+vim.keymap.set("n", "<leader>rW", "\"_diWhp")
+
+-- EXTENSIONS
+
+-- CodeCompanion
+vim.keymap.set({ "n", "v" }, "¨ä", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = false })
+vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = false })
+
+-- Expand 'cc' into 'CodeCompanion' in the command line
+vim.cmd([[cab cc CodeCompanion]])

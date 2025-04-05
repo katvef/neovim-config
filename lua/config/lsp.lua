@@ -157,3 +157,10 @@ require('lspconfig').arduino_language_server.setup({})
 require('lspconfig').jsonls.setup({})
 
 require('lspconfig').cssls.setup({})
+
+require('lspconfig').hyprls.setup({
+	filetypes = { "hyprlang", "*.hl", "hypr*.conf" },
+	single_file_support = true,
+})
+
+require('lspconfig').csharp_ls.setup({})

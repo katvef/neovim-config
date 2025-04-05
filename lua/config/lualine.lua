@@ -21,7 +21,7 @@ require('lualine').setup({
 		lualine_a = { 'mode' },
 		lualine_b = { 'branch', 'diff', 'diagnostics' },
 		lualine_c = { { 'filename', path = 1, newfile_status = true },
-			function() return require('lsp-progress').progress() end, 'copilot',
+			function() return require('lsp-progress').progress() end,
 		},
 
 		lualine_x = { 'encoding', 'fileformat', 'filetype' },
