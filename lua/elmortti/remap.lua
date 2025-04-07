@@ -189,12 +189,3 @@ vim.keymap.set("n", "<C-l>", "<C-w>h")
 -- Replace work in different ways
 vim.keymap.set("n", "<leader>rw", "\"_diwhp")
 vim.keymap.set("n", "<leader>rW", "\"_diWhp")
-
--- EXTENSIONS
-
--- CodeCompanion
-vim.keymap.set({ "n", "v" }, "¨ä", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = false })
-vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = false })
-
--- Expand 'cc' into 'CodeCompanion' in the command line
-vim.cmd([[cab cc CodeCompanion]])

@@ -1,37 +1,45 @@
-vim.opt.signcolumn = 'yes'
-
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local lsp_zero = require('lsp-zero')
+local capabilities = require("blink.cmp").get_lsp_capabilities()
+local lspconfig = require("lspconfig")
+-- local lsp_zero = require('lsp-zero')
 
 -- this is where you enable features that only work
 -- if there is a language server active in the file
 vim.api.nvim_create_autocmd("LspAttach", {
-	desc = "LSP actions",
+	-- desc = "LSP actions",
 	callback = function(event)
-		local opts = { buffer = event.buf }
+		local map = function(keys, func, desc)
+			vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+		end
 
-		vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
-		vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-		vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
-		vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
-		vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
-		vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
-		vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
-		vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-		vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
-		vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-		vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-		vim.keymap.set("n", "<leader>ga", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+		map("K", vim.lsp.buf.hover, "Show hover")
+		map("gd", vim.lsp.buf.definition, "Goto definition")
+		map("gD", vim.lsp.buf.declaration, "Goto declaration")
+		map("gi", vim.lsp.buf.implementation, "Goto implementation")
+		map("go", vim.lsp.buf.type_definition, "Goto type definition")
+		map("gr", vim.lsp.buf.references, "Goto references")
+		map("gs", vim.lsp.buf.signature_help, "Signature help")
+		map("<F2>", vim.lsp.buf.rename, "Rename object")
+		map("<F3>", function() vim.lsp.buf.format({ async = true }) end, "Format buffer")
+		map("<F4>", vim.lsp.buf.code_action, "Format buffer")
+		map("<leader>ca", vim.lsp.buf.code_action, "Code action")
+		map("<leader>ga", vim.lsp.buf.code_action, "Code action")
 	end,
 })
 
-lsp_zero.extend_lspconfig({
-	sign_text = true,
-	lsp_attach = lsp_attach,
-	capabilities = require('cmp_nvim_lsp').default_capabilities(),
-})
+-- lsp_zero.extend_lspconfig({
+-- 	sign_text = true,
+-- 	lsp_attach = lsp_attach,
+-- 	capabilities = require("blink.cmp").get_lsp_capabilities()
+-- })
 
-require('lspconfig').clangd.setup({
+lspconfig.bashls.setup({ capabilities = capabilities })
+lspconfig.arduino_language_server.setup({ capabilities = capabilities })
+lspconfig.jsonls.setup({ capabilities = capabilities })
+lspconfig.cssls.setup({ capabilities = capabilities })
+lspconfig.csharp_ls.setup({ capabilities = capabilities })
+
+lspconfig.clangd.setup({
+	capabilities = capabilities,
 	cmd = { 'clangd', '--background-index', '--clang-tidy', '--log=verbose' },
 	init_options = {
 		fallback_flags = { '-std=c++20' },
@@ -45,30 +53,28 @@ require('lspconfig').clangd.setup({
 	},
 })
 
-require('lspconfig').rust_analyzer.setup({
-	on_attach = on_attach,
+lspconfig.rust_analyzer.setup({
+	capabilities = capabilities,
 	settings = {
-		["rust-analyzer"] = {
-			imports = {
-				granularity = {
-					group = "module",
-				},
-				prefix = "self",
+		imports = {
+			granularity = {
+				group = "module",
 			},
-			cargo = {
-				buildScripts = {
-					enable = true,
-				},
+			prefix = "self",
+		},
+		cargo = {
+			buildScripts = {
+				enable = true,
 			},
-			procMacro = {
-				enable = true
-			},
-		}
+		},
+		procMacro = {
+			enable = true
+		},
 	}
 })
 
-require("lspconfig").pylsp.setup({
-	on_attach = custom_attach,
+lspconfig.pylsp.setup({
+	capabilities = capabilities,
 	settings = {
 		pylsp = {
 			plugins = {
@@ -92,10 +98,10 @@ require("lspconfig").pylsp.setup({
 	flags = {
 		debounce_text_changes = 200,
 	},
-	capabilities = capabilities,
 })
 
-require('lspconfig').lua_ls.setup({
+lspconfig.lua_ls.setup({
+	capabilities = capabilities,
 	on_init = function(client)
 		if client.workspace_folders then
 			local path = client.workspace_folders[1].name
@@ -132,35 +138,27 @@ require('lspconfig').lua_ls.setup({
 	}
 })
 
-require('lspconfig').denols.setup({
+lspconfig.denols.setup({
+	capabilities = capabilities,
 	cmd = { "deno", "lsp" },
 	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-	root_dir = require('lspconfig').util.root_pattern("module.json", "deno.json", "deno.jsonc", ".git"),
+	root_dir = lspconfig.util.root_pattern("module.json", "deno.json", "deno.jsonc", ".git"),
 	single_file_support = true,
 })
-vim.g.markdown_fenced_languages = {
-	"ts=typescript"
-}
+vim.g.markdown_fenced_languages = { "ts=typescript" }
 
-require('lspconfig').jdtls.setup({
+lspconfig.jdtls.setup({
+	capabilities = capabilities,
 	cmd = { "jdtls", "-configuration", "/home/user/.cache/jdtls/config", "-data", "/home/user/.cache/jdtls/workspace" },
 })
 
-require('lspconfig').ltex.setup({
+lspconfig.ltex.setup({
+	capabilities = capabilities,
 	filetypes = { "md", "txt", "html", "tex", "bib" }
 })
 
-require('lspconfig').bashls.setup({})
-
-require('lspconfig').arduino_language_server.setup({})
-
-require('lspconfig').jsonls.setup({})
-
-require('lspconfig').cssls.setup({})
-
-require('lspconfig').hyprls.setup({
+lspconfig.hyprls.setup({
+	capabilities = capabilities,
 	filetypes = { "hyprlang", "*.hl", "hypr*.conf" },
 	single_file_support = true,
 })
-
-require('lspconfig').csharp_ls.setup({})
