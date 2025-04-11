@@ -1,7 +1,7 @@
 return {
 	{ "nvim-treesitter/nvim-treesitter",   build = ":TSUpdate" },
 	{ "nvim-treesitter/playground",        event = "VeryLazy", dependencies = { "nvim-treesitter/nvim-treesitter" } },
-	{ "theprimeagen/harpoon",              event = "VeryLazy", branch = "harpoon2",                                   dependencies = { "nvim-lua/plenary.nvim" } },
+	{ "theprimeagen/harpoon",              event = "VeryLazy", branch = "harpoon2",                                     dependencies = { "nvim-lua/plenary.nvim" } },
 	{ "mbbill/undotree",                   event = "VeryLazy" },
 	{ "williamboman/mason.nvim" },
 	{ "williamboman/mason-lspconfig.nvim" },
@@ -9,7 +9,6 @@ return {
 	{ "nanozuki/tabby.nvim",               priority = 1000,    dependencies = { "nvim-tree/nvim-web-devicons" } },
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "neovim/nvim-lspconfig", },
-	{ "nvim-telescope/telescope.nvim",     tag = "0.1.8" },
 	{ "ckolkey/ts-node-action",            event = "VeryLazy", dependencies = { "nvim-treesitter" }, },
 	{ "tpope/vim-fugitive",                event = "VeryLazy", priority = 1000 },
 	{ "brenoprata10/nvim-highlight-colors" },
@@ -23,6 +22,19 @@ return {
 	{ "neovim/nvim-lspconfig",             event = "VeryLazy", dependencies = { "saghen/blink.cmp" } },
 	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy", config = function() require("lsp-progress").setup() end, },
 	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy", config = function() require("tree-pairs").setup() end, },
+
+	{
+		"nvim-telescope/telescope.nvim",
+		config = { function()
+			local builtin = require('telescope.builtin')
+			vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+			vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+			vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, { desc = 'Telescope fuzzy search' })
+			vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+			vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+		end },
+		tag = "0.1.8"
+	},
 
 	{
 		"aserowy/tmux.nvim",
@@ -47,14 +59,6 @@ return {
 		fuzzy = { implementation = "prefer_rust_with_warning" },
 	},
 
-	-- {
-	-- 	"olimorris/codecompanion.nvim",
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"nvim-treesitter/nvim-treesitter",
-	-- 	},
-	-- },
-
 	{
 		"kylechui/nvim-surround",
 		event = "VeryLazy",
@@ -66,7 +70,6 @@ return {
 					["p"] = ")",
 					["b"] = "}",
 					["r"] = "]",
-					["R"] = "]]",
 					["q"] = { '"', "'", "`" },
 					["B"] = { "}", "]]", "]", ")", ">" },
 					["s"] = { "}", "]]", "]", ")", ">", '"', "'", "`" },

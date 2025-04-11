@@ -1,9 +1,8 @@
 local capabilities = require("blink.cmp").get_lsp_capabilities()
 local lspconfig = require("lspconfig")
--- local lsp_zero = require('lsp-zero')
 
--- this is where you enable features that only work
--- if there is a language server active in the file
+vim.diagnostic.config({virtual_text = true})
+
 vim.api.nvim_create_autocmd("LspAttach", {
 	-- desc = "LSP actions",
 	callback = function(event)

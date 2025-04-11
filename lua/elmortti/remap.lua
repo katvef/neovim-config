@@ -1,4 +1,4 @@
--- Register "Z is used for remap macros
+-- Register "Z is used for macros
 
 -- Leader
 vim.g.mapleader = " "
