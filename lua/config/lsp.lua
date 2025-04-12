@@ -1,7 +1,7 @@
 local capabilities = require("blink.cmp").get_lsp_capabilities()
 local lspconfig = require("lspconfig")
 
-vim.diagnostic.config({virtual_text = true})
+vim.diagnostic.config({ virtual_text = true })
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	-- desc = "LSP actions",
@@ -34,8 +34,37 @@ vim.api.nvim_create_autocmd("LspAttach", {
 lspconfig.bashls.setup({ capabilities = capabilities })
 lspconfig.arduino_language_server.setup({ capabilities = capabilities })
 lspconfig.jsonls.setup({ capabilities = capabilities })
-lspconfig.cssls.setup({ capabilities = capabilities })
 lspconfig.csharp_ls.setup({ capabilities = capabilities })
+lspconfig.css_variables.setup({ capabilities = capabilities })
+
+lspconfig.cssls.setup({
+	capabilities = capabilities,
+	settings = {
+		css = {
+			validate = true,
+			lint = {
+				unknownAtRules = "ignore",
+			},
+		},
+		scss = {
+			lint = {
+				unknownAtRules = "ignore",
+			},
+		},
+		less = {
+			lint = {
+				unknownAtRules = "ignore",
+			},
+		},
+	},
+})
+
+lspconfig.tailwindcss.setup({
+	capabilities = capabilities,
+	settings = {
+		filetypes = { "css", "scss", "less" }
+	}
+})
 
 lspconfig.clangd.setup({
 	capabilities = capabilities,
