@@ -24,4 +24,3 @@ vim.g.rainbow_delimiters = {
 		'RainbowDelimiterRed',
 	},
 }
-

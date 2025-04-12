@@ -11,7 +11,7 @@ return {
 			},
 		},
 		-- Configuration
-		config = function ()
+		config = function()
 			-- default settings
 			require("rip-substitute").setup {
 				popupWin = {
@@ -63,5 +63,6 @@ return {
 				},
 				notificationOnSuccess = true,
 			}
-		end },
-	}
+		end
+	},
+}

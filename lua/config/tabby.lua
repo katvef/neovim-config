@@ -56,7 +56,6 @@ require('tabby').setup({
 
 			-- Windows in tab
 			winsInTab.foreach(function(win)
-
 				return {
 					line.sep('', theme.win, theme.fill),
 					win.buf_name(),
@@ -86,12 +85,12 @@ vim.api.nvim_set_keymap("n", "<leader>tp", ":tabp<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>tmp", ":-tabmove<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>tmn", ":+tabmove<CR>", { noremap = true })
 
-vim.keymap.set("n", "<leader>tr", function ()
+vim.keymap.set("n", "<leader>tr", function()
 	local tabName = vim.fn.input("Tab name: ")
 	if tabName == '' then
 		print("Rename aborted")
 	else
-		vim.cmd.TabRename{ args = {tabName} }
+		vim.cmd.TabRename { args = { tabName } }
 		print("Renamed tab to " .. tabName)
 	end
 end)

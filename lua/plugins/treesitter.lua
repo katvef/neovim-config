@@ -1,5 +1,5 @@
 return {
-	require'nvim-treesitter.configs'.setup {
+	require 'nvim-treesitter.configs'.setup {
 		-- A list of parser names, or "all" (the listed parsers MUST always be installed)
 		auto_installed = { "javascript", "python", "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
 
