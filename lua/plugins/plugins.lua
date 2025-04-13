@@ -22,7 +22,7 @@ return {
 	{ "neovim/nvim-lspconfig",             event = "VeryLazy", dependencies = { "saghen/blink.cmp" } },
 	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy", config = function() require("lsp-progress").setup() end, },
 	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy", config = function() require("tree-pairs").setup() end, },
-	{ "andweeb/presence.nvim" },
+	{ "andweeb/presence.nvim", config = function() require("presence").setup() end },
 
 	{
 		"nvim-telescope/telescope.nvim",
@@ -71,12 +71,11 @@ return {
 					["p"] = ")",
 					["b"] = "}",
 					["r"] = "]",
-					["."] = ".",
 					["q"] = { '"', "'", "`" },
 					["B"] = { "}", "]]", "]", ")", ">" },
 					["s"] = { "}", "]]", "]", ")", ">", '"', "'", "`" },
 				},
-				vim.keymap.set("o", "i.", function () vim.cmd("normal T.vt.") end)
+				vim.keymap.set("o", "i.", function() vim.cmd("normal T.vt.") end)
 			})
 		end
 	},
