@@ -1,11 +1,19 @@
-local capabilities = require("blink.cmp").get_lsp_capabilities()
 local lspconfig = require("lspconfig")
+local lspconfig_defaults = lspconfig.util.default_config
 
 vim.diagnostic.config({ virtual_text = true })
+
+lspconfig_defaults.capabilities = vim.tbl_deep_extend(
+	"force",
+	lspconfig_defaults.capabilities,
+	require("blink.cmp").get_lsp_capabilities()
+)
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	-- desc = "LSP actions",
 	callback = function(event)
+		local client = vim.lsp.get_client_by_id(event.data.client_id)
+		local bufnr = event.buf
 		local map = function(keys, func, desc)
 			vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 		end
@@ -22,6 +30,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("<F4>", vim.lsp.buf.code_action, "Format buffer")
 		map("<leader>ca", vim.lsp.buf.code_action, "Code action")
 		map("<leader>ga", vim.lsp.buf.code_action, "Code action")
+
+		if client ~= nil and client.server_capabilities.documentSymbolProvider then
+			require("nvim-navic").attach(client, bufnr)
+		end
 	end,
 })
 
@@ -31,14 +43,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- 	capabilities = require("blink.cmp").get_lsp_capabilities()
 -- })
 
-lspconfig.bashls.setup({ capabilities = capabilities })
-lspconfig.arduino_language_server.setup({ capabilities = capabilities })
-lspconfig.jsonls.setup({ capabilities = capabilities })
-lspconfig.csharp_ls.setup({ capabilities = capabilities })
-lspconfig.css_variables.setup({ capabilities = capabilities })
+lspconfig.bashls.setup({})
+lspconfig.arduino_language_server.setup({})
+lspconfig.jsonls.setup({})
+lspconfig.csharp_ls.setup({})
+lspconfig.css_variables.setup({})
 
 lspconfig.cssls.setup({
-	capabilities = capabilities,
 	settings = {
 		css = {
 			validate = true,
@@ -60,17 +71,15 @@ lspconfig.cssls.setup({
 })
 
 lspconfig.tailwindcss.setup({
-	capabilities = capabilities,
 	settings = {
 		filetypes = { "css", "scss", "less" }
 	}
 })
 
 lspconfig.clangd.setup({
-	capabilities = capabilities,
-	cmd = { 'clangd', '--background-index', '--clang-tidy', '--log=verbose' },
+	cmd = { "clangd", "--background-index", "--clang-tidy", "--log=verbose" },
 	init_options = {
-		fallback_flags = { '-std=c++20' },
+		fallback_flags = { "-std=c++20" },
 	},
 	settings = {
 		["clangd"] = {
@@ -82,7 +91,6 @@ lspconfig.clangd.setup({
 })
 
 lspconfig.rust_analyzer.setup({
-	capabilities = capabilities,
 	settings = {
 		imports = {
 			granularity = {
@@ -102,7 +110,6 @@ lspconfig.rust_analyzer.setup({
 })
 
 lspconfig.pylsp.setup({
-	capabilities = capabilities,
 	settings = {
 		pylsp = {
 			plugins = {
@@ -129,20 +136,19 @@ lspconfig.pylsp.setup({
 })
 
 lspconfig.lua_ls.setup({
-	capabilities = capabilities,
 	on_init = function(client)
 		if client.workspace_folders then
 			local path = client.workspace_folders[1].name
-			if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
+			if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
 				return
 			end
 		end
 
-		client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+		client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
 			runtime = {
 				-- Tell the language server which version of Lua you're using
 				-- (most likely LuaJIT in the case of Neovim)
-				version = 'LuaJIT'
+				version = "LuaJIT"
 			},
 			-- Make the server aware of Neovim runtime files
 			workspace = {
@@ -153,7 +159,7 @@ lspconfig.lua_ls.setup({
 					-- "${3rd}/luv/library"
 					-- "${3rd}/busted/library",
 				}
-				-- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+				-- or pull in all of "runtimepath". NOTE: this is a lot slower
 				-- library = vim.api.nvim_get_runtime_file("", true)
 			},
 			-- completion = {
@@ -167,7 +173,6 @@ lspconfig.lua_ls.setup({
 })
 
 lspconfig.denols.setup({
-	capabilities = capabilities,
 	cmd = { "deno", "lsp" },
 	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
 	root_dir = lspconfig.util.root_pattern("module.json", "deno.json", "deno.jsonc", ".git"),
@@ -176,17 +181,14 @@ lspconfig.denols.setup({
 vim.g.markdown_fenced_languages = { "ts=typescript" }
 
 lspconfig.jdtls.setup({
-	capabilities = capabilities,
 	cmd = { "jdtls", "-configuration", "/home/user/.cache/jdtls/config", "-data", "/home/user/.cache/jdtls/workspace" },
 })
 
 lspconfig.ltex_plus.setup({
-	capabilities = capabilities,
 	filetypes = { "md", "txt", "html", "tex", "bib" }
 })
 
 lspconfig.hyprls.setup({
-	capabilities = capabilities,
 	filetypes = { "hyprlang", "*.hl", "hypr*.conf" },
 	single_file_support = true,
 })

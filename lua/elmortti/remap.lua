@@ -150,7 +150,6 @@ vim.keymap.set("n", "<leader>A",
 	function()
 		local CurPos = vim.api.nvim_win_get_cursor(0)
 		local Char = io.read(1)
-
 		if Char == ""
 		then
 			vim.cmd.normal { args = { "A" }, bang = true }
@@ -186,6 +185,9 @@ vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>h")
 
--- Replace work in different ways
-vim.keymap.set("n", "<leader>rw", "\"_diwhp")
-vim.keymap.set("n", "<leader>rW", "\"_diWhp")
+-- Replace word in different ways
+vim.keymap.set("n", "<leader>rw", "\"_diwhp", { desc = "Replace word with yank register content" })
+vim.keymap.set("n", "<leader>rW", "\"_diWhp", { desc = "Replace WORD with yank register content" })
+
+-- Show diagnostic hover
+vim.keymap.set("n", "L", vim.diagnostic.open_float)

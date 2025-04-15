@@ -10,17 +10,18 @@ require('lualine').setup({
 		},
 		ignore_focus = {},
 		always_divide_middle = true,
-		globalstatus = false,
+		globalstatus = true,
 		refresh = {
 			statusline = 1000,
 			tabline = 1000,
 			winbar = 1000,
 		}
 	},
+
 	sections = {
 		lualine_a = { 'mode' },
 		lualine_b = { 'branch', 'diff', 'diagnostics' },
-		lualine_c = { { 'filename', path = 1, newfile_status = true },
+		lualine_c = { { 'filename', path = 0, newfile_status = true },
 			function() return require('lsp-progress').progress() end,
 		},
 
@@ -28,14 +29,16 @@ require('lualine').setup({
 		lualine_y = { 'filesize', function() return vim.fn.line('$') end },
 		lualine_z = { 'location', 'progress' },
 	},
+
 	inactive_sections = {
-		lualine_b = {},
 		lualine_a = {},
+		lualine_b = {},
 		lualine_c = {},
 		lualine_x = {},
 		lualine_y = {},
 		lualine_z = {}
 	},
+
 	tabline = {},
 	winbar = {},
 	inactive_winbar = {},

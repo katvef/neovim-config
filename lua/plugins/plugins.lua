@@ -9,6 +9,7 @@ return {
 	{ "tpope/vim-fugitive",                event = "VeryLazy",  priority = 1000 },
 	{ "lambdalisue/suda.vim",              event = "VeryLazy" },
 	{ "neovim/nvim-lspconfig",             event = "VeryLazy",  dependencies = { "saghen/blink.cmp" } },
+	{ "SmiteshP/nvim-navic",               event = "VeryLazy",  dependencies = { "neovim/nvim-lspconfig" } },
 	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  config = function() require("lsp-progress").setup() end, },
 	{ "andweeb/presence.nvim",             event = "VeryLazy",  config = function() require("presence").setup() end },
 	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  config = function() require("tree-pairs").setup() end, },
@@ -19,19 +20,23 @@ return {
 	{ "neovim/nvim-lspconfig", },
 	{ "brenoprata10/nvim-highlight-colors" },
 
+
+	{
+		'b0o/incline.nvim',
+		event = 'VeryLazy',
+		config = function() require('incline').setup() end,
+	},
+
 	{
 		'stevearc/aerial.nvim',
-		event = "VeryLazy",
 		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("aerial").setup({
 				on_attach = function(bufnr)
-					-- Jump forwards/backwards with '{' and '}'
-					vim.keymap.set("n", "<leader>{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
-					vim.keymap.set("n", "<leader>}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+					vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+					vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
 				end,
 			})
-			-- You probably also want to set a keymap to toggle aerial
 			vim.keymap.set("n", "<leader>q", "<cmd>AerialToggle!<CR>")
 		end
 	},
@@ -39,19 +44,6 @@ return {
 	{
 		"andweeb/presence.nvim",
 		config = function() require("presence").setup() end
-	},
-
-	{
-		"nvim-telescope/telescope.nvim",
-		config = { function()
-			local builtin = require('telescope.builtin')
-			vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-			vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-			vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-			vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-			vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, { desc = 'Telescope fuzzy search' })
-		end },
-		tag = "0.1.8"
 	},
 
 	{
