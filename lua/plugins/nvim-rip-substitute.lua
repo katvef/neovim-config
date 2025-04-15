@@ -3,12 +3,7 @@ return {
 		"chrisgrieser/nvim-rip-substitute",
 		cmd = "RipSubstitute",
 		keys = {
-			{
-				"<leader>fs",
-				function() require("rip-substitute").sub() end,
-				mode = { "n", "x" },
-				desc = " rip substitute",
-			},
+			{ "<leader>fs", function() require("rip-substitute").sub() end, mode = { "n", "x" }, desc = " rip substitute", },
 		},
 		-- Configuration
 		config = function()
@@ -23,6 +18,7 @@ return {
 					---@type "top"|"bottom"
 					position = "top",
 				},
+
 				prefill = {
 					---@type "cursorWord"| false
 					normal = "cursorWord",
@@ -31,6 +27,7 @@ return {
 					startInReplaceLineIfPrefill = false,
 					alsoPrefillReplaceLine = false,
 				},
+
 				keymaps = { -- normal & visual mode, if not stated otherwise
 					abort = "q",
 					confirm = "<CR>",
@@ -41,6 +38,7 @@ return {
 					toggleIgnoreCase = "<C-c>", -- ripgrep's `--ignore-case`
 					openAtRegex101 = "R",
 				},
+
 				incrementalPreview = {
 					matchHlGroup = "IncSearch",
 					rangeBackdrop = {
@@ -48,6 +46,7 @@ return {
 						blend = 50, -- between 0 and 100
 					},
 				},
+
 				regexOptions = {
 					startWithFixedStringsOn = false,
 					startWithIgnoreCase = false,
@@ -56,11 +55,13 @@ return {
 					-- disable if you use named capture groups (see README for details)
 					autoBraceSimpleCaptureGroups = true,
 				},
+
 				editingBehavior = {
 					-- When typing `()` in the `search` line, automatically adds `$n` to the
 					-- `replace` line.
 					autoCaptureGroups = true,
 				},
+
 				notificationOnSuccess = true,
 			}
 		end

@@ -180,7 +180,7 @@ lspconfig.jdtls.setup({
 	cmd = { "jdtls", "-configuration", "/home/user/.cache/jdtls/config", "-data", "/home/user/.cache/jdtls/workspace" },
 })
 
-lspconfig.ltex.setup({
+lspconfig.ltex_plus.setup({
 	capabilities = capabilities,
 	filetypes = { "md", "txt", "html", "tex", "bib" }
 })
