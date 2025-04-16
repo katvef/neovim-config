@@ -27,11 +27,5 @@ vim.cmd("command! -nargs=* CompileGpp lua CompileGpp({<f-args>})")
 
 
 HighlightToHex = function(hl, prop)
-	if prop == "bg" then
-		return string.format("#%x", vim.api.nvim_get_hl(0, { name = hl, link = false }).bg)
-	elseif prop == "fg" then
-		return string.format("#%x", vim.api.nvim_get_hl(0, { name = hl, link = false }).fg)
-	else
-		print(prop .. " is not bg or fg")
-	end
+	return string.format("#%x", vim.api.nvim_get_hl(0, { name = hl, link = false })[prop])
 end

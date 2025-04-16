@@ -37,6 +37,12 @@ return {
 	},
 
 	{
+		"nvim-telescope/telescope-fzf-native.nvim",
+		event = "VeryLazy",
+		build = "make"
+	},
+
+	{
 		"andweeb/presence.nvim",
 		config = function() require("presence").setup() end
 	},

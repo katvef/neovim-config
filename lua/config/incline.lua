@@ -1,7 +1,7 @@
-local helpers = require 'incline.helpers'
-local navic = require 'nvim-navic'
-local devicons = require 'nvim-web-devicons'
-require('incline').setup {
+local helpers = require("incline.helpers")
+local navic = require("nvim-navic")
+local devicons = require("nvim-web-devicons")
+require("incline").setup({
 	window = {
 		padding = 0,
 		margin = { horizontal = 0, vertical = 0 },
@@ -14,12 +14,12 @@ require('incline').setup {
 		local ft_icon, ft_color = devicons.get_icon_color(filename)
 		local modified = vim.bo[props.buf].modified
 		local res = {
-			ft_icon and { ' ', ft_icon, ' ', guifg = ft_color } or '',
+			ft_icon and { ' ', ft_icon, ' ', guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or '',
 			' ',
 			{ filename, gui = modified and 'bold,italic' or 'bold' },
-			guibg = HighlightToHex("DiagnosticVirtualTextInfo", "bg"),
-
+			guibg = HighlightToHex("TabLine", "bg"),
 		}
+
 		if props.focused then
 			for _, item in ipairs(navic.get_data(props.buf) or {}) do
 				table.insert(res, {
@@ -32,4 +32,4 @@ require('incline').setup {
 		table.insert(res, ' ')
 		return res
 	end,
-}
+})

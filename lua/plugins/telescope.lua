@@ -21,12 +21,13 @@ return {
 				},
 			}
 		})
-		-- require("telescope").load_extension("fzf")
+		require("telescope").load_extension("aerial")
 		local builtin = require("telescope.builtin")
+		local theme = require("telescope.themes")
 		vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = 'Telescope find files' })
-		vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = 'Telescope find files' })
-		vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = 'Telescope live grep' })
-		vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = 'Telescope buffers' })
+		vim.keymap.set('n', '<leader>pf', function() builtin.find_files(theme.get_dropdown()) end, { desc = 'Telescope find files' })
+		vim.keymap.set("n", "<leader>fg", function() builtin.live_grep(theme.get_dropdown()) end, { desc = 'Telescope live grep' })
+		vim.keymap.set("n", "<leader>fb", function() builtin.buffers(theme.get_dropdown()) end, { desc = 'Telescope buffers' })
 		vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = 'Telescope help tags' })
 		vim.keymap.set("n", "<leader>/", builtin.current_buffer_fuzzy_find, { desc = 'Telescope fuzzy search' })
 		vim.keymap.set('n', '<C-p>', builtin.git_files, { desc = 'Telescope find git files' })
