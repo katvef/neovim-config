@@ -16,16 +16,11 @@ return {
 	{ "chentoast/marks.nvim",              event = "VeryLazy" },
 	{ "williamboman/mason.nvim",           event = "VeryLazy" },
 	{ "williamboman/mason-lspconfig.nvim", event = "VeryLazy" },
+	{ "mfussenegger/nvim-dap",             event = "VeryLazy" },
+	{ 'b0o/incline.nvim',                  event = 'VeryLazy' },
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "neovim/nvim-lspconfig", },
 	{ "brenoprata10/nvim-highlight-colors" },
-
-
-	{
-		'b0o/incline.nvim',
-		event = 'VeryLazy',
-		config = function() require('incline').setup() end,
-	},
 
 	{
 		'stevearc/aerial.nvim',
