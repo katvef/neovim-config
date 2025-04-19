@@ -124,7 +124,12 @@ return {
 			vim.o.winwidth = 15
 			vim.o.winminwidth = 15
 			vim.o.equalalways = false
-			require("windows").setup()
+			require("windows").setup({
+				ignore = {
+					buftype = { "quickfix" },
+					filetype = { "NvimTree", "neo-tree", "undotree", "gundo", "aerial", "diff" }
+				}
+			})
 		end
 	},
 
