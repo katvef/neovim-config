@@ -14,22 +14,35 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(event)
 		local client = vim.lsp.get_client_by_id(event.data.client_id)
 		local bufnr = event.buf
+		local lsp = vim.lsp.buf
+		local function telescope_lsp(action)
+			require('telescope.builtin')["lsp_" .. action](require("telescope.theme").get_cursor())
+		end
 		local map = function(keys, func, desc)
 			vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 		end
 
-		map("K", vim.lsp.buf.hover, "Show hover")
-		map("gd", vim.lsp.buf.definition, "Goto definition")
-		map("gD", vim.lsp.buf.declaration, "Goto declaration")
-		map("gi", vim.lsp.buf.implementation, "Goto implementation")
-		map("go", vim.lsp.buf.type_definition, "Goto type definition")
-		map("gr", vim.lsp.buf.references, "Goto references")
+		-- Stays the same anyway
+		map("K", lsp.hover, "Show hover")
 		map("gs", vim.lsp.buf.signature_help, "Signature help")
+		map("gD", lsp.declaration, "Goto declaration")
 		map("<F2>", vim.lsp.buf.rename, "Rename object")
-		map("<F3>", function() vim.lsp.buf.format({ async = true }) end, "Format buffer")
-		map("<F4>", vim.lsp.buf.code_action, "Format buffer")
-		map("<leader>ca", vim.lsp.buf.code_action, "Code action")
-		map("<leader>ga", vim.lsp.buf.code_action, "Code action")
+		map("<leader>ga", lsp.code_action, "Code action")
+		map("<F4>", lsp.code_action, "Format buffer")
+		map("<F3>", function() lsp.format({ async = true }) end, "Format buffer")
+
+		-- Use telescope lsp pickers if telescope exists, otherwise fallback to native functions
+		if not pcall(require, 'telescope') then
+			map("gd", lsp.definition, "Goto definition")
+			map("gi", lsp.implementation, "Goto implementation")
+			map("go", lsp.type_definition, "Goto type definition")
+			map("gr", lsp.references, "Goto references")
+		else
+			map("gd", function() telescope_lsp("definitions") end, "Goto definition")
+			map("gi", function() telescope_lsp("implementations") end, "Goto implementation")
+			map("go", function() telescope_lsp("type_definitions") end, "Goto type definition")
+			map("gr", function() telescope_lsp("references") end, "Goto references")
+		end
 
 		if client ~= nil and client.server_capabilities.documentSymbolProvider then
 			require("nvim-navic").attach(client, bufnr)
