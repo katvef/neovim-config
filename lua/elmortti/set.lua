@@ -48,3 +48,6 @@ vim.opt.foldcolumn = "0"
 
 vim.opt.fileformats = "unix"
 vim.opt.fileformat = "unix"
+
+vim.opt.splitright = true
+vim.opt.splitbelow = true

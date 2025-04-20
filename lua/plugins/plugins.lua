@@ -127,7 +127,7 @@ return {
 			require("windows").setup({
 				ignore = {
 					buftype = { "quickfix" },
-					filetype = { "NvimTree", "neo-tree", "undotree", "gundo", "aerial", "diff" }
+					filetype = { "NvimTree", "neo-tree", "undotree", "gundo", "aerial", "diff", "gitcommit", "git" }
 				}
 			})
 		end
