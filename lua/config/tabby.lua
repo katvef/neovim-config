@@ -29,7 +29,7 @@ require('tabby').setup({
 			line.tabs().foreach(function(tab)
 				return {
 					tab.is_current() and {
-						'  ', line.sep('', theme.head, theme.fill)
+						'  ', line.sep('', theme.head, theme.fill)
 					},
 					hl = theme.head,
 				}
@@ -38,15 +38,15 @@ require('tabby').setup({
 			-- Tabs
 			line.tabs().foreach(function(tab)
 				local hl = tab.is_current() and theme.current_tab or theme.tab
-				local winCount = #vim.api.nvim_tabpage_list_wins(vim.api.nvim_list_tabpages()[tab.number()])
+				local winCount = #line.api.get_tab_wins(tab.id)
 				return {
-					line.sep('', hl, theme.fill),
+					line.sep(tab.is_current() and '' or '', hl, theme.fill),
 					{
 						tab.number(),
 						winCount > 1 and { '[', winCount, ']' }
 					},
 					tab.name(),
-					line.sep('', hl, theme.fill),
+					line.sep('', hl, theme.fill),
 					hl = hl,
 					margin = ' ',
 				}
@@ -56,12 +56,13 @@ require('tabby').setup({
 
 			-- Windows in tab
 			winsInTab.foreach(function(win)
+				local hl = win.is_current() and theme.current_tab or theme.tab
 				return {
-					line.sep('', theme.win, theme.fill),
+					line.sep('', hl, theme.fill),
 					win.buf_name(),
-					line.sep('', theme.win, theme.fill),
+					line.sep('', hl, theme.fill),
 					margin = ' ',
-					hl = theme.win
+					hl = hl
 				}
 			end),
 
@@ -76,7 +77,7 @@ require('tabby').setup({
 	-- option = {}, -- setup modules' option,
 })
 
--- Remaps
+-- Kehmaps
 vim.api.nvim_set_keymap("n", "<leader>ta", ":$tabnew<CR>:Ex<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>tc", ":tabclose<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>to", ":tabonly<CR>", { noremap = true })

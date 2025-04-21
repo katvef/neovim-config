@@ -1,13 +1,5 @@
 return {
 	{
-		"echasnovski/mini.comment",
-		version = false,
-		config = function()
-			require("mini.comment").setup()
-		end
-	},
-
-	{
 		"echasnovski/mini.bracketed",
 		version = "*",
 		config = function()
@@ -19,8 +11,8 @@ return {
 		"echasnovski/mini.files",
 		version = false,
 		config = function()
-			require("mini.files").setup({
-				-- Customization of shown content
+			local mini_files = require("mini.files")
+			mini_files.setup({
 				content = {
 					-- Predicate for which file system entries to show
 					filter = nil,
@@ -30,8 +22,6 @@ return {
 					sort = nil,
 				},
 
-				-- Module mappings created only inside explorer.
-				-- Use `''` (empty string) to not create one.
 				mappings = {
 					close = 'q',
 					go_in = 'l',
@@ -48,30 +38,21 @@ return {
 					trim_right = '>',
 				},
 
-				-- General options
 				options = {
-					-- Whether to delete permanently or move into module-specific trash
 					permanent_delete = true,
-					-- Whether to use for editing directories
-					use_as_default_explorer = true,
+					use_as_default_explorer = false, -- Causes annoying issues with the popup opening when not wanted
 				},
 
-				-- Customization of explorer windows
 				windows = {
-					-- Maximum number of windows to show side by side
 					max_number = math.huge,
-					-- Whether to show preview of file/directory under cursor
 					preview = true,
-					-- Width of focused window
 					width_focus = 50,
-					-- Width of non-focused window
 					width_nofocus = 15,
-					-- Width of preview window
 					width_preview = 40,
 				},
 			})
+			vim.keymap.set("n", "<leader>pe", function() mini_files.open() end)
+			vim.keymap.set("n", "<C-n>", function() mini_files.open() end)
 		end,
-		vim.keymap.set("n", "<leader>pe", function() MiniFiles.open() end),
-		vim.keymap.set("n", "<C-n>", function() MiniFiles.open() end),
 	},
 }

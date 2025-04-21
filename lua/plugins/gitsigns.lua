@@ -26,10 +26,10 @@ return {
 				col = 0
 			},
 			linehl                  = false,
+			numhl                   = true,
 			word_diff               = false,
 			current_line_blame      = true,
 			current_line_blame_opts = {
-				virt_text = true,
 				virt_text_pos = 'eol',
 				delay = 0,
 				ignore_whitespace = false,

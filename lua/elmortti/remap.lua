@@ -31,7 +31,6 @@ vim.keymap.set("v", "<leader>p",
 -- Copy to clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y", { remap = true })
 vim.keymap.set({ "n", "v" }, "<leader>Y", "\"+Y", { remap = true })
-vim.keymap.set({ "n", "v" }, "<leader>Y", "\"+Y", { remap = true })
 
 -- Paste from clipboard
 vim.keymap.set("n", "<leader>p", "\"+p")
@@ -52,7 +51,7 @@ vim.keymap.set("n", "<leader>sg", ":%s/\\<<C-r><C-w>\\>/<C-r><C-W>/gI<Left><Left
 	{ desc = "Search and replace word under cursor" })
 vim.keymap.set("v", "<leader>sg", "\"zy:%s/<C-r>z/<C-r>z/gI<Left><Left><Left>",
 	{ desc = "Search and replace selected text" })
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Add execute permissions" })
+vim.keymap.set("n", "<leader>ax", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Add execute permissions" })
 
 vim.keymap.set("v", "<C-c>", "<Esc>")
 
@@ -79,25 +78,17 @@ vim.keymap.set("i", "<localleader>}", "{<CR>}<up><end><CR>")
 -- Buffers, windows & tabs
 vim.keymap.set("n", "<leader>bd", vim.cmd.bd)
 
-vim.keymap.set("n", "<leader>ns", function()
-	vim.cmd.split()
-	vim.cmd("lua MiniFiles.open()")
-end)
-
-vim.keymap.set("n", "<leader>nv", function()
-	vim.cmd.vsplit()
-	vim.cmd("lua MiniFiles.open()")
-end)
-
-vim.keymap.set("n", "<leader>=", vim.cmd("lua vim.lsp.buf.format()"), { desc = "Indent whole file" })
+vim.keymap.set("n", "<leader>=", "gg=G<C-O>zz", { desc = "Equalize file indentation" })
 
 -- Stay in visual mode when indenting
 vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", "<TAB>", ">gv")
+vim.keymap.set("v", "<S-TAB>", "<gv")
 
 -- Scroll the page easily wihout moving cursor
-vim.keymap.set("n", "<M-j>", "<ScrollWheelDown>")
-vim.keymap.set("n", "<M-k>", "<ScrollWheelUp>")
+-- vim.keymap.set("n", "<M-j>", "<ScrollWheelDown>")
+-- vim.keymap.set("n", "<M-k>", "<ScrollWheelUp>")
 
 -- Shift arrow in insert mode enters visual mode
 vim.keymap.set("i", "<S-left>", "<Esc><C-v><C-g><Left>")
@@ -128,13 +119,12 @@ end, { desc = "Toggle search highlighting" })
 -- Handy insert mode editing shortcuts
 vim.keymap.set("i", "", "<C-o>\"_db")
 vim.keymap.set("i", "<C-Del>", "<C-o>\"_dw")
-vim.keymap.set("i", "<CS-Del>", "<C-o>\"_dw")
 vim.keymap.set("i", "<C-d>", "<C-o>diw")
 vim.keymap.set("i", "<C-D>", "<C-o>diW")
 vim.keymap.set("i", "<C-z>", "<C-o>u")
 vim.keymap.set("i", "<C-y>", "<C-o><C-r>")
 
-vim.keymap.set("n", "<leader>ft",
+vim.keymap.set("n", "<leader>tf",
 	function()
 		if vim.o.foldcolumn ~= "0"
 		then
@@ -145,39 +135,6 @@ vim.keymap.set("n", "<leader>ft",
 			vim.opt.foldenable = true
 		end
 	end, { desc = "Toggle folds and foldcolumn" })
-
-vim.keymap.set("n", "<leader>A",
-	function()
-		local CurPos = vim.api.nvim_win_get_cursor(0)
-		local Char = io.read(1)
-		if Char == ""
-		then
-			vim.cmd.normal { args = { "A" }, bang = true }
-		elseif Char == "" then
-
-		else
-			vim.cmd("normal! A" .. Char .. "")
-		end
-		vim.api.nvim_win_set_cursor(0, CurPos)
-		Char = ""
-	end, { desc = "Append a character to the end of the line" })
-
-vim.keymap.set("n", "<leader>I",
-	function()
-		local CurPos = vim.api.nvim_win_get_cursor(0)
-		local Char = io.read(1)
-
-		if Char == ""
-		then
-			vim.cmd.normal { args = { "_a" }, bang = true }
-		elseif Char == "" then
-
-		else
-			vim.cmd("normal! I" .. Char .. "")
-		end
-		vim.api.nvim_win_set_cursor(0, CurPos)
-		Char = ""
-	end, { desc = "Insert a character to the beginning of the line" })
 
 -- Window movement
 vim.keymap.set("n", "<C-h>", "<C-w>h")

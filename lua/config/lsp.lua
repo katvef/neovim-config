@@ -15,8 +15,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local client = vim.lsp.get_client_by_id(event.data.client_id)
 		local bufnr = event.buf
 		local lsp = vim.lsp.buf
+
 		local function telescope_lsp(action)
-			require('telescope.builtin')["lsp_" .. action](require("telescope.theme").get_cursor())
+			require('telescope.builtin')["lsp_" .. action](require("telescope.themes").get_cursor())
 		end
 		local map = function(keys, func, desc)
 			vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
@@ -26,7 +27,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("K", lsp.hover, "Show hover")
 		map("gs", vim.lsp.buf.signature_help, "Signature help")
 		map("gD", lsp.declaration, "Goto declaration")
-		map("<F2>", vim.lsp.buf.rename, "Rename object")
+		map("<F2>", lsp.rename, "Rename object")
 		map("<leader>ga", lsp.code_action, "Code action")
 		map("<F4>", lsp.code_action, "Format buffer")
 		map("<F3>", function() lsp.format({ async = true }) end, "Format buffer")
@@ -42,6 +43,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			map("gi", function() telescope_lsp("implementations") end, "Goto implementation")
 			map("go", function() telescope_lsp("type_definitions") end, "Goto type definition")
 			map("gr", function() telescope_lsp("references") end, "Goto references")
+			map("grr", function() telescope_lsp("references") end, "Goto references")
 		end
 
 		if client ~= nil and client.server_capabilities.documentSymbolProvider then

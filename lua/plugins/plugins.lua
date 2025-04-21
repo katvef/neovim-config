@@ -1,27 +1,32 @@
 return {
-	{ "nvim-treesitter/nvim-treesitter",          build = ":TSUpdate" },
-	{ "theprimeagen/harpoon",                     branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
-	{ "nvim-treesitter/playground",               event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
-	{ "mbbill/undotree",                          event = "VeryLazy" },
-	{ "nvim-lualine/lualine.nvim",                priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
-	{ "nanozuki/tabby.nvim",                      priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
-	{ "ckolkey/ts-node-action",                   event = "VeryLazy",  dependencies = { "nvim-treesitter" }, },
-	{ "tpope/vim-fugitive",                       event = "VeryLazy",  priority = 1000 },
-	{ "lambdalisue/suda.vim",                     event = "VeryLazy" },
-	{ "neovim/nvim-lspconfig",                    event = "VeryLazy",  dependencies = { "saghen/blink.cmp" } },
-	{ "SmiteshP/nvim-navic",                      event = "VeryLazy",  dependencies = { "neovim/nvim-lspconfig" } },
-	{ "linrongbin16/lsp-progress.nvim",           event = "VeryLazy",  config = function() require("lsp-progress").setup() end, },
-	{ "andweeb/presence.nvim",                    event = "VeryLazy",  config = function() require("presence").setup() end },
-	{ "yorickpeterse/nvim-tree-pairs",            event = "VeryLazy",  config = function() require("tree-pairs").setup() end, },
-	{ "chentoast/marks.nvim",                     event = "VeryLazy" },
-	{ "williamboman/mason.nvim",                  event = "VeryLazy" },
-	{ "williamboman/mason-lspconfig.nvim",        event = "VeryLazy" },
-	{ "mfussenegger/nvim-dap",                    event = "VeryLazy" },
-	{ 'b0o/incline.nvim',                         event = 'VeryLazy' },
+	{ "nvim-treesitter/nvim-treesitter",   build = ":TSUpdate" },
+	{ "theprimeagen/harpoon",              branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
+	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
+	{ "nvim-lualine/lualine.nvim",         priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
+	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
+	{ "EdenEast/nightfox.nvim",            priority = 1000,     config = function() vim.cmd("colorscheme nightfox") end },
+	{ "neovim/nvim-lspconfig",             event = "VeryLazy",  dependencies = { "saghen/blink.cmp" } },
+	{ "SmiteshP/nvim-navic",               event = "VeryLazy",  dependencies = { "neovim/nvim-lspconfig" } },
+	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  config = function() require("lsp-progress").setup() end, },
+	{ "andweeb/presence.nvim",             event = "VeryLazy",  config = function() require("presence").setup() end },
+	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  config = function() require("tree-pairs").setup() end, },
+	{ 'b0o/incline.nvim',                  event = 'VeryLazy' },
+	{ "mbbill/undotree",                   event = "VeryLazy" },
+	{ "tpope/vim-fugitive",                priority = 1000 },
+	{ "chentoast/marks.nvim",              lazy = true },
+	{ "williamboman/mason.nvim",           lazy = true },
+	{ "williamboman/mason-lspconfig.nvim", lazy = true },
+	{ "mfussenegger/nvim-dap",             lazy = true },
+	{ "lambdalisue/suda.vim",              lazy = true },
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "neovim/nvim-lspconfig", },
 	{ "brenoprata10/nvim-highlight-colors" },
 
+	{
+		"ckolkey/ts-node-action",
+		lazy = true,
+		dependencies = { "nvim-treesitter" },
+	},
 	{ "nvim-telescope/telescope-fzy-native.nvim", dependencies = { "romgrk/fzy-lua-native", build = "make" } },
 
 	{
@@ -87,14 +92,6 @@ return {
 	},
 
 	{
-		"EdenEast/nightfox.nvim",
-		priority = 1000,
-		config = function()
-			vim.cmd("colorscheme nightfox")
-		end
-	},
-
-	{
 		"anuvyklack/animation.nvim",
 		dependencies = { "anuvyklack/middleclass" },
 		config = function()
@@ -116,6 +113,7 @@ return {
 		"anuvyklack/windows.nvim",
 		dependencies = { "anuvyklack/middleclass", "anuvyklack/animation.nvim" },
 		event = "VeryLazy",
+		lazy = true,
 		config = function()
 			vim.o.winwidth = 15
 			vim.o.winminwidth = 15
@@ -127,13 +125,5 @@ return {
 				}
 			})
 		end
-	},
-
-	{
-		"yorickpeterse/nvim-window",
-		keys = {
-			{ "<leader>wj", "<cmd>lua require('nvim-window').pick()<cr>", desc = "nvim-window: Jump to window" },
-		},
-		config = true,
 	}
 }
