@@ -6,21 +6,32 @@ return {
 	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
 	{ "EdenEast/nightfox.nvim",            priority = 1000,     config = function() vim.cmd("colorscheme nightfox") end },
 	{ "neovim/nvim-lspconfig",             event = "VeryLazy",  dependencies = { "saghen/blink.cmp" } },
-	{ "SmiteshP/nvim-navic",               event = "VeryLazy",  dependencies = { "neovim/nvim-lspconfig" } },
 	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  config = function() require("lsp-progress").setup() end, },
 	{ "andweeb/presence.nvim",             event = "VeryLazy",  config = function() require("presence").setup() end },
 	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  config = function() require("tree-pairs").setup() end, },
 	{ 'b0o/incline.nvim',                  event = 'VeryLazy' },
-	{ "mbbill/undotree",                   event = "VeryLazy" },
+	{ "lambdalisue/suda.vim",              event = "VeryLazy" },
 	{ "tpope/vim-fugitive",                priority = 1000 },
+	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
 	{ "chentoast/marks.nvim",              lazy = true },
 	{ "williamboman/mason.nvim",           lazy = true },
 	{ "williamboman/mason-lspconfig.nvim", lazy = true },
 	{ "mfussenegger/nvim-dap",             lazy = true },
-	{ "lambdalisue/suda.vim",              lazy = true },
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "neovim/nvim-lspconfig", },
 	{ "brenoprata10/nvim-highlight-colors" },
+
+	{
+		"mbbill/undotree",
+		event = "VeryLazy",
+		config = function()
+			vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+			vim.keymap.set("n", "<leader>U", function()
+				vim.cmd.UndotreeToggle()
+				vim.cmd.UndotreeFocus()
+			end)
+		end
+	},
 
 	{
 		"terrortylor/nvim-comment",
@@ -54,12 +65,24 @@ return {
 	{
 		"ckolkey/ts-node-action",
 		lazy = true,
+		keys = {
+			{ "ö",     modes = "n" },
+			{ "<C-ö>", modes = "i" },
+			{ "gn",    modes = "n" },
+		},
 		dependencies = { "nvim-treesitter" },
+		config = function()
+			vim.keymap.set("n", "ö", require("ts-node-action").node_action)
+			vim.keymap.set("i", "<C-ö>", require("ts-node-action").node_action)
+			vim.keymap.set("n", "gn", require("ts-node-action").node_action)
+		end
 	},
+
 	{ "nvim-telescope/telescope-fzy-native.nvim", dependencies = { "romgrk/fzy-lua-native", build = "make" } },
 
 	{
 		'stevearc/aerial.nvim',
+		event = "VeryLazy",
 		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
 		config = function()
 			require("aerial").setup({
@@ -94,6 +117,7 @@ return {
 
 	{
 		"Saghen/blink.cmp",
+		event = "VeryLazy",
 		dependencies = { "rafamadriz/friendly-snippets" },
 		version = "1.*",
 		build = "cargo build --release",
@@ -115,13 +139,17 @@ return {
 					["B"] = { "}", "]]", "]", ")", ">" },
 					["s"] = { "}", "]]", "]", ")", ">", '"', "'", "`" },
 				},
-				vim.keymap.set("o", "i.", function() vim.cmd("normal T.vt.") end)
+				vim.keymap.set("o", "i.", function() vim.cmd("normal T.vt.") end),
+				vim.keymap.set("o", "a.", function() vim.cmd("normal F.vf.") end),
+				vim.keymap.set("o", "i,", function() vim.cmd("normal T,vt,") end),
+				vim.keymap.set("o", "a,", function() vim.cmd("normal F,vf,") end),
 			})
 		end
 	},
 
 	{
 		"anuvyklack/animation.nvim",
+		event = "VeryLazy",
 		dependencies = { "anuvyklack/middleclass" },
 		config = function()
 			local Animation = require("animation")
@@ -140,8 +168,9 @@ return {
 
 	{
 		"anuvyklack/windows.nvim",
-		dependencies = { "anuvyklack/middleclass", "anuvyklack/animation.nvim" },
 		event = "VeryLazy",
+		dependencies = { "anuvyklack/middleclass", "anuvyklack/animation.nvim" },
+		-- event = "VeryLazy",
 		lazy = true,
 		config = function()
 			vim.o.winwidth = 15
