@@ -152,5 +152,5 @@ vim.keymap.set("n", "L", vim.diagnostic.open_float)
 -- Commandline movement
 vim.keymap.set("c", "<C-a>", "<Home>")
 vim.keymap.set("c", "<C-e>", "<End>")
-vim.keymap.set("c", "<M-BS", "<C-w>")
-vim.keymap.set("c", "<C-BS", "<C-w>")
+vim.keymap.set("c", "<M-BS>", "<C-w>")
+vim.keymap.set("c", "<C-BS>", "<C-w>")
