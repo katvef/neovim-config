@@ -9,11 +9,11 @@ return {
 	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  config = function() require("lsp-progress").setup() end, },
 	{ "andweeb/presence.nvim",             event = "VeryLazy",  config = function() require("presence").setup() end },
 	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  config = function() require("tree-pairs").setup() end, },
+	{ "chentoast/marks.nvim",              event = "VeryLazy",  opts = {} },
 	{ 'b0o/incline.nvim',                  event = 'VeryLazy' },
 	{ "lambdalisue/suda.vim",              event = "VeryLazy" },
 	{ "tpope/vim-fugitive",                priority = 1000 },
 	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
-	{ "chentoast/marks.nvim",              lazy = true },
 	{ "williamboman/mason.nvim",           lazy = true },
 	{ "williamboman/mason-lspconfig.nvim", lazy = true },
 	{ "mfussenegger/nvim-dap",             lazy = true },
@@ -36,10 +36,7 @@ return {
 	{
 		"terrortylor/nvim-comment",
 		lazy = true,
-		keys = {
-			{ "gc",  modes = "n" },
-			{ "gcc", modes = "n" },
-		},
+		keys = { "gc", "gcc" },
 		config = function()
 			require("nvim_comment").setup({
 				-- Linters prefer comment and line to have a space in between markers
@@ -65,11 +62,7 @@ return {
 	{
 		"ckolkey/ts-node-action",
 		lazy = true,
-		keys = {
-			{ "ö",     modes = "n" },
-			{ "<C-ö>", modes = "i" },
-			{ "gn",    modes = "n" },
-		},
+		keys = { "ö", "<C-ö>", "gn" },
 		dependencies = { "nvim-treesitter" },
 		config = function()
 			vim.keymap.set("n", "ö", require("ts-node-action").node_action)
