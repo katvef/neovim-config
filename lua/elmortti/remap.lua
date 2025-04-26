@@ -121,8 +121,6 @@ vim.keymap.set("i", "", "<C-o>\"_db")
 vim.keymap.set("i", "<C-Del>", "<C-o>\"_dw")
 vim.keymap.set("i", "<C-d>", "<C-o>diw")
 vim.keymap.set("i", "<C-D>", "<C-o>diW")
-vim.keymap.set("i", "<C-z>", "<C-o>u")
-vim.keymap.set("i", "<C-y>", "<C-o><C-r>")
 
 vim.keymap.set("n", "<leader>tf",
 	function()

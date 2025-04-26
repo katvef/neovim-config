@@ -10,10 +10,10 @@ return {
 			{ "<M-C-S-s>", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
 			{ "Š", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
 			{ "ẞ", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+			{ "<C-r>", mode = { "n", "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
 
 			{ "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-			{ "<C-r>", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-			{ "<C-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+			{ "<C-s>", mode = { "n" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
 		},
 		opts = {
 			modes = {

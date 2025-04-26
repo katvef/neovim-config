@@ -4,8 +4,8 @@ end
 
 -- Set custom colors for theme
 function ColorMyPencils()
-	vim.api.nvim_set_hl(0, "cursorline", { bg = "#1b293b" })
-	vim.api.nvim_set_hl(0, "cursorcolumn", { bg = "#1b293b" })
+	vim.api.nvim_set_hl(0, "cursorline", { bg = HighlightToHex("colorcolumn", "bg") })
+	vim.api.nvim_set_hl(0, "cursorcolumn", { bg = HighlightToHex("colorcolumn", "bg") })
 	vim.api.nvim_set_hl(0, "WinSeparator", { fg = HighlightToHex("TabLine", "bg") })
 end
 

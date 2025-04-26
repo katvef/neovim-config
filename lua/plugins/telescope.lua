@@ -42,6 +42,7 @@ return {
 		map("n", "<leader>fb", function() builtin.buffers(theme.get_dropdown()) end, { desc = 'Telescope buffers' })
 		map("n", "<leader>fs", function() builtin.treesitter(theme.get_dropdown()) end, { desc = 'Telescope buffers' })
 		map("n", "<leader>fh", builtin.help_tags, { desc = 'Telescope help tags' })
+		map("n", "<leader>fj", builtin.jumplist, { desc = 'Telescope jump list' })
 		map("n", "<leader>/", builtin.current_buffer_fuzzy_find, { desc = 'Telescope fuzzy search' })
 		map('n', '<C-p>', builtin.git_files, { desc = 'Telescope find git files' })
 		map('n', '<leader>ps', function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end)

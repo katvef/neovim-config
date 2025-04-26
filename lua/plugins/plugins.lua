@@ -4,14 +4,14 @@ return {
 	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
 	{ "nvim-lualine/lualine.nvim",         priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
 	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
-	{ "EdenEast/nightfox.nvim",            priority = 1000,     config = function() vim.cmd("colorscheme nightfox") end },
+	{ "EdenEast/nightfox.nvim",            priority = 1000 },
+	{ "tpope/vim-fugitive",                priority = 1000 },
 	{ "neovim/nvim-lspconfig",             event = "VeryLazy",  dependencies = { "saghen/blink.cmp" } },
 	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  config = function() require("lsp-progress").setup() end, },
 	{ "andweeb/presence.nvim",             event = "VeryLazy",  config = function() require("presence").setup() end },
 	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  config = function() require("tree-pairs").setup() end, },
 	{ 'b0o/incline.nvim',                  event = 'VeryLazy' },
 	{ "lambdalisue/suda.vim",              event = "VeryLazy" },
-	{ "tpope/vim-fugitive",                priority = 1000 },
 	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
 	{ "williamboman/mason.nvim",           lazy = true },
 	{ "williamboman/mason-lspconfig.nvim", lazy = true },
@@ -104,8 +104,7 @@ return {
 		"L3MON4D3/LuaSnip",
 		event = "VeryLazy",
 		dependencies = { "rafamadriz/friendly-snippets" },
-		priority = 1000,
-		version = "v2.*",
+		-- version = "v2.*",
 		build = "make install_jsregexp"
 	},
 
@@ -130,8 +129,8 @@ return {
 					["b"] = "}",
 					["r"] = "]",
 					["q"] = { '"', "'", "`" },
-					["B"] = { "}", "]]", "]", ")", ">" },
-					["s"] = { "}", "]]", "]", ")", ">", '"', "'", "`" },
+					["B"] = { "}", "]", ")", ">" },
+					["s"] = { "}", "]", ")", ">", '"', "'", "`" },
 				},
 				vim.keymap.set("o", "i.", function() vim.cmd("normal T.vt.") end),
 				vim.keymap.set("o", "a.", function() vim.cmd("normal F.vf.") end),
@@ -172,7 +171,7 @@ return {
 			vim.o.equalalways = false
 			require("windows").setup({
 				ignore = {
-					buftype = { "quickfix" },
+					buftype = { "nofile", "quickfix" },
 					filetype = { "NvimTree", "neo-tree", "undotree", "gundo", "aerial", "diff", "gitcommit", "git" }
 				}
 			})
