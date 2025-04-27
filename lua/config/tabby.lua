@@ -14,11 +14,11 @@ require('tabby').setup({
 	preset = 'active_wins_at_end',
 
 	option = {
-		tab_name = {
-			name_fallback = function()
-				return ''
-			end
-		}
+		-- tab_name = {
+		-- 	name_fallback = function()
+		-- 		return ''
+		-- 	end
+		-- }
 	},
 
 	line = function(line)
@@ -41,11 +41,11 @@ require('tabby').setup({
 				local winCount = #line.api.get_tab_wins(tab.id)
 				return {
 					line.sep(tab.is_current() and '' or '', hl, theme.fill),
+					tab.name(),
 					{
-						tab.number(),
+						tab.id,
 						winCount > 1 and { '[', winCount, ']' }
 					},
-					tab.name(),
 					line.sep('', hl, theme.fill),
 					hl = hl,
 					margin = ' ',
@@ -60,6 +60,7 @@ require('tabby').setup({
 				return {
 					line.sep('', hl, theme.fill),
 					win.buf_name(),
+					win.buf().id,
 					line.sep('', hl, theme.fill),
 					margin = ' ',
 					hl = hl
