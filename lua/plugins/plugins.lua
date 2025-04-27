@@ -2,7 +2,6 @@ return {
 	{ "nvim-treesitter/nvim-treesitter",   build = ":TSUpdate" },
 	{ "theprimeagen/harpoon",              branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
 	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
-	{ "nvim-lualine/lualine.nvim",         priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
 	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
 	{ "EdenEast/nightfox.nvim",            priority = 1000 },
 	{ "tpope/vim-fugitive",                priority = 1000 },
@@ -172,7 +171,7 @@ return {
 			require("windows").setup({
 				ignore = {
 					buftype = { "nofile", "quickfix" },
-					filetype = { "NvimTree", "neo-tree", "undotree", "gundo", "aerial", "diff", "gitcommit", "git" }
+					filetype = { "undotree", "aerial", "diff", "gitcommit", "git" }
 				}
 			})
 		end

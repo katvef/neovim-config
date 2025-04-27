@@ -1,6 +1,5 @@
 require("config.mason")
 require("config.lsp")
-require("config.lualine")
 require("config.tabby")
 require("config.rainbow-delimiters")
 require("config.blink")

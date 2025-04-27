@@ -26,14 +26,14 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.list = true
-vim.opt.listchars = { tab = '│ ', trail = '·', nbsp = '⍽', extends = '→', multispace = '.·' }
+vim.opt.listchars = { tab = '│ ', trail = '', nbsp = '⍽', extends = '→', multispace = '.˙' }
 vim.opt.colorcolumn = "100"
 
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = true
 vim.opt.signcolumn = 'yes'
 
-vim.opt.virtualedit = "onemore"
+vim.opt.virtualedit = "onemore,block"
 
 vim.opt.spr = true
 

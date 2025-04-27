@@ -35,7 +35,7 @@ local function parse_line(linenr)
 			if start_col > line_pos then
 				table.insert(result, {
 					line:sub(line_pos + 1, start_col),
-					{ { "Folded", priority } },
+					{ { "FoldedText", priority } },
 					range = { line_pos, start_col },
 				})
 			end
@@ -110,9 +110,10 @@ function HighlightedFoldtext()
 end
 
 local function set_fold_hl()
-	local cl = vim.api.nvim_get_hl(0, { name = "CursorLineNr" })
-	vim.api.nvim_set_hl(0, "FoldedIcon", { fg = cl.bg })
+	local cl = vim.api.nvim_get_hl(0, { name = "lualine_b_inactive" })
+	vim.api.nvim_set_hl(0, "FoldedIcon", { bg = cl.bg })
 	vim.api.nvim_set_hl(0, "FoldedText", { bg = cl.bg, fg = cl.fg, italic = true })
+	vim.api.nvim_set_hl(0, "Folded", { bg = cl.bg })
 end
 
 set_fold_hl()

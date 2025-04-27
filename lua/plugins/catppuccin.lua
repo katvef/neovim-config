@@ -13,7 +13,7 @@ return {
 			show_end_of_buffer = true, -- shows the '~' characters after the end of buffers
 			term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
 			dim_inactive = {
-				enabled = true, -- dims the background color of inactive window
+				enabled = false, -- dims the background color of inactive window
 				shade = "dark",
 				percentage = 0.05, -- percentage of the shade to apply to the inactive window
 			},
@@ -43,10 +43,24 @@ return {
 				harpoon = true,
 				flash = true,
 				gitsigns = true,
-				indent_blankline = { enabled = true },
 				lsp_trouble = true,
 				mason = true,
 				markdown = true,
+				semantic_tokens = true,
+				telescope = true,
+				treesitter = true,
+				rainbow_delimiters = true,
+				which_key = true,
+				nvim_surround = true,
+				dap = true,
+
+				indent_blankline = {
+					enabled = true
+				},
+				navic = {
+					enabled = true,
+					custom_bg = "lualine"
+				},
 				native_lsp = {
 					enabled = true,
 					underlines = {
@@ -56,15 +70,6 @@ return {
 						information = { "undercurl" }
 					},
 				},
-
-				navic = { enabled = true, custom_bg = "lualine" },
-				semantic_tokens = true,
-				telescope = true,
-				treesitter = true,
-				rainbow_delimiters = true,
-				which_key = true,
-				nvim_surround = true,
-				dap = true
 			}
 		})
 		vim.cmd.colorscheme "catppuccin"
