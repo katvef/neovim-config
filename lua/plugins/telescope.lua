@@ -32,20 +32,24 @@ return {
 		require("telescope").load_extension("aerial")
 		require("telescope").load_extension("fzy_native")
 
-		local map = vim.keymap.set
+		local function map(lhs, rhs, opts, mode)
+			mode = mode or "n"
+			vim.keymap.set(mode, lhs, rhs, opts)
+		end
 		local builtin = require("telescope.builtin")
 		local theme = require("telescope.themes")
 
-		map("n", "<leader>ff", builtin.find_files, { desc = 'Telescope find files (no theme)' })
-		map('n', '<leader>fp', function() builtin.find_files(theme.get_dropdown()) end, { desc = 'Telescope find files' })
-		map("n", "<leader>fg", function() builtin.live_grep(theme.get_dropdown()) end, { desc = 'Telescope live grep' })
-		map("n", "<leader>fb", function() builtin.buffers(theme.get_dropdown()) end, { desc = 'Telescope buffers' })
-		map("n", "<leader>fs", function() builtin.treesitter(theme.get_dropdown()) end, { desc = 'Telescope buffers' })
-		map("n", "<leader>fh", builtin.help_tags, { desc = 'Telescope help tags' })
-		map("n", "<leader>fj", builtin.jumplist, { desc = 'Telescope jump list' })
-		map("n", "<leader>/", builtin.current_buffer_fuzzy_find, { desc = 'Telescope fuzzy search' })
-		map('n', '<C-p>', builtin.git_files, { desc = 'Telescope find git files' })
-		map('n', '<leader>ps', function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end)
+		map("<leader>ff", builtin.find_files, { desc = "Telescope find files" })
+		map("<leader>fp", function() builtin.find_files(theme.get_dropdown()) end, { desc = "Telescope find files" })
+		map("<leader>fg", function() builtin.grip(theme.get_dropdown()) end, { desc = "Telescope live grep" })
+		map("<leader>fb", function() builtin.buffers(theme.get_dropdown()) end, { desc = "Telescope buffers" })
+		map("<leader>ft", function() builtin.treesitter(theme.get_dropdown()) end, { desc = "Telescope buffers" })
+		map("<leader>fj", builtin.jumplist, { desc = "Telescope jump list" })
+		map("<leader>fs", builtin.grep_string, { desc = "Telescope grep string" })
+		map("<leader>fs", builtin.oldfiles, { desc = "Telescope file history" })
+		map("<leader>fh", builtin.current_buffer_fuzzy_find, { desc = "Telescope fuzzy search" })
+		map("<leader>/", builtin.current_buffer_fuzzy_find, { desc = "Telescope fuzzy search" })
+		map("<C-p>", builtin.git_files, { desc = "Telescope find git files" })
 	end,
 	-- tag = "0.1.8"
 }
