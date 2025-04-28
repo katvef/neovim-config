@@ -12,13 +12,13 @@ return {
 
 		config = function()
 			local highlight = {
-				"RainbowRed",
-				"RainbowYellow",
-				"RainbowBlue",
-				"RainbowOrange",
-				"RainbowGreen",
-				"RainbowViolet",
-				"RainbowCyan",
+				'RainbowRed',
+				'RainbowYellow',
+				'RainbowBlue',
+				'RainbowViolet',
+				'RainbowOrange',
+				'RainbowGreen',
+				'RainbowCyan',
 			}
 			local hooks = require("ibl.hooks")
 			-- create the highlight groups in the highlight setup hook, so they are reset

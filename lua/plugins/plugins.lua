@@ -4,7 +4,6 @@ return {
 	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
 	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
 	{ "EdenEast/nightfox.nvim",            priority = 1000 },
-	{ "tpope/vim-fugitive",                priority = 1000 },
 	{ "neovim/nvim-lspconfig",             event = "VeryLazy",  dependencies = { "saghen/blink.cmp" } },
 	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  config = function() require("lsp-progress").setup() end, },
 	{ "andweeb/presence.nvim",             event = "VeryLazy",  config = function() require("presence").setup() end },
@@ -18,6 +17,7 @@ return {
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "neovim/nvim-lspconfig", },
 	{ "brenoprata10/nvim-highlight-colors" },
+	{ "xzbdmw/colorful-menu.nvim" },
 
 	{
 		"mbbill/undotree",
@@ -102,7 +102,7 @@ return {
 	{
 		"L3MON4D3/LuaSnip",
 		event = "VeryLazy",
-		dependencies = { "rafamadriz/friendly-snippets" },
+		-- dependencies = { "rafamadriz/friendly-snippets" },
 		-- version = "v2.*",
 		build = "make install_jsregexp"
 	},
@@ -135,6 +135,8 @@ return {
 				vim.keymap.set("o", "a.", function() vim.cmd("normal F.vf.") end),
 				vim.keymap.set("o", "i,", function() vim.cmd("normal T,vt,") end),
 				vim.keymap.set("o", "a,", function() vim.cmd("normal F,vf,") end),
+				vim.keymap.set("o", "i_", function() vim.cmd("normal T_vt_") end),
+				vim.keymap.set("o", "a_", function() vim.cmd("normal F_vf_") end),
 			})
 		end
 	},

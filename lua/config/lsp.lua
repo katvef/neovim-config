@@ -52,17 +52,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
--- lsp_zero.extend_lspconfig({
--- 	sign_text = true,
--- 	lsp_attach = lsp_attach,
--- 	capabilities = require("blink.cmp").get_lsp_capabilities()
--- })
-
 lspconfig.bashls.setup({})
 lspconfig.arduino_language_server.setup({})
 lspconfig.jsonls.setup({})
 lspconfig.csharp_ls.setup({})
-lspconfig.css_variables.setup({})
+lspconfig.basedpyright.setup({})
+lspconfig.jdtls.setup({})
 
 lspconfig.cssls.setup({
 	settings = {
@@ -82,13 +77,9 @@ lspconfig.cssls.setup({
 				unknownAtRules = "ignore",
 			},
 		},
+		filetypes = { "css", "scss", "less", "rasi" },
+		single_file_support = true,
 	},
-})
-
-lspconfig.tailwindcss.setup({
-	settings = {
-		filetypes = { "css", "scss", "less" }
-	}
 })
 
 lspconfig.clangd.setup({
@@ -122,32 +113,6 @@ lspconfig.rust_analyzer.setup({
 			enable = true
 		},
 	}
-})
-
-lspconfig.pylsp.setup({
-	settings = {
-		pylsp = {
-			plugins = {
-				-- formatter options
-				black = { enabled = true },
-				autopep8 = { enabled = false },
-				yapf = { enabled = false },
-				-- linter options
-				pylint = { enabled = true, executable = "pylint" },
-				pyflakes = { enabled = false },
-				pycodestyle = { enabled = false },
-				-- type checker
-				pylsp_mypy = { enabled = true },
-				-- auto-completion options
-				jedi_completion = { fuzzy = true },
-				-- import sorting
-				pyls_isort = { enabled = true },
-			},
-		},
-	},
-	flags = {
-		debounce_text_changes = 200,
-	},
 })
 
 lspconfig.lua_ls.setup({
@@ -190,13 +155,32 @@ lspconfig.lua_ls.setup({
 lspconfig.denols.setup({
 	cmd = { "deno", "lsp" },
 	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-	root_dir = lspconfig.util.root_pattern("module.json", "deno.json", "deno.jsonc", ".git"),
+	root_markers = { "deno.json", "deno.jsonc" },
 	single_file_support = true,
-})
-vim.g.markdown_fenced_languages = { "ts=typescript" }
 
-lspconfig.jdtls.setup({
-	cmd = { "jdtls", "-configuration", "/home/user/.cache/jdtls/config", "-data", "/home/user/.cache/jdtls/workspace" },
+	on_attach = function(client, bufnr)
+		vim.api.nvim_buf_create_user_command(0, 'LspDenolsCache', function()
+			client:exec_cmd({
+				command = 'deno.cache',
+				arguments = { {}, vim.uri_from_bufnr(bufnr) },
+			}, { bufnr = bufnr }, function(err, _result, ctx)
+				if err then
+					local uri = ctx.params.arguments[2]
+					vim.api.nvim_err_writeln('cache command failed for ' .. vim.uri_to_fname(uri))
+				end
+			end)
+		end, {
+			desc = 'Cache a module and all of its dependencies.',
+		})
+		vim.g.markdown_fenced_languages = { "ts=typescript" }
+	end,
+})
+
+lspconfig.ts_ls.setup({
+	cmd = { "typescript-language-server", "--stdio" },
+	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+	root_markers = { "tsconfig.json", "jsconfig.json", "package.json", "module.json", ".git" },
+	single_file_support = true,
 })
 
 lspconfig.ltex_plus.setup({
