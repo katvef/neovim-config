@@ -110,7 +110,7 @@ return {
 	{
 		"Saghen/blink.cmp",
 		event = "VeryLazy",
-		dependencies = { "rafamadriz/friendly-snippets" },
+		-- dependencies = { "rafamadriz/friendly-snippets" },
 		version = "1.*",
 		build = "cargo build --release",
 		fuzzy = { implementation = "prefer_rust_with_warning" },
