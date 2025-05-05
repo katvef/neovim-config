@@ -102,7 +102,7 @@ return {
 	{
 		"L3MON4D3/LuaSnip",
 		event = "VeryLazy",
-		-- dependencies = { "rafamadriz/friendly-snippets" },
+		dependencies = { "rafamadriz/friendly-snippets" },
 		-- version = "v2.*",
 		build = "make install_jsregexp"
 	},
@@ -110,7 +110,7 @@ return {
 	{
 		"Saghen/blink.cmp",
 		event = "VeryLazy",
-		-- dependencies = { "rafamadriz/friendly-snippets" },
+		dependencies = { "rafamadriz/friendly-snippets" },
 		version = "1.*",
 		build = "cargo build --release",
 		fuzzy = { implementation = "prefer_rust_with_warning" },
@@ -153,7 +153,7 @@ return {
 			local i = 0
 			local function callback(fraction)
 				i = i + 1
-				print('frame ', i)
+				-- print('frame ', i)
 			end
 			local animation = Animation(duration, fps, easing.line, callback)
 			animation:run()
