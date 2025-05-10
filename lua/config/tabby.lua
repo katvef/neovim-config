@@ -14,11 +14,11 @@ require('tabby').setup({
 	preset = 'active_wins_at_end',
 
 	option = {
-		-- tab_name = {
-		-- 	name_fallback = function()
-		-- 		return ''
-		-- 	end
-		-- }
+		tab_name = {
+			name_fallback = function()
+				return nil
+			end
+		}
 	},
 
 	line = function(line)
@@ -41,10 +41,9 @@ require('tabby').setup({
 				local winCount = #line.api.get_tab_wins(tab.id)
 				return {
 					line.sep(tab.is_current() and '' or '', hl, theme.fill),
-					tab.name(),
+					tab.name() or tab.id,
 					{
-						tab.id,
-						winCount > 1 and { '[', winCount, ']' }
+						-- winCount > 1 and { '[', winCount, ']' }
 					},
 					line.sep('', hl, theme.fill),
 					hl = hl,
@@ -89,10 +88,11 @@ vim.api.nvim_set_keymap("n", "<leader>tmn", ":+tabmove<CR>", { noremap = true })
 
 vim.keymap.set("n", "<leader>tr", function()
 	local tabName = vim.fn.input("Tab name: ")
-	if tabName == '' then
-		print("Rename aborted")
+	if tabName:match("^%s*$") then
+		vim.cmd.Tabby { args = { "rename_tab" } }
+		print("Removed tab name")
 	else
-		vim.cmd.TabRename { args = { tabName } }
+		vim.cmd.Tabby { args = { "rename_tab", tabName } }
 		print("Renamed tab to " .. tabName)
 	end
 end)
