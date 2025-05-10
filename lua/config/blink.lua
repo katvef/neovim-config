@@ -3,9 +3,14 @@ require("blink.cmp").setup({
 	appearance = { nerd_font_variant = "mono" },
 
 	fuzzy = {
-		implementation = "prefer_rust_with_warning",
+		implementation = "rust",
+		use_frecency = true,
 		sorts = {
 			"exact",
+			-- function(item_a, item_b)
+			-- 	return item_a.score > item_b.score and
+			-- 		(item_a.source_id == "snippets" and item_b.source_id ~= "snippets")
+			-- end,
 			"score",
 			"sort_text",
 		}
@@ -13,8 +18,10 @@ require("blink.cmp").setup({
 
 	sources = {
 		default = { "lsp", "snippets", "buffer", "path" },
+
 		providers = {
 			path = { opts = { get_cwd = function(_) return vim.fn.getcwd() end } },
+
 			buffer = {
 				-- keep case of first char
 				transform_items = function(a, items)
@@ -56,10 +63,15 @@ require("blink.cmp").setup({
 		keyword = { range = "full" },
 
 		menu = {
+			direction_priority = { "n", "s" },
 			auto_show = function()
 				return vim.lsp.buf_is_attached(0) and vim.bo.filetype ~= "markdown"
 			end,
-			draw = { treesitter = { "lsp" } },
+
+			draw = {
+				treesitter = { "lsp" },
+				columns = { { "kind_icon" }, { "label", "label_description", "source_name", gap = 1 } },
+			},
 		},
 
 		trigger = {
