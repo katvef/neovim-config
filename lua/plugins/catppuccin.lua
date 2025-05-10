@@ -6,7 +6,7 @@ return {
 		require("catppuccin").setup({
 			flavour = "auto",
 			background = {
-				light = "macchiato",
+
 				dark = "macchiato",
 			},
 
@@ -23,17 +23,17 @@ return {
 			no_underline = false,
 			styles = {
 				comments = { "italic" },
-				conditionals = { "italic" },
+				conditionals = { "italic", "italic" },
 				booleans = { "bold" },
 				loops = {},
 				functions = {},
-				keywords = {},
+				keywords = { "italic" },
 				strings = {},
 				variables = {},
 				numbers = {},
 				properties = {},
-				types = {},
-				operators = {},
+				types = { "bold" },
+				operators = { "bold" },
 				-- miscs = {}, -- Uncomment to turn off hard-coded styles
 			},
 
@@ -64,10 +64,10 @@ return {
 				native_lsp = {
 					enabled = true,
 					underlines = {
-						errors = { "undercurl" },
-						hints = { "undercurl" },
+						errors = { "undercurl", "bold" },
+						hints = { "underline" },
 						warnings = { "undercurl" },
-						information = { "undercurl" }
+						information = { "underline" }
 					},
 				},
 			}
