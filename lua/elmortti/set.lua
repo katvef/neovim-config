@@ -26,7 +26,13 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.list = true
-vim.opt.listchars = { tab = '│ ', trail = '', nbsp = '⍽', extends = '→', multispace = '.˙' }
+vim.opt.listchars = {
+	tab = '│ ',
+	trail = '',
+	nbsp = '⍽',
+	extends = '→',
+	multispace = '  ³  ⁶  ⁹  ¹² ¹⁵ ¹⁸ ²¹ ²⁴ ²⁷ ³⁰ ³³ ³⁶ ³⁹ ⁴² ⁴⁵ ⁴⁸ ⁵¹ ⁵⁴ ⁵⁷ ⁶⁰ ⁶³ ⁶⁶ ⁶⁹ ⁷² ⁷⁵ ⁷⁸ ⁸¹ ⁸⁴ ⁸⁷ ⁹⁰ ⁹³ ⁹⁶ ⁹⁹ ¹⁰²'
+}
 vim.opt.colorcolumn = "100"
 
 vim.opt.cursorline = true
@@ -41,7 +47,7 @@ vim.opt.grepprg = "rg --vimgrep"
 vim.opt.grepformat = "%f:%l:%c:%m"
 
 vim.opt.foldtext = "v:lua.HighlightedFoldtext()"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldmethod = "expr"
 vim.opt.foldlevelstart = 99
 vim.opt.foldcolumn = "0"
