@@ -8,7 +8,7 @@ return {
 	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  config = function() require("lsp-progress").setup() end, },
 	{ "andweeb/presence.nvim",             event = "VeryLazy",  config = function() require("presence").setup() end },
 	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  config = function() require("tree-pairs").setup() end, },
-	{ 'b0o/incline.nvim',                  event = 'VeryLazy' },
+	{ 'b0o/incline.nvim',                  event = "VeryLazy" },
 	{ "lambdalisue/suda.vim",              event = "VeryLazy" },
 	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
 	{ "williamboman/mason.nvim",           config = function() require("mason").setup() end },
