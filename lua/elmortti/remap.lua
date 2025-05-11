@@ -77,6 +77,8 @@ vim.keymap.set("i", "<localleader>}", "{<CR>}<up><end><CR>")
 
 -- Buffers, windows & tabs
 vim.keymap.set("n", "<leader>bd", vim.cmd.bd)
+vim.keymap.set("n", "<leader>bn", vim.cmd.bn)
+vim.keymap.set("n", "<leader>bp", vim.cmd.bp)
 
 vim.keymap.set("n", "<leader>=", "gg=G<C-O>zz", { desc = "Equalize file indentation" })
 
