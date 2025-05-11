@@ -27,11 +27,11 @@ vim.opt.updatetime = 50
 
 vim.opt.list = true
 vim.opt.listchars = {
-	tab = '│ ',
-	trail = '',
-	nbsp = '⍽',
-	extends = '→',
-	multispace = '  ³  ⁶  ⁹  ¹² ¹⁵ ¹⁸ ²¹ ²⁴ ²⁷ ³⁰ ³³ ³⁶ ³⁹ ⁴² ⁴⁵ ⁴⁸ ⁵¹ ⁵⁴ ⁵⁷ ⁶⁰ ⁶³ ⁶⁶ ⁶⁹ ⁷² ⁷⁵ ⁷⁸ ⁸¹ ⁸⁴ ⁸⁷ ⁹⁰ ⁹³ ⁹⁶ ⁹⁹ ¹⁰²'
+	tab = "│ ",
+	trail = "",
+	nbsp = "⍽",
+	extends = "→",
+	multispace = "× + = "
 }
 vim.opt.colorcolumn = "100"
 
