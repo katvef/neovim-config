@@ -154,3 +154,6 @@ vim.keymap.set("c", "<C-a>", "<Home>")
 vim.keymap.set("c", "<C-e>", "<End>")
 vim.keymap.set("c", "<M-BS>", "<C-w>")
 vim.keymap.set("c", "<C-BS>", "<C-w>")
+
+
+vim.keymap.set('n', 'zn', vim.show_pos, { desc = "Show all the items at a given buffer position" })
