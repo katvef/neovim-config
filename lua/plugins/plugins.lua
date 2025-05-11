@@ -61,12 +61,11 @@ return {
 	{
 		"ckolkey/ts-node-action",
 		lazy = true,
-		keys = { "ö", "<C-ö>", "gn" },
+		keys = { "ö", "<C-ö>" },
 		dependencies = { "nvim-treesitter" },
 		config = function()
 			vim.keymap.set("n", "ö", require("ts-node-action").node_action)
 			vim.keymap.set("i", "<C-ö>", require("ts-node-action").node_action)
-			vim.keymap.set("n", "gn", require("ts-node-action").node_action)
 		end
 	},
 
