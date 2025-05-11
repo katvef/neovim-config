@@ -1,4 +1,3 @@
-require("config.mason")
 require("config.lsp")
 require("config.tabby")
 require("config.rainbow-delimiters")

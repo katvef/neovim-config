@@ -115,7 +115,7 @@ lspconfig.rust_analyzer.setup({
 	}
 })
 
-vim.lsp.config('lua_ls', {
+lspconfig.lua_ls.setup({
 	on_init = function(client)
 		if client.workspace_folders then
 			local path = client.workspace_folders[1].name
