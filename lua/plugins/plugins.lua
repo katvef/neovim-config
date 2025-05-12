@@ -1,22 +1,32 @@
 return {
 	{ "nvim-treesitter/nvim-treesitter",   build = ":TSUpdate" },
+	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
 	{ "theprimeagen/harpoon",              branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
 	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
-	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
-	{ "EdenEast/nightfox.nvim",            priority = 1000 },
 	{ "neovim/nvim-lspconfig",             event = "VeryLazy",  dependencies = { "saghen/blink.cmp" } },
-	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  config = function() require("lsp-progress").setup() end, },
-	{ "andweeb/presence.nvim",             event = "VeryLazy",  config = function() require("presence").setup() end },
-	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  config = function() require("tree-pairs").setup() end, },
+	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  opts = {}, },
+	{ "andweeb/presence.nvim",             event = "VeryLazy",  opts = {} },
+	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  opts = {}, },
+	{ "aserowy/tmux.nvim",                 event = "VeryLazy",  opts = {} },
 	{ 'b0o/incline.nvim',                  event = "VeryLazy" },
 	{ "lambdalisue/suda.vim",              event = "VeryLazy" },
 	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
-	{ "williamboman/mason.nvim",           config = function() require("mason").setup() end },
 	{ "mfussenegger/nvim-dap",             lazy = true },
+	{ "EdenEast/nightfox.nvim",            priority = 1000 },
+	{ "williamboman/mason.nvim",           opts = {} },
+	{ "andweeb/presence.nvim",             opts = {} },
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "neovim/nvim-lspconfig", },
 	{ "brenoprata10/nvim-highlight-colors" },
 	{ "xzbdmw/colorful-menu.nvim" },
+
+	{
+		"barreiroleo/ltex_extra.nvim",
+		ft = { "markdown", "tex" },
+		dependencies = { "neovim/nvim-lspconfig" },
+		branch = "dev",
+		opts = { path = vim.fn.expand("~") .. "/.local/state/ltex/" .. vim.fn.expand("%:p") }
+	},
 
 	{
 		"mbbill/undotree",
@@ -69,7 +79,13 @@ return {
 		end
 	},
 
-	{ "nvim-telescope/telescope-fzy-native.nvim", dependencies = { "romgrk/fzy-lua-native", build = "make" } },
+	{
+		"nvim-telescope/telescope-fzy-native.nvim",
+		dependencies = {
+			"romgrk/fzy-lua-native",
+			build = "make"
+		}
+	},
 
 	{
 		'stevearc/aerial.nvim',
@@ -84,17 +100,6 @@ return {
 			})
 			vim.keymap.set("n", "<leader>q", "<cmd>AerialToggle!<CR>")
 		end
-	},
-
-	{
-		"andweeb/presence.nvim",
-		config = function() require("presence").setup() end
-	},
-
-	{
-		"aserowy/tmux.nvim",
-		event = "VeryLazy",
-		config = function() return require("tmux").setup() end
 	},
 
 	{

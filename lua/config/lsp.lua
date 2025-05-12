@@ -58,6 +58,7 @@ lspconfig.jsonls.setup({})
 lspconfig.csharp_ls.setup({})
 lspconfig.basedpyright.setup({})
 lspconfig.jdtls.setup({})
+lspconfig.ltex_plus.setup({})
 
 lspconfig.cssls.setup({
 	settings = {
@@ -180,10 +181,6 @@ lspconfig.ts_ls.setup({
 	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
 	root_markers = { "tsconfig.json", "jsconfig.json", "package.json", "module.json", ".git" },
 	single_file_support = true,
-})
-
-lspconfig.ltex_plus.setup({
-	filetypes = { "md", "txt", "html", "tex", "bib" }
 })
 
 lspconfig.hyprls.setup({

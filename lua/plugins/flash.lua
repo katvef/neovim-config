@@ -1,7 +1,7 @@
 return {
 	{
 		"folke/flash.nvim",
-		priority = 0,
+		event = "VeryLazy",
 		keys = {
 			{ "<M-C-s>", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
 			{ "š", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
@@ -15,9 +15,9 @@ return {
 			{ "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
 			{ "<C-s>", mode = { "n" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
 		},
-		opts = {
+		config = {
 			modes = {
-				char = false
+				char = { enabled = false }
 			}
 		}
 	}
