@@ -29,7 +29,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("gD", lsp.declaration, "Goto declaration")
 		map("<F2>", lsp.rename, "Rename object")
 		map("<leader>ga", lsp.code_action, "Code action")
-		map("<F4>", lsp.code_action, "Format buffer")
+		map("<F4>", lsp.code_action, "Code action")
 		map("<F3>", function() lsp.format({ async = true }) end, "Format buffer")
 
 		-- Use telescope lsp pickers if telescope exists, otherwise fallback to native functions
