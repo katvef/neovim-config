@@ -24,7 +24,7 @@ return {
 		ft = { "markdown", "tex" },
 		dependencies = { "neovim/nvim-lspconfig" },
 		branch = "dev",
-		opts = { path = vim.fn.expand("~") .. "/.local/state/ltex/" .. vim.fn.expand("%:p") }
+		opts = { path = vim.fn.expand("~") .. "/.local/state/ltex/" }
 	},
 
 	{

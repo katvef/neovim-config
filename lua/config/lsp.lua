@@ -37,12 +37,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			map("gd", lsp.definition, "Goto definition")
 			map("gi", lsp.implementation, "Goto implementation")
 			map("go", lsp.type_definition, "Goto type definition")
-			map("gr", lsp.references, "Goto references")
+			map("gR", lsp.references, "Goto references")
 		else
 			map("gd", function() telescope_lsp("definitions") end, "Goto definition")
 			map("gi", function() telescope_lsp("implementations") end, "Goto implementation")
 			map("go", function() telescope_lsp("type_definitions") end, "Goto type definition")
-			map("gr", function() telescope_lsp("references") end, "Goto references")
+			map("gR", function() telescope_lsp("references") end, "Goto references")
 			map("grr", function() telescope_lsp("references") end, "Goto references")
 		end
 
@@ -58,6 +58,7 @@ lspconfig.jsonls.setup({})
 lspconfig.csharp_ls.setup({})
 lspconfig.basedpyright.setup({})
 lspconfig.jdtls.setup({})
+-- lspconfig.ltex_plus.setup({})
 lspconfig.ltex.setup({})
 
 lspconfig.cssls.setup({
