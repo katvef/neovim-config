@@ -58,7 +58,7 @@ lspconfig.jsonls.setup({})
 lspconfig.csharp_ls.setup({})
 lspconfig.basedpyright.setup({})
 lspconfig.jdtls.setup({})
-lspconfig.ltex_plus.setup({})
+lspconfig.ltex.setup({})
 
 lspconfig.cssls.setup({
 	settings = {
