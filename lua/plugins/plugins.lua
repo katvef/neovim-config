@@ -12,7 +12,6 @@ return {
 	{ "lambdalisue/suda.vim",              event = "VeryLazy" },
 	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
 	{ "mfussenegger/nvim-dap",             lazy = true },
-	{ "EdenEast/nightfox.nvim",            priority = 1000 },
 	{ "williamboman/mason.nvim",           opts = {} },
 	{ "andweeb/presence.nvim",             opts = {} },
 	{ "HiPhish/rainbow-delimiters.nvim" },
