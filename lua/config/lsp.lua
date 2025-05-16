@@ -58,8 +58,13 @@ lspconfig.jsonls.setup({})
 lspconfig.csharp_ls.setup({})
 lspconfig.basedpyright.setup({})
 lspconfig.jdtls.setup({})
--- lspconfig.ltex_plus.setup({})
-lspconfig.ltex.setup({})
+
+lspconfig.ltex.setup({
+	filetypes = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext", "jjdescription" },
+    ltex = {
+      enabled = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext", "jjdescription" }
+    }
+})
 
 lspconfig.cssls.setup({
 	settings = {
