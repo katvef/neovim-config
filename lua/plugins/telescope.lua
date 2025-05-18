@@ -4,8 +4,6 @@ return {
 		require("telescope").setup({
 			extensions = {
 				aerial = {
-					-- Set the width of the first two columns (the second
-					-- is relevant only when show_columns is set to 'both')
 					col1_width = 4,
 					col2_width = 30,
 					-- How to format the symbols
@@ -20,11 +18,10 @@ return {
 					show_columns = "both",
 				},
 				fzy_native = {
-					fuzzy = true,          -- false will only do exact matching
-					override_generic_sorter = true, -- override the generic sorter
-					override_file_sorter = true, -- override the file sorter
-					case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-					-- the default case_mode is "smart_case"
+					fuzzy = true,
+					override_generic_sorter = true,
+					override_file_sorter = true,
+					case_mode = "smart_case",
 				}
 			}
 		})
@@ -37,14 +34,16 @@ return {
 			vim.keymap.set(mode, lhs, rhs, opts)
 		end
 		local builtin = require("telescope.builtin")
+		local extension = require("telescope").extensions
 		local theme = require("telescope.themes")
 
-		map("<leader>ff", builtin.find_files, { desc = "Telescope find files" })
-		map("<leader>fr", builtin.git_files, { desc = "Telescope git files" })
-		map("<leader>fp", function() builtin.find_files(theme.get_dropdown()) end, { desc = "Telescope find files" })
+		map("<leader>ff", function() builtin.fd({no_ignore=true, hidden=true}) end, { desc = "Telescope find files" })
+		map("<leader>fp", function() builtin.fd(theme.get_dropdown(), {no_ignore=true}) end, { desc = "Telescope find files" })
+		map("<leader>fr", function() builtin.git_files({hidden=true}) end, { desc = "Telescope git files" })
 		map("<leader>fg", function() builtin.live_grep(theme.get_dropdown()) end, { desc = "Telescope live grep" })
 		map("<leader>fb", function() builtin.buffers(theme.get_dropdown()) end, { desc = "Telescope buffers" })
 		map("<leader>ft", function() builtin.treesitter(theme.get_dropdown()) end, { desc = "Telescope treesitter" })
+		map("<leader>fa", extension.aerial.aerial, { desc = "Telescope aerial" })
 		map("<leader>fj", builtin.jumplist, { desc = "Telescope jump list" })
 		map("<leader>fo", builtin.grep_string, { desc = "Telescope grep string" })
 		map("<leader>fs", builtin.oldfiles, { desc = "Telescope file history" })
