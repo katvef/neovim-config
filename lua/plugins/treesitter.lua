@@ -1,6 +1,6 @@
 return {
 	require 'nvim-treesitter.configs'.setup {
-		ensure_installed = { "lua", "vim", "vimdoc", "markdown", "markdown_inline", "bash", "comment" },
+		ensure_installed = { "lua", "markdown", "markdown_inline", "comment" },
 		sync_install = false,
 		indent = { enable = true },
 		install_info = { only_install = true },
