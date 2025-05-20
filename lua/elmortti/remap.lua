@@ -40,7 +40,6 @@ vim.keymap.set("n", "<leader>P", "\"0p")
 
 -- Delete to void
 vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d")
-vim.keymap.set({ "n", "v" }, "<leader>D", "\"_D")
 
 -- Movement stuff
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
