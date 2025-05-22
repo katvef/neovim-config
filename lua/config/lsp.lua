@@ -61,9 +61,9 @@ lspconfig.jdtls.setup({})
 
 lspconfig.ltex.setup({
 	filetypes = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext", "jjdescription" },
-    ltex = {
-      enabled = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext", "jjdescription" }
-    }
+	ltex = {
+		enabled = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext", "jjdescription" }
+	}
 })
 
 lspconfig.cssls.setup({
@@ -127,8 +127,8 @@ lspconfig.lua_ls.setup({
 		if client.workspace_folders then
 			local path = client.workspace_folders[1].name
 			if
-				path ~= vim.fn.stdpath('config')
-				and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
+				 path ~= vim.fn.stdpath('config')
+				 and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
 			then
 				return
 			end
