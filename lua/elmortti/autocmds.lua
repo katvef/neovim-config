@@ -50,3 +50,22 @@ autocmd("BufWinEnter", {
 		end
 	end,
 })
+
+autocmd("LspAttach", {
+	group = autogrp("ltex.lsp", { clear = true }),
+	callback = function(args)
+		print(vim.lsp.get_client_by_id(args.data.client_id).name)
+		if vim.lsp.get_client_by_id(args.data.client_id).name == "ltex" then
+			-- Move through lines more easily with wrap on
+			vim.keymap.set("n", "j", "gj")
+			vim.keymap.set("n", "k", "gk")
+
+			-- Set some options that work better for writing
+			vim.opt_local.colorcolumn = "0"
+			vim.opt_local.cursorcolumn = false
+			vim.opt_local.cursorline = false
+			vim.opt_local.wrap = true
+			vim.opt_local.linebreak = true
+		end
+	end
+})
