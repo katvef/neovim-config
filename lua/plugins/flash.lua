@@ -13,7 +13,7 @@ return {
 			{ "<C-r>", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
 
 			{ "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-			{ "<C-s>", mode = { "n" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+			{ "<C-s>", mode = "n", function() require("flash").toggle() end, desc = "Toggle Flash Search" },
 		},
 		config = {
 			modes = {
