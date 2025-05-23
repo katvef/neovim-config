@@ -1,20 +1,16 @@
--- Register "Z is used for macros
-
 -- Leader
 vim.g.mapleader = " "
 vim.g.maplocalleader = "´"
-
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Netrw" })
 
 -- Move lines up and down in visual select mode
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Centering stuff
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-D>", "<C-D>zz")
+vim.keymap.set("n", "<C-U>", "<C-U>zz")
 
-vim.keymap.set("n", "J", "mzJ`z")
+vim.keymap.set("n", "J", "m`J``")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
@@ -59,7 +55,7 @@ vim.keymap.set({ "n", "v" }, "<C-up>", ":<up>", { desc = "Last command" })
 vim.keymap.set("n", "<leader>j", "}")
 vim.keymap.set("n", "<leader>k", "{")
 
-vim.keymap.set("n", "<leader>sw", "<cmd>w !sudo tee %<CR>", { desc = "Write with sudo" })
+vim.keymap.set("n", "<leader>sw", vim.cmd.SudaWrite, { desc = "Write with sudo" })
 
 -- Swap comma and semicolon
 vim.keymap.set("n", ",", ";")
@@ -88,8 +84,8 @@ vim.keymap.set("v", "<TAB>", ">gv")
 vim.keymap.set("v", "<S-TAB>", "<gv")
 
 -- Scroll the page easily wihout moving cursor
--- vim.keymap.set("n", "<M-j>", "<ScrollWheelDown>")
--- vim.keymap.set("n", "<M-k>", "<ScrollWheelUp>")
+vim.keymap.set("n", "<C-U>", "<PageUp>")
+vim.keymap.set("n", "<C-D>", "<PageDown>")
 
 -- Shift arrow in insert mode enters visual mode
 vim.keymap.set("i", "<S-left>", "<Esc><C-v><C-g><Left>")
