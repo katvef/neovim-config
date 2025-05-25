@@ -24,6 +24,8 @@ vim.keymap.set("v", "<leader>p",
 	end,
 	{ desc = "Delete to void and paste" })
 
+vim.keymap.set({ "n", "i", "x", "v" }, "<C-S-P>", function() vim.cmd("r! wl-paste -p") end, { desc = "Paste from primary clipboard" })
+
 -- Copy to clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y", { remap = true })
 vim.keymap.set({ "n", "v" }, "<leader>Y", "\"+Y", { remap = true })
@@ -75,7 +77,7 @@ vim.keymap.set("n", "<leader>bd", vim.cmd.bd)
 vim.keymap.set("n", "<leader>bn", vim.cmd.bn)
 vim.keymap.set("n", "<leader>bp", vim.cmd.bp)
 
-vim.keymap.set("n", "<leader>=", "gg=G<C-O>zz", { desc = "Equalize file indentation" })
+vim.keymap.set("n", "<leader>=", "m`gg=G``zz", { desc = "Equalize file indentation" })
 
 -- Stay in visual mode when indenting
 vim.keymap.set("v", ">", ">gv")
@@ -150,5 +152,4 @@ vim.keymap.set("c", "<C-e>", "<End>")
 vim.keymap.set("c", "<M-BS>", "<C-w>")
 vim.keymap.set("c", "<C-BS>", "<C-w>")
 
-
-vim.keymap.set('n', 'zn', vim.show_pos, { desc = "Show all the items at a given buffer position" })
+vim.keymap.set("n", "zn", vim.show_pos, { desc = "Show all the items at a given buffer position" })
