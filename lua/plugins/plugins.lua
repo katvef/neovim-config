@@ -4,6 +4,7 @@ return {
 	{ "theprimeagen/harpoon",              branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
 	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
 	{ "neovim/nvim-lspconfig",             event = "VeryLazy",  dependencies = { "saghen/blink.cmp" } },
+	{ "folke/noice.nvim",                  event = "VeryLazy",  dependencies = { "MunifTanjim/nui.nvim" },           opts = {} },
 	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  opts = {}, },
 	{ "andweeb/presence.nvim",             event = "VeryLazy",  opts = {} },
 	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  opts = {}, },
@@ -19,15 +20,6 @@ return {
 	{ "brenoprata10/nvim-highlight-colors" },
 	{ "xzbdmw/colorful-menu.nvim" },
 
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify"
-		},
-		opts = {}
-	},
 
 	{
 		"barreiroleo/ltex_extra.nvim",
