@@ -24,7 +24,7 @@ return {
 			},
 
 			sections = {
-				lualine_a = { 'mode' },
+				lualine_a = { require("noice").api.statusline.mode.get },
 				lualine_b = { 'branch', 'diff', 'diagnostics' },
 				lualine_c = { { 'filename', path = 0, newfile_status = true },
 					function() return require('lsp-progress').progress() end,
