@@ -58,6 +58,8 @@ lspconfig.jsonls.setup({})
 lspconfig.csharp_ls.setup({})
 lspconfig.basedpyright.setup({})
 lspconfig.jdtls.setup({})
+lspconfig.mesonlsp.setup({})
+lspconfig.neocmake.setup({})
 
 lspconfig.ltex.setup({
 	filetypes = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext", "jjdescription" },
