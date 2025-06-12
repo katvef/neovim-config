@@ -57,3 +57,6 @@ vim.opt.fileformat = "unix"
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+
+-- Enable external config
+vim.opt.exrc = true
