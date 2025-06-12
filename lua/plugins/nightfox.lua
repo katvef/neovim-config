@@ -28,6 +28,7 @@ return {
 					search = false,
 				},
 				modules = {
+
 					indent_blankline = {
 						enabled = true
 					},
