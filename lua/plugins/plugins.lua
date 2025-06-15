@@ -64,7 +64,7 @@ return {
 			mappings = {
 				basic = true,
 				extra = true,
-			},
+			}
 		}
 	},
 
@@ -117,6 +117,54 @@ return {
 		version = "1.*",
 		build = "cargo build --release",
 		fuzzy = { implementation = "prefer_rust_with_warning" },
+	},
+
+	{
+		"echasnovski/mini.ai",
+		opts = {
+			n_lines = 50,
+			search_method = "cover_or_next",
+			silent = false,
+			custom_textobjects = nil,
+
+			mappings = {
+				around = "a",
+				inside = "i",
+
+				around_next = "an",
+				inside_next = "in",
+				around_last = "al",
+				inside_last = "il",
+
+				goto_left = "g[",
+				goto_right = "g]",
+			}
+		}
+	},
+
+	{
+		"echasnovski/mini.surround",
+		opts = {
+			-- custom_surroundings = nil,
+			n_lines = 20,
+			respect_selection_type = true,
+			search_method = "cover",
+			silent = false,
+			highlight_duration = 500,
+
+			mappings = {
+				add = "sa",
+				delete = "sd",
+				find = "sf",
+				find_left = "sF",
+				highlight = "sh",
+				replace = "sr",
+				update_n_lines = "sn",
+
+				suffix_last = "l",
+				suffix_next = "n",
+			}
+		}
 	},
 
 	{
