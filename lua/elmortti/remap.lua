@@ -24,7 +24,8 @@ vim.keymap.set("v", "<leader>p",
 	end,
 	{ desc = "Delete to void and paste" })
 
-vim.keymap.set({ "n", "i", "x", "v" }, "<C-S-P>", function() vim.cmd("r! wl-paste -p") end, { desc = "Paste from primary clipboard" })
+vim.keymap.set({ "n", "i", "x", "v" }, "<C-S-P>", function() vim.cmd("r! wl-paste -p") end,
+	{ desc = "Paste from primary clipboard" })
 
 -- Copy to clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y", { remap = true })
@@ -49,8 +50,6 @@ vim.keymap.set("n", "<leader>sg", ":%s/\\<<C-r><C-w>\\>/<C-r><C-W>/gI<Left><Left
 vim.keymap.set("v", "<leader>sg", "\"zy:%s/<C-r>z/<C-r>z/gI<Left><Left><Left>",
 	{ desc = "Search and replace selected text" })
 vim.keymap.set("n", "<leader>ax", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Add execute permissions" })
-
-vim.keymap.set("v", "<C-c>", "<Esc>")
 
 vim.keymap.set({ "n", "v" }, "<C-up>", ":<up>", { desc = "Last command" })
 
