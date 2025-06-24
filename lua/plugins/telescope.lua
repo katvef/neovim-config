@@ -27,6 +27,7 @@ return {
 		})
 
 		require("telescope").load_extension("aerial")
+		require("telescope").load_extension("possession")
 		require("telescope").load_extension("fzy_native")
 
 		local function map(lhs, rhs, opts, mode)
@@ -37,13 +38,16 @@ return {
 		local extension = require("telescope").extensions
 		local theme = require("telescope.themes")
 
-		map("<leader>ff", function() builtin.fd({no_ignore=true, hidden=true}) end, { desc = "Telescope find files" })
-		map("<leader>fp", function() builtin.fd(theme.get_dropdown(), {no_ignore=true}) end, { desc = "Telescope find files" })
-		map("<leader>fr", function() builtin.git_files({hidden=true}) end, { desc = "Telescope git files" })
+		map("<leader>ff", function() builtin.fd({ no_ignore = true, hidden = true }) end, { desc = "Telescope find files" })
+		map("<leader>fp", function() builtin.fd(theme.get_dropdown(), { no_ignore = true }) end,
+			{ desc = "Telescope find files" })
+		map("<leader>fr", function() builtin.git_files({ hidden = true }) end, { desc = "Telescope git files" })
 		map("<leader>fg", function() builtin.live_grep(theme.get_dropdown()) end, { desc = "Telescope live grep" })
 		map("<leader>fb", function() builtin.buffers(theme.get_dropdown()) end, { desc = "Telescope buffers" })
 		map("<leader>ft", function() builtin.treesitter(theme.get_dropdown()) end, { desc = "Telescope treesitter" })
-		map("<leader>fa", extension.aerial.aerial, { desc = "Telescope aerial" })
+		map("<leader>fa", function() extension.aerial.aerial(theme.get_dropdown()) end, { desc = "Telescope aerial" })
+		map("<leader>fS", function() extension.possession.possession(theme.get_dropdown()) end,
+			{ desc = "Telescope aerial" })
 		map("<leader>fj", builtin.jumplist, { desc = "Telescope jump list" })
 		map("<leader>fo", builtin.grep_string, { desc = "Telescope grep string" })
 		map("<leader>fs", builtin.oldfiles, { desc = "Telescope file history" })
