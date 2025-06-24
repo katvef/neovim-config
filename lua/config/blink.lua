@@ -17,10 +17,17 @@ require("blink.cmp").setup({
 	},
 
 	sources = {
-		default = { "lsp", "snippets", "buffer", "path" },
+		default = { "lsp", "snippets", "buffer", "path", --[[ "supermaven" ]] },
 
 		providers = {
-			path = { opts = { get_cwd = function(_) return vim.fn.getcwd() end } },
+			lsp = {
+				async = true
+			},
+
+			path = {
+				async = true,
+				opts = { get_cwd = function(_) return vim.fn.getcwd() end }
+			},
 
 			buffer = {
 				-- keep case of first char
@@ -54,7 +61,14 @@ require("blink.cmp").setup({
 					end
 					return out
 				end
+			},
+
+			supermaven = {
+				name = "supermaven",
+				module = "blink-cmp-supermaven",
+				async = true
 			}
+
 		}
 	},
 
@@ -101,6 +115,6 @@ require("blink.cmp").setup({
 			show_on_keyword = true,
 			show_on_trigger_character = true,
 		},
-		window = { show_documentation = false }
+		window = { show_documentation = true }
 	},
 })
