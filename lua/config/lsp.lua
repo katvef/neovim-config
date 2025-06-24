@@ -1,5 +1,15 @@
-local lspconfig = require("lspconfig")
-local lspconfig_defaults = lspconfig.util.default_config
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
+
+--- Enable and configure server
+---@param server_name string
+---@param config table|nil
+local function lspconfig(server_name, config)
+	if config ~= nil then vim.lsp.config(server_name, config) end
+	vim.lsp.enable(server_name)
+end
+
+local lspconfig_defaults = require("lspconfig").util.default_config
 
 vim.diagnostic.config({ virtual_text = true })
 
@@ -9,12 +19,14 @@ lspconfig_defaults.capabilities = vim.tbl_deep_extend(
 	require("blink.cmp").get_lsp_capabilities()
 )
 
-vim.api.nvim_create_autocmd("LspAttach", {
-	-- desc = "LSP actions",
+autocmd("LspAttach", {
+	desc = "LSP actions",
 	callback = function(event)
 		local client = vim.lsp.get_client_by_id(event.data.client_id)
 		local bufnr = event.buf
 		local lsp = vim.lsp.buf
+
+		vim.lsp.inlay_hint.enable()
 
 		local function telescope_lsp(action)
 			require('telescope.builtin')["lsp_" .. action](require("telescope.themes").get_cursor())
@@ -25,12 +37,26 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- Stays the same anyway
 		map("K", lsp.hover, "Show hover")
-		map("gs", vim.lsp.buf.signature_help, "Signature help")
+		map("gs", function() lsp.signature_help({ silent = false }) end, "Signature help")
 		map("gD", lsp.declaration, "Goto declaration")
 		map("<F2>", lsp.rename, "Rename object")
 		map("<leader>ga", lsp.code_action, "Code action")
 		map("<F4>", lsp.code_action, "Code action")
 		map("<F3>", function() lsp.format({ async = true }) end, "Format buffer")
+
+		map("<F7>",
+			function() if vim.lsp.buf_is_attached(0) then ReattachClients() else print("No client attached to buffer") end end,
+			"Reattach clients to LS")
+		map("<F8>",
+			function()
+				if vim.lsp.buf_is_attached(0) then
+					local client_id = vim.lsp.get_clients({ bufnr = 0 })[1].id
+					AttachToFiletype({ vim.bo.filetype }, client_id)
+				else
+					print("No client attached to buffer")
+				end
+			end,
+			"Attach clients and reformat")
 
 		-- Use telescope lsp pickers if telescope exists, otherwise fallback to native functions
 		if not pcall(require, 'telescope') then
@@ -52,23 +78,48 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
-lspconfig.bashls.setup({})
-lspconfig.arduino_language_server.setup({})
-lspconfig.jsonls.setup({})
-lspconfig.csharp_ls.setup({})
-lspconfig.basedpyright.setup({})
-lspconfig.jdtls.setup({})
-lspconfig.mesonlsp.setup({})
-lspconfig.neocmake.setup({})
+autocmd("LspAttach", {
+	group = augroup("ltex.lsp", { clear = true }),
+	callback = function(args)
+		print(vim.lsp.get_client_by_id(args.data.client_id).name)
+		if vim.lsp.get_client_by_id(args.data.client_id).name == "ltex" then
+			-- Move through lines more easily with wrap on
+			vim.keymap.set("n", "j", "gj")
+			vim.keymap.set("n", "k", "gk")
+			-- Set some options that work better for writing
+			vim.opt_local.colorcolumn = "0"
+			vim.opt_local.cursorcolumn = false
+			vim.opt_local.cursorline = false
+			vim.opt_local.wrap = true
+			vim.opt_local.linebreak = true
+		end
+	end
+})
 
-lspconfig.ltex.setup({
+autocmd("LspAttach", {
+	group = augroup("clangd.lsp", { clear = true }),
+	callback = function(args)
+		vim.lsp.buf.format({ bufnr = args.buf })
+	end
+})
+
+lspconfig("bashls", {})
+lspconfig("arduino_language_server", {})
+lspconfig("jsonls", {})
+lspconfig("csharp_ls", {})
+lspconfig("basedpyright", {})
+lspconfig("jdtls", {})
+lspconfig("mesonlsp", {})
+lspconfig("neocmake", {})
+
+lspconfig("ltex", {
 	filetypes = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext", "jjdescription" },
 	ltex = {
 		enabled = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext", "jjdescription" }
 	}
 })
 
-lspconfig.cssls.setup({
+lspconfig("cssls", {
 	settings = {
 		css = {
 			validate = true,
@@ -91,21 +142,20 @@ lspconfig.cssls.setup({
 	},
 })
 
-lspconfig.clangd.setup({
-	cmd = { "clangd", "--background-index", "--clang-tidy", "--log=verbose" },
-	init_options = {
-		fallback_flags = { "-std=c++20" },
+lspconfig("clangd", {
+	cmd = {
+		"clangd",
+		"--background-index",
+		"--clang-tidy",
+		"--log=verbose",
+		"--header-insertion=never"
 	},
-	settings = {
-		["clangd"] = {
-			format = {
-				insertSpaces = false,
-			},
-		},
+	init_options = {
+		fallbackFlags = { '-std=c++17' },
 	},
 })
 
-lspconfig.rust_analyzer.setup({
+lspconfig("rust_analyzer", {
 	settings = {
 		imports = {
 			granularity = {
@@ -124,7 +174,7 @@ lspconfig.rust_analyzer.setup({
 	}
 })
 
-lspconfig.lua_ls.setup({
+lspconfig("lua_ls", {
 	on_init = function(client)
 		if client.workspace_folders then
 			local path = client.workspace_folders[1].name
@@ -160,7 +210,7 @@ lspconfig.lua_ls.setup({
 	}
 })
 
-lspconfig.denols.setup({
+lspconfig("denols", {
 	cmd = { "deno", "lsp" },
 	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
 	root_markers = { "deno.json", "deno.jsonc" },
@@ -184,14 +234,14 @@ lspconfig.denols.setup({
 	end,
 })
 
-lspconfig.ts_ls.setup({
+lspconfig("ts_ls", {
 	cmd = { "typescript-language-server", "--stdio" },
 	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
 	root_markers = { "tsconfig.json", "jsconfig.json", "package.json", "module.json", ".git" },
 	single_file_support = true,
 })
 
-lspconfig.hyprls.setup({
+lspconfig("hyprls", {
 	filetypes = { "hyprlang", "*.hl", "hypr*.conf" },
 	single_file_support = true,
 })

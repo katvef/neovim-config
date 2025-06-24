@@ -1,16 +1,16 @@
 local autocmd = vim.api.nvim_create_autocmd
-local autogrp = vim.api.nvim_create_augroup
+local augroup = vim.api.nvim_create_augroup
 
 autocmd("QuickFixCmdPost", {
 	desc = "Automatically open quick fix window on diff",
-	group = autogrp("AutoOpenQuickfix", { clear = false }),
+	group = augroup("AutoOpenQuickfix", { clear = false }),
 	pattern = { "[^l]*" },
 	command = "cwindow"
 })
 
 autocmd("TextYankPost", {
 	desc = "Highlight yanked text",
-	group = autogrp("HighlightYank", { clear = true }),
+	group = augroup("HighlightYank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
 	end
@@ -18,7 +18,7 @@ autocmd("TextYankPost", {
 
 autocmd("BufEnter", {
 	desc = "Disable tabs in .yuck files",
-	group = autogrp("DisableTabs", { clear = true }),
+	group = augroup("DisableTabs", { clear = true }),
 	callback = function()
 		if vim.bo.filetype == "yuck" then
 			vim.bo.expandtab = true
@@ -27,7 +27,7 @@ autocmd("BufEnter", {
 	end
 })
 
-autogrp("AutoView", { clear = true })
+augroup("AutoView", { clear = false })
 
 autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
 	group = "AutoView",
@@ -49,23 +49,4 @@ autocmd("BufWinEnter", {
 			end
 		end
 	end,
-})
-
-autocmd("LspAttach", {
-	group = autogrp("ltex.lsp", { clear = true }),
-	callback = function(args)
-		print(vim.lsp.get_client_by_id(args.data.client_id).name)
-		if vim.lsp.get_client_by_id(args.data.client_id).name == "ltex" then
-			-- Move through lines more easily with wrap on
-			vim.keymap.set("n", "j", "gj")
-			vim.keymap.set("n", "k", "gk")
-
-			-- Set some options that work better for writing
-			vim.opt_local.colorcolumn = "0"
-			vim.opt_local.cursorcolumn = false
-			vim.opt_local.cursorline = false
-			vim.opt_local.wrap = true
-			vim.opt_local.linebreak = true
-		end
-	end
 })
