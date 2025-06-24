@@ -50,10 +50,10 @@ return {
 			dashboard = "Home",
 		},
 		buttons = {
-		  {
-		    label = "View Repository",
-		    url = function(opts) return opts.repo_url end,
-		  }
+			{
+				label = function(opts) return opts.repo_url and "View Repository" or "View Github" end,
+				url = function(opts) return opts.repo_url or "https://github.com/Katvees" end,
+			}
 		},
 		assets = nil,
 		variables = nil,

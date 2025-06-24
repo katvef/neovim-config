@@ -1,8 +1,8 @@
 return {
-	'jedrzejboczar/possession.nvim',
+	"jedrzejboczar/possession.nvim",
 	dependencies = { 'nvim-lua/plenary.nvim' },
 	config = function()
-		require('possession').setup({
+		require("possession").setup({
 			-- session_dir = (Path:new(vim.fn.stdpath('data')) / 'possession'):absolute(),
 			silent = false,
 			load_silent = true,
@@ -19,18 +19,18 @@ return {
 			},
 			autoload = false, -- or 'last' or 'auto_cwd' or 'last_cwd' or fun(): string
 			commands = {
-				save = 'PossessionSave',
-				load = 'PossessionLoad',
-				save_cwd = 'PossessionSaveCwd',
-				load_cwd = 'PossessionLoadCwd',
-				rename = 'PossessionRename',
-				close = 'PossessionClose',
-				delete = 'PossessionDelete',
-				show = 'PossessionShow',
-				pick = 'PossessionPick',
-				list = 'PossessionList',
-				list_cwd = 'PossessionListCwd',
-				migrate = 'PossessionMigrate',
+				save = "PossessionSave",
+				load = "PossessionLoad",
+				save_cwd = "PossessionSaveCwd",
+				load_cwd = "PossessionLoadCwd",
+				rename = "PossessionRename",
+				close = "PossessionClose",
+				delete = "PossessionDelete",
+				show = "PossessionShow",
+				pick = "PossessionPick",
+				list = "PossessionList",
+				list_cwd = "PossessionListCwd",
+				migrate = "PossessionMigrate",
 			},
 			hooks = {
 				before_save = function(name) return {} end,
@@ -40,7 +40,7 @@ return {
 			},
 			plugins = {
 				close_windows = {
-					hooks = { 'before_save', 'before_load' },
+					hooks = { "before_save", "before_load" },
 					preserve_layout = true, -- or fun(win): boolean
 					match = {
 						floating = true,
@@ -51,8 +51,8 @@ return {
 				},
 				delete_hidden_buffers = {
 					hooks = {
-						'before_load',
-						vim.o.sessionoptions:match('buffer') and 'before_save',
+						"before_load",
+						vim.o.sessionoptions:match("buffer") and "before_save",
 					},
 					force = false, -- or fun(buf): boolean
 				},
@@ -71,26 +71,31 @@ return {
 			telescope = {
 				previewer = {
 					enabled = true,
-					previewer = 'pretty', -- or 'raw' or fun(opts): Previewer
+					previewer = "pretty", -- or 'raw' or fun(opts): Previewer
 					wrap_lines = true,
 					include_empty_plugin_data = false,
 					cwd_colors = {
-						cwd = 'Comment',
+						cwd = "Comment",
 						tab_cwd = { '#cc241d', '#b16286', '#d79921', '#689d6a', '#d65d0e', '#458588' }
 					}
 				},
 				list = {
-					default_action = 'load',
+					default_action = "load",
 					mappings = {
-						save   = { n = '<c-x>', i = '<c-x>' },
-						load   = { n = '<c-v>', i = '<c-v>' },
-						delete = { n = '<c-t>', i = '<c-t>' },
-						rename = { n = '<c-r>', i = '<c-r>' },
-						grep   = { n = '<c-g>', i = '<c-g>' },
-						find   = { n = '<c-f>', i = '<c-f>' },
+						save   = { n = "<c-x>", i = "<c-x>" },
+						load   = { n = "<c-v>", i = "<c-v>" },
+						delete = { n = "<c-t>", i = "<c-t>" },
+						rename = { n = "<c-r>", i = "<c-r>" },
+						grep   = { n = "<c-g>", i = "<c-g>" },
+						find   = { n = "<c-f>", i = "<c-f>" },
 					},
 				},
 			},
 		})
+
+		vim.keymap.set("n", "<leader>rs", function() vim.cmd("PossessionSave") end)
+		vim.keymap.set("n", "<leader>rS", function() vim.cmd("PossessionSaveCwd") end)
+		vim.keymap.set("n", "<leader>rl", function() vim.cmd("PossessionLoad") end)
+		vim.keymap.set("n", "<leader>rL", function() vim.cmd("PossessionLoadCwd") end)
 	end
 }
