@@ -17,7 +17,7 @@ require("blink.cmp").setup({
 	},
 
 	sources = {
-		default = { "lsp", "snippets", "buffer", "path", --[[ "supermaven" ]] },
+		default = { "lsp", "snippets", "buffer", "path" },
 
 		providers = {
 			lsp = {
@@ -62,12 +62,6 @@ require("blink.cmp").setup({
 					return out
 				end
 			},
-
-			supermaven = {
-				name = "supermaven",
-				module = "blink-cmp-supermaven",
-				async = true
-			}
 
 		}
 	},
