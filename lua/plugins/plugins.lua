@@ -1,5 +1,5 @@
 return {
-	{ "nvim-treesitter/nvim-treesitter",   build = ":TSUpdate" },
+	{ "nvim-treesitter/nvim-treesitter",   build = ":TSUpdate", dependencies = { "OXY2DEV/markview.nvim" } },
 	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
 	{ "theprimeagen/harpoon",              branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
 	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
@@ -15,7 +15,6 @@ return {
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "brenoprata10/nvim-highlight-colors" },
 	{ "xzbdmw/colorful-menu.nvim" },
-	{ "OXY2DEV/markview.nvim" },
 
 	{
 		"neovim/nvim-lspconfig",
