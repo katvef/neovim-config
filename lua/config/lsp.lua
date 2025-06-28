@@ -96,13 +96,6 @@ autocmd("LspAttach", {
 	end
 })
 
-autocmd("LspAttach", {
-	group = augroup("clangd.lsp", { clear = true }),
-	callback = function(args)
-		vim.lsp.buf.format({ bufnr = args.buf })
-	end
-})
-
 lspconfig("bashls", {})
 lspconfig("arduino_language_server", {})
 lspconfig("jsonls", {})
