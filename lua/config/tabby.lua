@@ -81,10 +81,8 @@ require('tabby').setup({
 -- Kehmaps
 vim.keymap.set("n", "<leader>ta", ":$tabnew<CR>:Ex<CR>", { noremap = true })
 vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { noremap = true })
-vim.keymap.set("n", "<leader>tn", ":tabn<CR>", { noremap = true })
-vim.keymap.set("n", "<leader>tp", ":tabp<CR>", { noremap = true })
-vim.keymap.set("n", "<leader>tmp", ":-tabmove<CR>", { noremap = true })
-vim.keymap.set("n", "<leader>tmn", ":+tabmove<CR>", { noremap = true })
+vim.keymap.set("n", "gmt", ":-tabmove<CR>", { noremap = true })
+vim.keymap.set("n", "gmT", ":+tabmove<CR>", { noremap = true })
 vim.keymap.set("n", "<leader>ts", ":tabn #<CR>", { noremap = true })
 vim.keymap.set("n", "<leader>tj", ":Tabby jump_to_tab<CR>", { noremap = true })
 

@@ -17,6 +17,13 @@ return {
 	{ "xzbdmw/colorful-menu.nvim" },
 
 	{
+		"rachartier/tiny-code-action.nvim",
+		event = "LspAttach",
+		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+		opts = {}
+	},
+
+	{
 		"neovim/nvim-lspconfig",
 		event = "VeryLazy",
 		dependencies = { "saghen/blink.cmp" }

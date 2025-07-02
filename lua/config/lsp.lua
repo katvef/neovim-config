@@ -35,14 +35,18 @@ autocmd("LspAttach", {
 			vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 		end
 
-		-- Stays the same anyway
 		map("K", lsp.hover, "Show hover")
 		map("gs", function() lsp.signature_help({ silent = false }) end, "Signature help")
 		map("gD", lsp.declaration, "Goto declaration")
 		map("<F2>", lsp.rename, "Rename object")
 		map("<leader>ga", lsp.code_action, "Code action")
-		map("<F4>", lsp.code_action, "Code action")
+		map("<F4>", require("tiny-code-action").code_action, "Code action")
 		map("<F3>", function() lsp.format({ async = true }) end, "Format buffer")
+		map("gd", function() telescope_lsp("definitions") end, "Goto definition")
+		map("gi", function() telescope_lsp("implementations") end, "Goto implementation")
+		map("go", function() telescope_lsp("type_definitions") end, "Goto type definition")
+		map("gR", function() telescope_lsp("references") end, "Goto references")
+		map("grr", function() telescope_lsp("references") end, "Goto references")
 
 		map("<F7>",
 			function() if vim.lsp.buf_is_attached(0) then ReattachClients() else print("No client attached to buffer") end end,
@@ -57,20 +61,6 @@ autocmd("LspAttach", {
 				end
 			end,
 			"Attach clients and reformat")
-
-		-- Use telescope lsp pickers if telescope exists, otherwise fallback to native functions
-		if not pcall(require, 'telescope') then
-			map("gd", lsp.definition, "Goto definition")
-			map("gi", lsp.implementation, "Goto implementation")
-			map("go", lsp.type_definition, "Goto type definition")
-			map("gR", lsp.references, "Goto references")
-		else
-			map("gd", function() telescope_lsp("definitions") end, "Goto definition")
-			map("gi", function() telescope_lsp("implementations") end, "Goto implementation")
-			map("go", function() telescope_lsp("type_definitions") end, "Goto type definition")
-			map("gR", function() telescope_lsp("references") end, "Goto references")
-			map("grr", function() telescope_lsp("references") end, "Goto references")
-		end
 
 		if client ~= nil and client.server_capabilities.documentSymbolProvider then
 			require("nvim-navic").attach(client, bufnr)
