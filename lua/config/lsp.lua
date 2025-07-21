@@ -132,10 +132,7 @@ lspconfig("clangd", {
 		"--clang-tidy",
 		"--log=verbose",
 		"--header-insertion=never"
-	},
-	init_options = {
-		fallbackFlags = { '-std=c++17' },
-	},
+	}
 })
 
 lspconfig("rust_analyzer", {
