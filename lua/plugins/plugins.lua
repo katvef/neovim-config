@@ -12,9 +12,9 @@ return {
 	{ "mfussenegger/nvim-dap",             lazy = true },
 	{ "danymat/neogen",                    opts = {} },
 	{ "williamboman/mason.nvim",           opts = {} },
+	{ "xzbdmw/colorful-menu.nvim" },
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "brenoprata10/nvim-highlight-colors" },
-	{ "xzbdmw/colorful-menu.nvim" },
 
 	{
 		"rachartier/tiny-code-action.nvim",
