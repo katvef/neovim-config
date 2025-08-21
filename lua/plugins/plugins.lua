@@ -2,7 +2,6 @@ return {
 	{ "nvim-treesitter/nvim-treesitter",   build = ":TSUpdate",   dependencies = { "OXY2DEV/markview.nvim" } },
 	{ "nanozuki/tabby.nvim",               priority = 1000,       dependencies = { "nvim-tree/nvim-web-devicons" } },
 	{ "theprimeagen/harpoon",              branch = "harpoon2",   dependencies = { "nvim-lua/plenary.nvim" } },
-	{ "windwp/nvim-autopairs",             event = "InsertEnter", config = true },
 	{ "nvim-treesitter/playground",        event = "VeryLazy",    dependencies = { "nvim-treesitter/nvim-treesitter" } },
 	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",    opts = {} },
 	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",    opts = {} },
