@@ -4,7 +4,7 @@ require("blink.cmp").setup({
 
 	fuzzy = {
 		implementation = "rust",
-		use_frecency = true,
+		frecency = { enabled = true },
 		sorts = {
 			"exact",
 			-- function(item_a, item_b)
