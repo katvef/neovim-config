@@ -52,7 +52,11 @@ return {
 		buttons = {
 			{
 				label = function(opts) return "View Repository" or "View Github" end,
-				url = function(opts) return opts.repo_url or "https://github.com/Kiatve" end,
+				url = function(opts) return opts.repo_url or "https://github.com/katvef" end,
+			},
+			{
+				label = function(opts) return "My blog" end,
+				url = function(opts) return "https://blog.katvef.fi" end,
 			}
 		},
 		assets = nil,
