@@ -72,12 +72,12 @@ autocmd("LspAttach", {
 	group = augroup("ltex.lsp", { clear = true }),
 	callback = function(args)
 		print(vim.lsp.get_client_by_id(args.data.client_id).name)
-		if vim.lsp.get_client_by_id(args.data.client_id).name == "ltex" then
+		if vim.lsp.get_client_by_id(args.data.client_id).name == "ltex_plus" then
 			-- Move through lines more easily with wrap on
 			vim.keymap.set("n", "j", "gj")
 			vim.keymap.set("n", "k", "gk")
 			-- Set some options that work better for writing
-			vim.opt_local.colorcolumn = "0"
+			vim.opt_local.colorcolumn = "100"
 			vim.opt_local.cursorcolumn = false
 			vim.opt_local.cursorline = false
 			vim.opt_local.wrap = true
@@ -95,10 +95,12 @@ lspconfig("jdtls", {})
 lspconfig("mesonlsp", {})
 lspconfig("neocmake", {})
 
-lspconfig("ltex", {
+lspconfig("ltex_plus", {
 	filetypes = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext", "jjdescription" },
-	ltex = {
-		enabled = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext", "jjdescription" }
+	settings = {
+		ltex = {
+			enabled = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext", "jjdescription" }
+		}
 	}
 })
 
