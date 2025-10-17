@@ -162,7 +162,7 @@ return {
 
 			mappings = {
 				add = "sa",
-				delete = "sd",
+				delete = "ds",
 				find = "sf",
 				find_left = "sF",
 				highlight = "sh",
@@ -174,33 +174,6 @@ return {
 			}
 		}
 	},
-
-	-- {
-	-- 	"kylechui/nvim-surround",
-	-- 	event = "VeryLazy",
-	-- 	version = "*",
-	-- 	config = function()
-	-- 		require("nvim-surround").setup({
-	-- 			aliases = {
-	-- 				["a"] = ">",
-	-- 				["p"] = ")",
-	-- 				["b"] = "}",
-	-- 				["r"] = "]",
-	-- 				["q"] = { '"', "'", "`", "”" },
-	-- 				["B"] = { "}", "]", ")", ">" },
-	-- 				["s"] = { "}", "]", ")", ">", '"', "'", "`" },
-	-- 			},
-	-- 			vim.keymap.set("o", "i.", function() vim.cmd("normal T.vt.") end),
-	-- 			vim.keymap.set("o", "a.", function() vim.cmd("normal F.vf.") end),
-	-- 			vim.keymap.set("o", "i,", function() vim.cmd("normal T,vt,") end),
-	-- 			vim.keymap.set("o", "a,", function() vim.cmd("normal F,vf,") end),
-	-- 			vim.keymap.set("o", "i_", function() vim.cmd("normal T_vt_") end),
-	-- 			vim.keymap.set("o", "a_", function() vim.cmd("normal F_vf_") end),
-	-- 			vim.keymap.set("o", "i”", function() vim.cmd("normal T“vt”") end),
-	-- 			vim.keymap.set("o", "a”", function() vim.cmd("normal F“vf”") end),
-	-- 		})
-	-- 	end
-	-- },
 
 	{
 		"anuvyklack/animation.nvim",
