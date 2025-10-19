@@ -80,7 +80,6 @@ autocmd("LspAttach", {
 			vim.opt_local.colorcolumn = "100"
 			vim.opt_local.cursorcolumn = false
 			vim.opt_local.cursorline = false
-			vim.opt_local.wrap = true
 			vim.opt_local.linebreak = true
 		end
 	end
