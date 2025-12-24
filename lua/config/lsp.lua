@@ -93,6 +93,7 @@ lspconfig("basedpyright", {})
 lspconfig("jdtls", {})
 lspconfig("mesonlsp", {})
 lspconfig("neocmake", {})
+lspconfig("openscad-lsp", {})
 
 lspconfig("ltex_plus", {
 	filetypes = { "bibtex", "gitcommit", "markdown", "org", "tex", "restructuredtext", "rsweave", "latex", "quarto", "rmd", "context", "html", "xhtml", "mail", "plaintext", "jjdescription" },
