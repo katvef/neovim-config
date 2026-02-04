@@ -1,5 +1,5 @@
-require("elmortti.functions")
-require("elmortti.lazy")
-require("elmortti")
+require("katve.functions")
+require("katve.lazy")
+require("katve")
 require("config")
 ColorMyPencils()
