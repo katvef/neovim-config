@@ -5,6 +5,6 @@ require("conform").setup({
 		rust = { "rustfmt", lsp_format = "fallback" },
 		javascript = { "biome-check" },
 		yaml = { "yamlfix" },
-		sh = { "beautysh" }
+		sh = { "shfmt" },
 	},
 })

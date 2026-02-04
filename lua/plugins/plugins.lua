@@ -1,40 +1,41 @@
 return {
-	{ "nvim-treesitter/nvim-treesitter",   build = ":TSUpdate", dependencies = { "OXY2DEV/markview.nvim" } },
-	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
-	{ "theprimeagen/harpoon",              branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
-	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
-	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  opts = {} },
-	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  opts = {} },
-	{ "aserowy/tmux.nvim",                 event = "VeryLazy",  opts = {} },
-	{ "b0o/incline.nvim",                  event = "VeryLazy" },
-	{ "lambdalisue/suda.vim",              event = "VeryLazy" },
-	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
-	{ "mfussenegger/nvim-dap",             lazy = true },
-	{ "danymat/neogen",                    opts = {} },
-	{ "williamboman/mason.nvim",           opts = {} },
+	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate", dependencies = { "OXY2DEV/markview.nvim" } },
+	{ "nanozuki/tabby.nvim", priority = 1000, dependencies = { "nvim-tree/nvim-web-devicons" } },
+	{ "theprimeagen/harpoon", branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
+	{ "nvim-treesitter/playground", event = "VeryLazy", dependencies = { "nvim-treesitter/nvim-treesitter" } },
+	{ "linrongbin16/lsp-progress.nvim", event = "VeryLazy", opts = {} },
+	{ "yorickpeterse/nvim-tree-pairs", event = "VeryLazy", opts = {} },
+	{ "aserowy/tmux.nvim", event = "VeryLazy", opts = {} },
+	{ "b0o/incline.nvim", event = "VeryLazy" },
+	{ "lambdalisue/suda.vim", event = "VeryLazy" },
+	{ "SmiteshP/nvim-navic", lazy = true, dependencies = { "neovim/nvim-lspconfig" } },
+	{ "mfussenegger/nvim-dap", lazy = true },
+	{ "danymat/neogen", opts = {} },
+	{ "williamboman/mason.nvim", opts = {} },
 	{ "xzbdmw/colorful-menu.nvim" },
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "brenoprata10/nvim-highlight-colors" },
 	{ "stevearc/conform.nvim" },
+	{ "mfussenegger/nvim-lint" },
 
 	{
 		"rachartier/tiny-code-action.nvim",
 		event = "LspAttach",
 		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
-		opts = {}
+		opts = {},
 	},
 
 	{
 		"neovim/nvim-lspconfig",
 		event = "VeryLazy",
-		dependencies = { "saghen/blink.cmp" }
+		dependencies = { "saghen/blink.cmp" },
 	},
 
 	{
 		"barreiroleo/ltex_extra.nvim",
 		dependencies = { "neovim/nvim-lspconfig" },
 		branch = "dev",
-		opts = { path = vim.fn.expand("~") .. "/.local/state/ltex/" }
+		opts = { path = vim.fn.expand("~") .. "/.local/state/ltex/" },
 	},
 
 	{
@@ -46,7 +47,7 @@ return {
 				vim.cmd.UndotreeToggle()
 				vim.cmd.UndotreeFocus()
 			end)
-		end
+		end,
 	},
 
 	{
@@ -73,8 +74,8 @@ return {
 			mappings = {
 				basic = true,
 				extra = true,
-			}
-		}
+			},
+		},
 	},
 
 	{
@@ -85,15 +86,15 @@ return {
 		config = function()
 			vim.keymap.set("n", "ö", require("ts-node-action").node_action)
 			vim.keymap.set("i", "<C-ö>", require("ts-node-action").node_action)
-		end
+		end,
 	},
 
 	{
 		"nvim-telescope/telescope-fzy-native.nvim",
 		dependencies = {
 			"romgrk/fzy-lua-native",
-			build = "make"
-		}
+			build = "make",
+		},
 	},
 
 	{
@@ -108,7 +109,7 @@ return {
 				end,
 			})
 			vim.keymap.set("n", "<leader>q", "<cmd>AerialToggle!<CR>")
-		end
+		end,
 	},
 
 	{
@@ -116,7 +117,7 @@ return {
 		event = "VeryLazy",
 		dependencies = { "rafamadriz/friendly-snippets" },
 		-- version = "v2.*",
-		build = "make install_jsregexp"
+		build = "make install_jsregexp",
 	},
 
 	{
@@ -148,9 +149,9 @@ return {
 
 					goto_left = "g[",
 					goto_right = "g]",
-				}
+				},
 			})
-		end
+		end,
 	},
 
 	{
@@ -174,8 +175,8 @@ return {
 
 				suffix_last = "l",
 				suffix_next = "n",
-			}
-		}
+			},
+		},
 	},
 
 	{
@@ -193,7 +194,7 @@ return {
 			end
 			local animation = Animation(duration, fps, easing.line, callback)
 			animation:run()
-		end
+		end,
 	},
 
 	{
@@ -209,8 +210,8 @@ return {
 			require("windows").setup({
 				ignore = {
 					buftype = { "nofile", "quickfix" },
-					filetype = { "undotree", "aerial", "diff", "gitcommit", "git" }
-				}
+					filetype = { "undotree", "aerial", "diff", "gitcommit", "git" },
+				},
 			})
 		end,
 	},
