@@ -153,7 +153,7 @@ return {
 	},
 
 	{
-		"echasnovski/mini.ai",
+		"nvim-mini/mini.ai",
 		config = function()
 			require("mini.ai").setup({
 				n_lines = 50,
@@ -178,7 +178,7 @@ return {
 	},
 
 	{
-		"echasnovski/mini.surround",
+		"nvim-mini/mini.surround",
 		opts = {
 			custom_surroundings = { ["”"] = { input = { "“().-()”" }, output = { left = "“", right = "”" } } },
 			n_lines = 20,
