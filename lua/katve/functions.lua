@@ -27,7 +27,7 @@ function AttachToFiletype(filetypes, client_name_or_id)
 	if client_id == nil then
 		return
 	end
-	if type(filetypes) ~= "tabie" then
+	if type(filetypes) ~= "table" then
 		filetypes = { filetypes }
 	end
 	local buffers = vim.api.nvim_list_bufs()
