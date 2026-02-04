@@ -65,9 +65,9 @@ vim.keymap.set("n", ",", ";")
 vim.keymap.set("n", ";", ",")
 
 -- Brackets and quotes
-vim.keymap.set("i", "<localleader>(", "(  )<left><left>")
-vim.keymap.set("i", "<localleader>[", "[  ]<left><left>")
-vim.keymap.set("i", "<localleader>{", "{  }<left><left>")
+vim.keymap.set("i", "<localleader>(", "()<left>")
+vim.keymap.set("i", "<localleader>[", "[]<left>")
+vim.keymap.set("i", "<localleader>{", "{}<left>")
 
 vim.keymap.set("i", "<localleader>)", "(<CR>)<up><end><CR>")
 vim.keymap.set("i", "<localleader>]", "[<CR>]<up><end><CR>")
