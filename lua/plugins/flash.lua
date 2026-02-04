@@ -15,9 +15,12 @@ return {
 			{ "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
 			{ "<C-s>", mode = "n", function() require("flash").toggle() end, desc = "Toggle Flash Search" },
 		},
-		config = {
+		opts = {
 			modes = {
 				char = { enabled = false }
+			},
+			jump = {
+				autojump = true,
 			}
 		}
 	}
