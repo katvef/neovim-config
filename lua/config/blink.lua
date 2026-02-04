@@ -18,21 +18,25 @@ require("blink.cmp").setup({
 
 	sources = {
 		default = {
-			"lsp",
 			"snippets",
+			"lsp",
 			"buffer",
 			"path",
 			"ripgrep"
 		},
 
 		providers = {
+			snippets = {
+				score_offset = 10
+			},
+
 			lsp = {
-				async = true
+				async = true,
 			},
 
 			path = {
 				async = true,
-				opts = { get_cwd = function(_) return vim.fn.getcwd() end }
+				opts = { get_cwd = function(_) return vim.fn.getcwd() end },
 			},
 
 			buffer = {
@@ -66,13 +70,15 @@ require("blink.cmp").setup({
 						end
 					end
 					return out
-				end
+				end,
+				score_offset = -2
 			},
 
 			ripgrep = {
 				module = "blink-ripgrep",
 				name = "Ripgrep",
-				backend = { use = "gitgrep-or-ripgrep" }
+				backend = { use = "gitgrep" },
+				score_offset = -20
 			}
 
 		}
