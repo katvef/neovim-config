@@ -1,5 +1,6 @@
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
+local lsp_group = augroup("lsp", {clear = false})
 
 --- Enable and configure server
 ---@param server_name string
@@ -10,6 +11,7 @@ local function lspconfig(server_name, config)
 end
 
 local lspconfig_defaults = require("lspconfig").util.default_config
+local inlay_hint_state = true
 
 vim.diagnostic.config({
 	virtual_text = true,
@@ -29,41 +31,33 @@ autocmd("LspAttach", {
 		local bufnr = event.buf
 		local lsp = vim.lsp.buf
 
-		vim.lsp.inlay_hint.enable()
+		vim.lsp.inlay_hint.enable(inlay_hint_state)
 
 		local function telescope_lsp(action)
 			require("telescope.builtin")["lsp_" .. action](require("telescope.themes").get_cursor())
 		end
-		local map = function(keys, func, desc)
-			vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+
+		--- LSP keymap utility
+		---@param lhs string
+		---@param rhs string|function
+		---@param desc string
+		---@param modes string|nil
+		local function map(lhs, rhs, desc, modes)
+			vim.keymap.set(modes or "n", lhs, rhs, { buffer = event.buf, desc = "LSP: " .. desc })
 		end
 
 		map("K", lsp.hover, "Show hover")
-		map("gs", function()
-			lsp.signature_help({ silent = false })
-		end, "Signature help")
+		map("gs", function() lsp.signature_help({ silent = false }) end, "Signature help")
 		map("gD", lsp.declaration, "Goto declaration")
 		map("<F2>", lsp.rename, "Rename object")
 		map("<leader>ga", lsp.code_action, "Code action")
 		map("<F4>", require("tiny-code-action").code_action, "Code action")
-		map("<F3>", function()
-			require("conform").format({ async = true, lsp_format = "fallback" })
-		end, "Format buffer")
-		map("gd", function()
-			telescope_lsp("definitions")
-		end, "Goto definition")
-		map("gi", function()
-			telescope_lsp("implementations")
-		end, "Goto implementation")
-		map("go", function()
-			telescope_lsp("type_definitions")
-		end, "Goto type definition")
-		map("gR", function()
-			telescope_lsp("references")
-		end, "Goto references")
-		map("grr", function()
-			telescope_lsp("references")
-		end, "Goto references")
+		map("<F3>", function() require("conform").format({ async = true, lsp_format = "fallback" }) end, "Format buffer")
+		map("gd", function() telescope_lsp("definitions") end, "Goto definition")
+		map("gi", function() telescope_lsp("implementations") end, "Goto implementation")
+		map("go", function() telescope_lsp("type_definitions") end, "Goto type definition")
+		map("gR", function() telescope_lsp("references") end, "Goto references")
+		map("grr", function() telescope_lsp("references") end, "Goto references")
 
 		map("<F7>", function()
 			if vim.lsp.buf_is_attached(0) then
@@ -72,6 +66,7 @@ autocmd("LspAttach", {
 				print("No client attached to buffer")
 			end
 		end, "Reattach clients to LS")
+
 		map("<F8>", function()
 			if vim.lsp.buf_is_attached(0) then
 				local client_id = vim.lsp.get_clients({ bufnr = 0 })[1].id
@@ -81,11 +76,30 @@ autocmd("LspAttach", {
 			end
 		end, "Attach clients and reformat")
 
+		map("gh", function()
+			inlay_hint_state = not vim.lsp.inlay_hint.is_enabled()
+			vim.lsp.inlay_hint.enable(inlay_hint_state)
+		end, "Toggle inlay hints")
+
 		if client ~= nil and client.server_capabilities.documentSymbolProvider then
 			require("nvim-navic").attach(client, bufnr)
 		end
 	end,
 })
+
+
+autocmd("InsertEnter", {
+group = lsp_group,
+desc = "LSP enter insert",
+callback = function () vim.lsp.inlay_hint.enable(false) end
+})
+
+autocmd("InsertLeave", {
+group = lsp_group,
+desc = "LSP leave insert",
+callback = function ()
+	vim.lsp.inlay_hint.enable(inlay_hint_state)
+end})
 
 autocmd("LspAttach", {
 	group = augroup("ltex.lsp", { clear = true }),
