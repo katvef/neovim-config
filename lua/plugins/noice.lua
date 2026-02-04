@@ -1,11 +1,14 @@
 return {
 	"folke/noice.nvim",
 	event = "VeryLazy",
-	dependencies = { "MunifTanjim/nui.nvim" },
+	dependencies = {
+		{ "ibhagwan/fzf-lua", dependencies = { "nvim-mini/mini.icons" } },
+		"MunifTanjim/nui.nvim"
+	},
 	opts = {
 		lsp = {
 			signature = {
-					enabled = false
+				enabled = false
 			}
 		}
 	}
