@@ -5,9 +5,7 @@ local augroup = vim.api.nvim_create_augroup
 ---@param server_name string
 ---@param config table|nil
 local function lspconfig(server_name, config)
-	if config ~= nil then
-		vim.lsp.config(server_name, config)
-	end
+	if config ~= nil then vim.lsp.config(server_name, config) end
 	vim.lsp.enable(server_name)
 end
 
@@ -114,6 +112,7 @@ lspconfig("mesonlsp", {})
 lspconfig("neocmake", {})
 lspconfig("openscad-lsp", {})
 lspconfig("markdown_oxide", {})
+lspconfig("tombi", {})
 
 lspconfig("bashls", {
 	filetypes = { 'bash', 'sh' }
