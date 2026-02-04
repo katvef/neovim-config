@@ -17,7 +17,13 @@ require("blink.cmp").setup({
 	},
 
 	sources = {
-		default = { "lsp", "snippets", "buffer", "path" },
+		default = {
+			"lsp",
+			"snippets",
+			"buffer",
+			"path",
+			"ripgrep"
+		},
 
 		providers = {
 			lsp = {
@@ -62,6 +68,12 @@ require("blink.cmp").setup({
 					return out
 				end
 			},
+
+			ripgrep = {
+				module = "blink-ripgrep",
+				name = "Ripgrep",
+				backend = { use = "gitgrep-or-ripgrep" }
+			}
 
 		}
 	},
