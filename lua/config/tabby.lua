@@ -1,5 +1,7 @@
 vim.o.showtabline = 2
 
+local tab_name = require("tabby.feature.tab_name")
+
 local theme = {
 	fill = "TabLineFill",
 	head = "TabLine",
@@ -84,21 +86,27 @@ require("tabby").setup({
 	-- option = {}, -- setup modules' option,
 })
 
+-- Functions
+local function rename_tab(args)
+	local tab = args.tabid or 0
+	local tabname = args.tabname
+	if tabname:sub(1, 1) == "%" then
+		local mods = tabname:sub(2, 2) ~= "" and tabname:sub(2) or ":t:r"
+		local newname = vim.fn.fnamemodify(vim.fn.expand("%"), mods)
+		tab_name.set(tab, newname)
+		print("renamed tab to " .. newname)
+	elseif tabname:match("^%s*$") then
+		tab_name.set(tab)
+		print("removed tab name")
+	else
+		tab_name.set(tab, tabname)
+		print("renamed tab to " .. tabname)
+	end
+end
+
 -- Commands
 vim.api.nvim_create_user_command("RenameTab", function(args)
-	local tabName = args.args
-	if tabName:sub(1, 1) == "%" then
-		local mods = tabName:sub(2, 2) ~= "" and tabName:sub(2) or ":t:r"
-		local newName = vim.fn.fnamemodify(vim.fn.expand("%"), mods)
-		vim.cmd.Tabby({ args = { "rename_tab", newName } })
-		print("Renamed tab to " .. newName)
-	elseif tabName:match("^%s*$") then
-		vim.cmd.Tabby({ args = { "rename_tab" } })
-		print("Removed tab name")
-	else
-		vim.cmd.Tabby({ args = { "rename_tab", tabName } })
-		print("Renamed tab to " .. tabName)
-	end
+	rename_tab({ tabname = args.args })
 end, { desc = "Rename current tab, use %<mods> to use modified filename", nargs = "*" })
 
 -- Kehmaps
@@ -117,4 +125,14 @@ vim.keymap.set("n", "<leader>tr", function()
 	else
 		vim.cmd.RenameTab({ args = { tabName } })
 	end
-end)
+end, { desc = "Rename all tab" })
+vim.keymap.set("n", "<leader>tR", function()
+	local tabName = vim.fn.input({ prompt = "Tab name: ", cancelreturn = vim.NIL })
+	if tabName == vim.NIL then
+		return
+	else
+		for _, tab in ipairs(require("tabby.module.api").get_tabs()) do
+			rename_tab({ tabid = tab, tabname = tabName })
+		end
+	end
+end, { desc = "Rename all tabs" })
