@@ -45,6 +45,7 @@ require("tabby").setup({
 				local hl = tab.is_current() and theme.current_tab or theme.tab
 				local name = tab.name()
 				local wins = tab.wins()
+				local cur_win = tab.current_win()
 				local win_icons = ""
 				wins.foreach(function(win)
 					win_icons = win_icons .. " " .. win.buf().id .. "/" .. win.file_icon()
@@ -54,7 +55,7 @@ require("tabby").setup({
 					line.sep(tab.is_current() and "" or "", hl, theme.fill),
 					tab.in_jump_mode() and tab.jump_key(),
 					tab.current_win().buf().id == name and win_icons or {
-						name and name .. "/" .. tab.current_win().file_icon() or win_icons
+						(name ~= tostring(cur_win.buf().id) and name .. "/" .. cur_win.file_icon()) or win_icons
 					},
 					line.sep("", hl, theme.fill),
 					hl = hl,
