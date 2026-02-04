@@ -1,20 +1,21 @@
 return {
-	{ "nvim-treesitter/nvim-treesitter",   build = ":TSUpdate",   dependencies = { "OXY2DEV/markview.nvim" } },
-	{ "nanozuki/tabby.nvim",               priority = 1000,       dependencies = { "nvim-tree/nvim-web-devicons" } },
-	{ "theprimeagen/harpoon",              branch = "harpoon2",   dependencies = { "nvim-lua/plenary.nvim" } },
-	{ "nvim-treesitter/playground",        event = "VeryLazy",    dependencies = { "nvim-treesitter/nvim-treesitter" } },
-	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",    opts = {} },
-	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",    opts = {} },
-	{ "aserowy/tmux.nvim",                 event = "VeryLazy",    opts = {} },
+	{ "nvim-treesitter/nvim-treesitter",   build = ":TSUpdate", dependencies = { "OXY2DEV/markview.nvim" } },
+	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
+	{ "theprimeagen/harpoon",              branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
+	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
+	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  opts = {} },
+	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  opts = {} },
+	{ "aserowy/tmux.nvim",                 event = "VeryLazy",  opts = {} },
 	{ "b0o/incline.nvim",                  event = "VeryLazy" },
 	{ "lambdalisue/suda.vim",              event = "VeryLazy" },
-	{ "SmiteshP/nvim-navic",               lazy = true,           dependencies = { "neovim/nvim-lspconfig" } },
+	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
 	{ "mfussenegger/nvim-dap",             lazy = true },
 	{ "danymat/neogen",                    opts = {} },
 	{ "williamboman/mason.nvim",           opts = {} },
 	{ "xzbdmw/colorful-menu.nvim" },
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "brenoprata10/nvim-highlight-colors" },
+	{ "stevearc/conform.nvim" },
 
 	{
 		"rachartier/tiny-code-action.nvim",
@@ -129,25 +130,27 @@ return {
 
 	{
 		"echasnovski/mini.ai",
-		config = function () require("mini.ai").setup({
-			n_lines = 50,
-			search_method = "cover_or_next",
-			silent = false,
-			custom_textobjects = { ["”"] = { "“().*()”" } },
+		config = function()
+			require("mini.ai").setup({
+				n_lines = 50,
+				search_method = "cover_or_next",
+				silent = false,
+				custom_textobjects = { ["”"] = { "“().*()”" } },
 
-			mappings = {
-				around = "a",
-				inside = "i",
+				mappings = {
+					around = "a",
+					inside = "i",
 
-				around_next = "an",
-				inside_next = "in",
-				around_last = "al",
-				inside_last = "il",
+					around_next = "an",
+					inside_next = "in",
+					around_last = "al",
+					inside_last = "il",
 
-				goto_left = "g[",
-				goto_right = "g]",
-			}
-		}) end
+					goto_left = "g[",
+					goto_right = "g]",
+				}
+			})
+		end
 	},
 
 	{

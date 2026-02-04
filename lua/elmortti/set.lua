@@ -60,3 +60,5 @@ vim.opt.splitbelow = true
 
 -- Enable external config
 vim.opt.exrc = true
+
+vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
