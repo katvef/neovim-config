@@ -20,14 +20,3 @@ require("nvim-treesitter.configs").setup {
 		additional_vim_regex_highlighting = true,
 	},
 }
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.cpp = {
-	install_info = {
-		url = "/home/elmortti/git/tree-sitter-cpp",
-		files = { "src/parser.c", "src/scanner.c" },
-		branch = "master",
-		generate_requires_npm = true,
-		requires_generate_from_grammar = false,
-	},
-	filetype = "cpp"
-}
