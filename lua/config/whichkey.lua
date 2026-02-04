@@ -1,7 +1,6 @@
 local wk = require("which-key")
 wk.add({
 	{ "<leader>f",  group = "file" },
-	{ "<leader>gs", group = "git" },
 	{ "<leader>w",  proxy = "<c-w>", group = "windows" },
 	{
 		"<leader>b",
