@@ -6,7 +6,7 @@ require("blink.cmp").setup({
 		implementation = "rust",
 		frecency = { enabled = true },
 		sorts = {
-			"exact",
+			-- "exact",
 			-- function(item_a, item_b)
 			-- 	return item_a.score > item_b.score and
 			-- 		(item_a.source_id == "snippets" and item_b.source_id ~= "snippets")
@@ -27,7 +27,7 @@ require("blink.cmp").setup({
 
 		providers = {
 			snippets = {
-				score_offset = 10
+				score_offset = 5
 			},
 
 			lsp = {
@@ -78,7 +78,7 @@ require("blink.cmp").setup({
 				module = "blink-ripgrep",
 				name = "Ripgrep",
 				backend = { use = "gitgrep" },
-				score_offset = -20
+				score_offset = -1000,
 			}
 
 		}
