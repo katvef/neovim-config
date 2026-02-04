@@ -50,3 +50,55 @@ autocmd("BufWinEnter", {
 		end
 	end,
 })
+
+-- This pair mechanism is tailored specifically for my requirements and is intentionally simple
+local char_pairs = {
+	{ "(",  ")" },
+	{ "{",  "}" },
+	{ "[",  "]" },
+	{ "<",  ">" },
+	{ "\"", "\"" },
+	{ "'",  "'" }
+}
+local open_chars = {}
+local close_chars = {}
+
+for _, pair in ipairs(char_pairs) do
+	table.insert(open_chars, pair[1])
+	table.insert(close_chars, pair[2])
+end
+
+local prev_char = nil
+local prev_fired = nil
+
+local function handle_next_key(_, typed)
+	if typed == "\r" then
+		vim.schedule(function() vim.cmd "normal O" end)
+	end
+	vim.on_key(nil, vim.api.nvim_get_current_buf())
+end
+
+vim.api.nvim_create_autocmd("InsertCharPre", {
+	group = augroup("AutoPairs", { clear = true }),
+	callback = function()
+		local char = vim.v.char
+		if prev_fired == true then
+			prev_fired = false
+		else
+			for i, open in ipairs(open_chars) do
+				if char == open and prev_char == open then
+					vim.v.char = close_chars[i]
+					vim.schedule(function()
+						local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+						vim.api.nvim_win_set_cursor(0, { row, col - 1 })
+
+						vim.on_key(handle_next_key, vim.api.nvim_get_current_buf())
+						prev_fired = true
+					end)
+					break
+				end
+			end
+		end
+		prev_char = char
+	end,
+})
