@@ -192,11 +192,13 @@ lspconfig("lua_ls", {
 	}
 })
 
+
 lspconfig("denols", {
 	cmd = { "deno", "lsp" },
 	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
 	root_markers = { "deno.json", "deno.jsonc" },
 	single_file_support = true,
+
 
 	on_attach = function(client, bufnr)
 		vim.api.nvim_buf_create_user_command(0, 'LspDenolsCache', function()
@@ -205,8 +207,7 @@ lspconfig("denols", {
 				arguments = { {}, vim.uri_from_bufnr(bufnr) },
 			}, { bufnr = bufnr }, function(err, _result, ctx)
 				if err then
-					local uri = ctx.params.arguments[2]
-					vim.api.nvim_err_writeln('cache command failed for ' .. vim.uri_to_fname(uri))
+					vim.notify('cache command failed for ' .. vim.uri_to_fname(ctx.params.arguments[2]), 1)
 				end
 			end)
 		end, {
