@@ -11,8 +11,8 @@ vim.keymap.set("n", "<C-D>", "<C-D>zz")
 vim.keymap.set("n", "<C-U>", "<C-U>zz")
 
 vim.keymap.set("n", "J", "m`J``")
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
 
 vim.keymap.set("v", "<leader>p",
 	function()
@@ -43,7 +43,9 @@ vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d")
 -- Movement stuff
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
-vim.keymap.set("n", "G", "Gm`10kzz``")
+vim.keymap.set("n", "G", "G10kzz10j")
+vim.keymap.set("n", "<C-O>", "<C-O>zz")
+vim.keymap.set("n", "<C-I>", "<C-I>zz")
 
 vim.keymap.set("n", "<leader>sg", ":%s/\\<<C-r><C-w>\\>/<C-r><C-W>/gI<Left><Left><Left>",
 	{ desc = "Search and replace word under cursor" })
