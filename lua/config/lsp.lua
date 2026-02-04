@@ -41,7 +41,7 @@ autocmd("LspAttach", {
 		map("<F2>", lsp.rename, "Rename object")
 		map("<leader>ga", lsp.code_action, "Code action")
 		map("<F4>", require("tiny-code-action").code_action, "Code action")
-		map("<F3>", function() lsp.format({ async = true }) end, "Format buffer")
+		map("<F3>", function() require("conform").format({ async = true, lsp_format = "fallback" }) end, "Format buffer")
 		map("gd", function() telescope_lsp("definitions") end, "Goto definition")
 		map("gi", function() telescope_lsp("implementations") end, "Goto implementation")
 		map("go", function() telescope_lsp("type_definitions") end, "Goto type definition")
