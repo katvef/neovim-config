@@ -60,20 +60,23 @@ local char_pairs = {
 	{ "\"", "\"" },
 	{ "'",  "'" }
 }
-local open_chars = {}
-local close_chars = {}
+local char_pairs_map = {}
 
 for _, pair in ipairs(char_pairs) do
-	table.insert(open_chars, pair[1])
-	table.insert(close_chars, pair[2])
+	char_pairs_map[pair[1]] = pair[2]
 end
 
 local prev_char = nil
 local prev_fired = nil
 
+
 local function handle_next_key(_, typed)
 	if typed == "\r" then
-		vim.schedule(function() vim.cmd "normal O" end)
+		local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+		local line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]
+		local before_cursor = line:sub(0, col)
+		local after_cursor = (line:match("^%s*") or "") .. line:sub(col + 1)
+		vim.api.nvim_buf_set_lines(0, row - 1, row, false, { before_cursor, after_cursor })
 	end
 	vim.on_key(nil, vim.api.nvim_get_current_buf())
 end
@@ -85,16 +88,15 @@ vim.api.nvim_create_autocmd("InsertCharPre", {
 		if prev_fired == true then
 			prev_fired = false
 		else
-			for i, open in ipairs(open_chars) do
+			for open, close in pairs(char_pairs_map) do
 				if char == open and prev_char == open then
-					vim.v.char = close_chars[i]
+					vim.v.char = close
 					vim.schedule(function()
 						local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 						vim.api.nvim_win_set_cursor(0, { row, col - 1 })
-
-						vim.on_key(handle_next_key, vim.api.nvim_get_current_buf())
-						prev_fired = true
 					end)
+					vim.on_key(handle_next_key, vim.api.nvim_get_current_buf())
+					prev_fired = true
 					break
 				end
 			end
