@@ -1,22 +1,45 @@
 return {
-	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate", dependencies = { "OXY2DEV/markview.nvim" } },
-	{ "nanozuki/tabby.nvim", priority = 1000, dependencies = { "nvim-tree/nvim-web-devicons" } },
-	{ "theprimeagen/harpoon", branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
-	{ "nvim-treesitter/playground", event = "VeryLazy", dependencies = { "nvim-treesitter/nvim-treesitter" } },
-	{ "linrongbin16/lsp-progress.nvim", event = "VeryLazy", opts = {} },
-	{ "yorickpeterse/nvim-tree-pairs", event = "VeryLazy", opts = {} },
-	{ "aserowy/tmux.nvim", event = "VeryLazy", opts = {} },
-	{ "b0o/incline.nvim", event = "VeryLazy" },
-	{ "lambdalisue/suda.vim", event = "VeryLazy" },
-	{ "SmiteshP/nvim-navic", lazy = true, dependencies = { "neovim/nvim-lspconfig" } },
-	{ "mfussenegger/nvim-dap", lazy = true },
-	{ "danymat/neogen", opts = {} },
-	{ "williamboman/mason.nvim", opts = {} },
+	{ "nvim-treesitter/nvim-treesitter",   build = ":TSUpdate", dependencies = { "OXY2DEV/markview.nvim" } },
+	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
+	{ "theprimeagen/harpoon",              branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
+	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
+	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  opts = {} },
+	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  opts = {} },
+	{ "aserowy/tmux.nvim",                 event = "VeryLazy",  opts = {} },
+	{ "b0o/incline.nvim",                  event = "VeryLazy" },
+	{ "lambdalisue/suda.vim",              event = "VeryLazy" },
+	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
+	{ "mfussenegger/nvim-dap",             lazy = true },
+	{ "danymat/neogen",                    opts = {} },
+	{ "williamboman/mason.nvim",           opts = {} },
 	{ "xzbdmw/colorful-menu.nvim" },
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "brenoprata10/nvim-highlight-colors" },
 	{ "stevearc/conform.nvim" },
 	{ "mfussenegger/nvim-lint" },
+	{ "NeogitOrg/neogit" },
+
+	{
+		"ptdewey/pendulum-nvim",
+		opts = {
+			log_file = vim.env.HOME .. "/.pendulum-log.csv",
+			timeout_len = 300,
+			timer_len = 120,
+			gen_reports = true,
+			top_n = 5,
+			hours_n = 10,
+			time_format = "24h",
+			time_zone = "Finland/Helsinki",
+			report_excludes = {
+				branch = {},
+				directory = {},
+				file = {},
+				filetype = {},
+				project = {},
+			},
+			report_section_excludes = {},
+		}
+	},
 
 	{
 		"rachartier/tiny-code-action.nvim",
@@ -214,18 +237,5 @@ return {
 				},
 			})
 		end,
-	},
-
-	{
-		"3rd/time-tracker.nvim",
-		dependencies = {
-			"3rd/sqlite.nvim",
-		},
-		event = "VeryLazy",
-		opts = {
-			data_file = vim.fn.stdpath("data") .. "/time-tracker.db",
-			tracking_events = { "BufEnter", "BufWinEnter", "CursorMoved", "CursorMovedI", "WinScrolled" },
-			tracking_timeout_seconds = 600,
-		},
 	},
 }
