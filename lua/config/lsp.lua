@@ -192,31 +192,6 @@ lspconfig("lua_ls", {
 	}
 })
 
-
-lspconfig("denols", {
-	cmd = { "deno", "lsp" },
-	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-	root_markers = { "deno.json", "deno.jsonc" },
-	single_file_support = true,
-
-
-	on_attach = function(client, bufnr)
-		vim.api.nvim_buf_create_user_command(0, 'LspDenolsCache', function()
-			client:exec_cmd({
-				command = 'deno.cache',
-				arguments = { {}, vim.uri_from_bufnr(bufnr) },
-			}, { bufnr = bufnr }, function(err, _result, ctx)
-				if err then
-					vim.notify('cache command failed for ' .. vim.uri_to_fname(ctx.params.arguments[2]), 1)
-				end
-			end)
-		end, {
-			desc = 'Cache a module and all of its dependencies.',
-		})
-		vim.g.markdown_fenced_languages = { "ts=typescript" }
-	end,
-})
-
 lspconfig("ts_ls", {
 	cmd = { "typescript-language-server", "--stdio" },
 	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
