@@ -129,11 +129,11 @@ return {
 
 	{
 		"echasnovski/mini.ai",
-		opts = {
+		config = function () require("mini.ai").setup({
 			n_lines = 50,
 			search_method = "cover_or_next",
 			silent = false,
-			custom_textobjects = nil,
+			custom_textobjects = { ["”"] = { "“().*()”" } },
 
 			mappings = {
 				around = "a",
@@ -147,18 +147,18 @@ return {
 				goto_left = "g[",
 				goto_right = "g]",
 			}
-		}
+		}) end
 	},
 
 	{
 		"echasnovski/mini.surround",
 		opts = {
-			-- custom_surroundings = nil,
+			custom_surroundings = { ["”"] = { input = { "“().-()”" }, output = { left = "“", right = "”" } } },
 			n_lines = 20,
 			respect_selection_type = true,
 			search_method = "cover",
 			silent = false,
-			highlight_duration = 500,
+			highlight_duration = 1000,
 
 			mappings = {
 				add = "sa",
@@ -175,30 +175,32 @@ return {
 		}
 	},
 
-	{
-		"kylechui/nvim-surround",
-		event = "VeryLazy",
-		version = "*",
-		config = function()
-			require("nvim-surround").setup({
-				aliases = {
-					["a"] = ">",
-					["p"] = ")",
-					["b"] = "}",
-					["r"] = "]",
-					["q"] = { '"', "'", "`" },
-					["B"] = { "}", "]", ")", ">" },
-					["s"] = { "}", "]", ")", ">", '"', "'", "`" },
-				},
-				vim.keymap.set("o", "i.", function() vim.cmd("normal T.vt.") end),
-				vim.keymap.set("o", "a.", function() vim.cmd("normal F.vf.") end),
-				vim.keymap.set("o", "i,", function() vim.cmd("normal T,vt,") end),
-				vim.keymap.set("o", "a,", function() vim.cmd("normal F,vf,") end),
-				vim.keymap.set("o", "i_", function() vim.cmd("normal T_vt_") end),
-				vim.keymap.set("o", "a_", function() vim.cmd("normal F_vf_") end),
-			})
-		end
-	},
+	-- {
+	-- 	"kylechui/nvim-surround",
+	-- 	event = "VeryLazy",
+	-- 	version = "*",
+	-- 	config = function()
+	-- 		require("nvim-surround").setup({
+	-- 			aliases = {
+	-- 				["a"] = ">",
+	-- 				["p"] = ")",
+	-- 				["b"] = "}",
+	-- 				["r"] = "]",
+	-- 				["q"] = { '"', "'", "`", "”" },
+	-- 				["B"] = { "}", "]", ")", ">" },
+	-- 				["s"] = { "}", "]", ")", ">", '"', "'", "`" },
+	-- 			},
+	-- 			vim.keymap.set("o", "i.", function() vim.cmd("normal T.vt.") end),
+	-- 			vim.keymap.set("o", "a.", function() vim.cmd("normal F.vf.") end),
+	-- 			vim.keymap.set("o", "i,", function() vim.cmd("normal T,vt,") end),
+	-- 			vim.keymap.set("o", "a,", function() vim.cmd("normal F,vf,") end),
+	-- 			vim.keymap.set("o", "i_", function() vim.cmd("normal T_vt_") end),
+	-- 			vim.keymap.set("o", "a_", function() vim.cmd("normal F_vf_") end),
+	-- 			vim.keymap.set("o", "i”", function() vim.cmd("normal T“vt”") end),
+	-- 			vim.keymap.set("o", "a”", function() vim.cmd("normal F“vf”") end),
+	-- 		})
+	-- 	end
+	-- },
 
 	{
 		"anuvyklack/animation.nvim",
