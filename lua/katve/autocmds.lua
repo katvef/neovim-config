@@ -66,34 +66,52 @@ for _, pair in ipairs(char_pairs) do
 	char_pairs_map[pair[1]] = pair[2]
 end
 
+local generate_binds = true
+
+if generate_binds then
+	for _, pair in ipairs(char_pairs) do
+		vim.keymap.set("i", "<localleader>" .. pair[1], pair[1] .. "  " .. pair[2] .. "<left><left>")
+		if pair[1] ~= pair[2] then
+			vim.keymap.set("i", "<localleader>" .. pair[2], pair[1] .. "\n" .. pair[2] .. "<up><end>\n")
+		end
+	end
+end
+
 local prev_char = nil
 local prev_fired = nil
-
+local prev_row = 0
+local prev_col = 0
 
 local function handle_next_key(_, typed)
 	if typed == "\r" then
-		local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-		local line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]
-		local before_cursor = line:sub(0, col)
-		local after_cursor = (line:match("^%s*") or "") .. line:sub(col + 1)
-		vim.api.nvim_buf_set_lines(0, row - 1, row, false, { before_cursor, after_cursor })
+		local line = vim.api.nvim_buf_get_lines(0, prev_row - 1, prev_row, false)[1]
+		local before_cursor = line:sub(0, prev_col)
+		local after_cursor = (line:match("^%s*") or "") .. line:sub(prev_col + 1)
+		vim.api.nvim_buf_set_lines(0, prev_row - 1, prev_row, false, { before_cursor, after_cursor })
+	elseif typed == vim.api.nvim_replace_termcodes("<BS>", true, false, true) then
+		vim.api.nvim_win_set_cursor(0, { prev_row, prev_col + 1 })
+	elseif typed == " " then
+		vim.api.nvim_win_set_cursor(0, { prev_row, prev_col - 1 })
+		vim.api.nvim_put({ " " }, "c", true, false)
 	end
 	vim.on_key(nil, vim.api.nvim_get_current_buf())
 end
 
-vim.api.nvim_create_autocmd("InsertCharPre", {
+autocmd("InsertCharPre", {
 	group = augroup("AutoPairs", { clear = true }),
 	callback = function()
 		local char = vim.v.char
+		local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+		local last_text = vim.api.nvim_buf_get_text(0, prev_row - 1, prev_col, prev_row - 1, prev_col + 1, {})[1]
 		if prev_fired == true then
 			prev_fired = false
-		else
+		elseif row == prev_row and col == prev_col + 1 then
 			for open, close in pairs(char_pairs_map) do
-				if char == open and prev_char == open then
-					vim.v.char = close
+				if char == open and prev_char == open and char == last_text then
+					vim.v.char = ""
 					vim.schedule(function()
-						local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 						vim.api.nvim_win_set_cursor(0, { row, col - 1 })
+						vim.api.nvim_put({ close }, "", true, false)
 					end)
 					vim.on_key(handle_next_key, vim.api.nvim_get_current_buf())
 					prev_fired = true
@@ -102,5 +120,7 @@ vim.api.nvim_create_autocmd("InsertCharPre", {
 			end
 		end
 		prev_char = char
+		prev_row = row
+		prev_col = col
 	end,
 })
