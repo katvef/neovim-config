@@ -3,12 +3,13 @@ return {
 	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
 	{ "theprimeagen/harpoon",              branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
 	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
+	{ "esmuellert/codediff.nvim",          cmd = "CodeDiff",    dependencies = { "MunifTanjim/nui.nvim" } },
+	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
 	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  opts = {} },
 	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  opts = {} },
 	{ "aserowy/tmux.nvim",                 event = "VeryLazy",  opts = {} },
 	{ "b0o/incline.nvim",                  event = "VeryLazy" },
 	{ "lambdalisue/suda.vim",              event = "VeryLazy" },
-	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
 	{ "mfussenegger/nvim-dap",             lazy = true },
 	{ "danymat/neogen",                    opts = {} },
 	{ "williamboman/mason.nvim",           opts = {} },
@@ -18,6 +19,7 @@ return {
 	{ "stevearc/conform.nvim" },
 	{ "mfussenegger/nvim-lint" },
 	{ "NeogitOrg/neogit" },
+	{ "nvim-mini/mini.icons" },
 
 	{
 		"ptdewey/pendulum-nvim",
