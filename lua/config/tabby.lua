@@ -88,18 +88,20 @@ require("tabby").setup({
 
 -- Functions
 local function rename_tab(args)
-	local tab = args.tabid or 0
+	local tabid = args.tabid or 0
 	local tabname = args.tabname
 	if tabname:sub(1, 1) == "%" then
 		local mods = tabname:sub(2, 2) ~= "" and tabname:sub(2) or ":t:r"
-		local newname = vim.fn.fnamemodify(vim.fn.expand("%"), mods)
-		tab_name.set(tab, newname)
+		local winid = require("tabby.module.api").get_tab_current_win(tabid)
+		local bufid = vim.api.nvim_win_get_buf(winid)
+		local newname = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufid), mods)
+		tab_name.set(tabid, newname)
 		print("renamed tab to " .. newname)
 	elseif tabname:match("^%s*$") then
-		tab_name.set(tab)
+		tab_name.set(tabid)
 		print("removed tab name")
 	else
-		tab_name.set(tab, tabname)
+		tab_name.set(tabid, tabname)
 		print("renamed tab to " .. tabname)
 	end
 end
