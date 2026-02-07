@@ -64,15 +64,6 @@ vim.keymap.set("n", "<leader>sw", vim.cmd.SudaWrite, { desc = "Write with sudo" 
 vim.keymap.set("n", ",", ";")
 vim.keymap.set("n", ";", ",")
 
--- Brackets and quotes
--- vim.keymap.set("i", "<localleader>(", "()<left>")
--- vim.keymap.set("i", "<localleader>[", "[]<left>")
--- vim.keymap.set("i", "<localleader>{", "{}<left>")
-
--- vim.keymap.set("i", "<localleader>)", "(<CR>)<up><end><CR>")
--- vim.keymap.set("i", "<localleader>]", "[<CR>]<up><end><CR>")
--- vim.keymap.set("i", "<localleader>}", "{<CR>}<up><end><CR>")
-
 -- Buffers, windows & tabs
 vim.keymap.set("n", "<leader>bd", vim.cmd.bd)
 vim.keymap.set("n", "<leader>bn", vim.cmd.bn)
