@@ -60,6 +60,7 @@ autocmd("LspAttach", {
 		map("grr", function() telescope_lsp("references") end, "Goto references")
 
 		map("<F7>", function()
+			---@diagnostic disable-next-line: missing-parameter
 			if vim.lsp.buf_is_attached(0) then
 				ReattachClients()
 			else
@@ -68,6 +69,7 @@ autocmd("LspAttach", {
 		end, "Reattach clients to LS")
 
 		map("<F8>", function()
+			---@diagnostic disable-next-line: missing-parameter
 			if vim.lsp.buf_is_attached(0) then
 				local client_id = vim.lsp.get_clients({ bufnr = 0 })[1].id
 				AttachToFiletype({ vim.bo.filetype }, client_id)

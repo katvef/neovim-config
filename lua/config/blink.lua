@@ -96,7 +96,7 @@ require("blink.cmp").setup({
 		menu = {
 			direction_priority = { "n", "s" },
 			auto_show = function()
-			---@diagnostic disable-next-line: missing-parameter
+				---@diagnostic disable-next-line: missing-parameter
 				return vim.lsp.buf_is_attached(0) and vim.bo.filetype ~= "markdown"
 			end,
 
