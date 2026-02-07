@@ -1,6 +1,6 @@
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
-local lsp_group = augroup("lsp", {clear = false})
+local lsp_group = augroup("lsp", { clear = false })
 
 --- Enable and configure server
 ---@param server_name string
@@ -38,12 +38,18 @@ autocmd("LspAttach", {
 		end
 
 		--- LSP keymap utility
-		---@param lhs string
+		---@param lhs string|string[]
 		---@param rhs string|function
 		---@param desc string
 		---@param modes string|nil
 		local function map(lhs, rhs, desc, modes)
-			vim.keymap.set(modes or "n", lhs, rhs, { buffer = event.buf, desc = "LSP: " .. desc })
+			if type(lhs) == "string" then
+				vim.keymap.set(modes or "n", lhs, rhs, { buffer = event.buf, desc = "LSP: " .. desc })
+			else
+				for _, val in ipairs(lhs) do
+					vim.keymap.set(modes or "n", val, rhs, { buffer = event.buf, desc = "LSP: " .. desc })
+				end
+			end
 		end
 
 		map("K", lsp.hover, "Show hover")
@@ -78,10 +84,11 @@ autocmd("LspAttach", {
 			end
 		end, "Attach clients and reformat")
 
-		map("gh", function()
+		map({ "gh", "<F9>" }, function()
 			inlay_hint_state = not vim.lsp.inlay_hint.is_enabled()
 			vim.lsp.inlay_hint.enable(inlay_hint_state)
 		end, "Toggle inlay hints")
+
 
 		if client ~= nil and client.server_capabilities.documentSymbolProvider then
 			require("nvim-navic").attach(client, bufnr)
@@ -91,17 +98,18 @@ autocmd("LspAttach", {
 
 
 autocmd("InsertEnter", {
-group = lsp_group,
-desc = "LSP enter insert",
-callback = function () vim.lsp.inlay_hint.enable(false) end
+	group = lsp_group,
+	desc = "LSP enter insert",
+	callback = function() vim.lsp.inlay_hint.enable(false) end
 })
 
 autocmd("InsertLeave", {
-group = lsp_group,
-desc = "LSP leave insert",
-callback = function ()
-	vim.lsp.inlay_hint.enable(inlay_hint_state)
-end})
+	group = lsp_group,
+	desc = "LSP leave insert",
+	callback = function()
+		vim.lsp.inlay_hint.enable(inlay_hint_state)
+	end
+})
 
 autocmd("LspAttach", {
 	group = augroup("ltex.lsp", { clear = true }),
