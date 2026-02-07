@@ -40,6 +40,7 @@ require("blink.cmp").setup({
 			},
 
 			buffer = {
+				async = true,
 				-- keep case of first char
 				transform_items = function(a, items)
 					local keyword = a.get_keyword()
@@ -75,9 +76,13 @@ require("blink.cmp").setup({
 			},
 
 			ripgrep = {
+				async = true,
 				module = "blink-ripgrep",
 				name = "Ripgrep",
-				backend = { use = "gitgrep" },
+				backend = { use = "gitgrep-or-ripgrep" },
+				toggles = {
+					on_off = "<leader>tg"
+				},
 				score_offset = -1000,
 			}
 
@@ -91,6 +96,7 @@ require("blink.cmp").setup({
 		menu = {
 			direction_priority = { "n", "s" },
 			auto_show = function()
+			---@diagnostic disable-next-line: missing-parameter
 				return vim.lsp.buf_is_attached(0) and vim.bo.filetype ~= "markdown"
 			end,
 
