@@ -80,7 +80,18 @@ require("tabby").setup({
 			-- Tail
 			{
 				line.sep("", theme.tail, theme.fill),
-				{ vim.fn.fnamemodify(vim.uv.cwd(), ":~"), hl = theme.tail },
+				{
+					(function()
+						local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
+						if #cwd > 20 then
+							local first_slash = cwd:find('/', #cwd-#vim.fn.fnamemodify(cwd, ":t")-15) or 0
+							vim.notify_once(tostring(first_slash))
+							cwd = "…" .. cwd:sub(first_slash)
+						end
+						return cwd
+					end)(),
+					hl = theme.tail
+				},
 			},
 		}
 	end,
