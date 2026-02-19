@@ -1,5 +1,10 @@
 require("blink.cmp").setup({
-	keymap = { preset = "super-tab" },
+	keymap = {
+		preset = "default",
+		["<C-a>"] = { 'select_and_accept', 'fallback' },
+		["<C-y>"] = { function(cmp) cmp.show({ providers = { 'ripgrep' } }) end },
+		["<C-e>"] = { 'cancel', 'fallback' }
+	},
 	appearance = { nerd_font_variant = "mono" },
 
 	fuzzy = {
@@ -83,6 +88,7 @@ require("blink.cmp").setup({
 				toggles = {
 					on_off = "<leader>tg"
 				},
+
 				score_offset = -1000,
 			}
 
