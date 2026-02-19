@@ -1,5 +1,9 @@
 require("blink.cmp").setup({
-	keymap = { preset = "super-tab" },
+	keymap = {
+		preset = "default",
+		["<C-y>"] = { function(cmp) cmp.show({ providers = { 'ripgrep' } }) end },
+		["<C-a>"] = { 'select_and_accept', 'fallback' },
+	},
 	appearance = { nerd_font_variant = "mono" },
 
 	fuzzy = {
@@ -22,7 +26,6 @@ require("blink.cmp").setup({
 			"lsp",
 			"buffer",
 			"path",
-			"ripgrep"
 		},
 
 		providers = {
