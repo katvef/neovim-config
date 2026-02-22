@@ -92,7 +92,7 @@ local function handle_next_key(_, typed)
 		vim.api.nvim_win_set_cursor(0, { prev_row, prev_col + 1 })
 		vim.schedule_wrap(vim.api.nvim_put)({ prev_char }, "c", true, true)
 	elseif typed == " " then
-		vim.api.nvim_buf_set_text(0, prev_row, prev_col, prev_row, prev_col, {prev_open})
+		vim.api.nvim_put({" "}, "c", false, false)
 	end
 
 	vim.on_key(nil, vim.api.nvim_get_current_buf())
