@@ -6,5 +6,6 @@ require("conform").setup({
 		javascript = { "biome-check" },
 		yaml = { "yamlfix" },
 		sh = { "shfmt" },
+		gdscript = { "gdformat" },
 	},
 })
