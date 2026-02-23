@@ -23,6 +23,8 @@ return {
 
 	{
 		"ptdewey/pendulum-nvim",
+		branch = "v2",
+		build = ":PendulumRebuild",
 		opts = {
 			log_file = vim.env.HOME .. "/.pendulum-log.csv",
 			timeout_len = 300,
@@ -33,11 +35,11 @@ return {
 			time_format = "24h",
 			time_zone = "Finland/Helsinki",
 			report_excludes = {
-				branch = {},
+				branch = { "unknown_branch" },
 				directory = {},
 				file = {},
 				filetype = {},
-				project = {},
+				project = { "unknown_project" },
 			},
 			report_section_excludes = {},
 		}
@@ -152,7 +154,8 @@ return {
 			"rafamadriz/friendly-snippets",
 			{
 				"mikavilpas/blink-ripgrep.nvim",
-				dependencies = { "folke/snacks.nvim" }
+				dependencies = { "folke/snacks.nvim"
+				}
 			}
 		},
 		version = "1.*",
