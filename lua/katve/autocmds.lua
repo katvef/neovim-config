@@ -29,6 +29,10 @@ autocmd("BufEnter", {
 
 augroup("AutoView", { clear = false })
 
+vim.opt.viewoptions = { "folds", "cursor" }
+vim.opt.sessionoptions:remove("folds")
+vim.opt.sessionoptions:remove("cursor")
+
 autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
 	group = "AutoView",
 	callback = function(args)
@@ -92,7 +96,7 @@ local function handle_next_key(_, typed)
 		vim.api.nvim_win_set_cursor(0, { prev_row, prev_col + 1 })
 		vim.schedule_wrap(vim.api.nvim_put)({ prev_char }, "c", true, true)
 	elseif typed == " " then
-		vim.api.nvim_put({" "}, "c", false, false)
+		vim.api.nvim_put({ " " }, "c", false, false)
 	end
 
 	vim.on_key(nil, vim.api.nvim_get_current_buf())
