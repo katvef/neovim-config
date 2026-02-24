@@ -31,7 +31,14 @@ return {
 				},
 				lualine_b = { 'branch', 'diff', 'diagnostics' },
 				lualine_c = { { 'filename', path = 0, newfile_status = true },
-					function() return require('lsp-progress').progress() end,
+					function()
+						local names = {}
+						for i, server in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+							names[i] = server.name
+						end
+						local lsps = table.concat(names, " ")
+						return lsps ~= "" and " [" .. lsps .. "]" or ""
+					end,
 				},
 
 				lualine_x = { 'encoding', 'fileformat', 'filetype' },

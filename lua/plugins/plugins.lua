@@ -5,7 +5,6 @@ return {
 	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
 	{ "esmuellert/codediff.nvim",          cmd = "CodeDiff",    dependencies = { "MunifTanjim/nui.nvim" } },
 	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
-	{ "linrongbin16/lsp-progress.nvim",    event = "VeryLazy",  opts = {} },
 	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  opts = {} },
 	{ "aserowy/tmux.nvim",                 event = "VeryLazy",  opts = {} },
 	{ "b0o/incline.nvim",                  event = "VeryLazy" },
