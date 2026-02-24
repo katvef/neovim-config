@@ -12,7 +12,6 @@ return {
 	{ "mfussenegger/nvim-dap",             lazy = true },
 	{ "danymat/neogen",                    opts = {} },
 	{ "williamboman/mason.nvim",           opts = {} },
-	{ "xzbdmw/colorful-menu.nvim" },
 	{ "HiPhish/rainbow-delimiters.nvim" },
 	{ "brenoprata10/nvim-highlight-colors" },
 	{ "stevearc/conform.nvim" },
@@ -55,13 +54,6 @@ return {
 		"neovim/nvim-lspconfig",
 		event = "VeryLazy",
 		dependencies = { "saghen/blink.cmp" },
-	},
-
-	{
-		"barreiroleo/ltex_extra.nvim",
-		dependencies = { "neovim/nvim-lspconfig" },
-		branch = "dev",
-		opts = { path = vim.fn.expand("~") .. "/.local/state/ltex/" },
 	},
 
 	{
@@ -130,11 +122,10 @@ return {
 		config = function()
 			require("aerial").setup({
 				on_attach = function(bufnr)
-					vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
-					vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+					vim.keymap.set("n", "<leader>{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+					vim.keymap.set("n", "<leader>}", "<cmd>AerialNext<CR>", { buffer = bufnr })
 				end,
 			})
-			vim.keymap.set("n", "<leader>q", "<cmd>AerialToggle!<CR>")
 		end,
 	},
 
@@ -211,7 +202,7 @@ return {
 		dependencies = { "anuvyklack/middleclass" },
 		config = function()
 			local Animation = require("animation")
-			local duration = 100 -- ms
+			local duration = 50 -- ms
 			local fps = 60 -- frames per second
 			local easing = require("animation.easing")
 			local i = 0

@@ -58,8 +58,6 @@ vim.keymap.set({ "n", "v" }, "<C-up>", ":<up>", { desc = "Last command" })
 vim.keymap.set("n", "<leader>j", "}")
 vim.keymap.set("n", "<leader>k", "{")
 
-vim.keymap.set("n", "<leader>sw", vim.cmd.SudaWrite, { desc = "Write with sudo" })
-
 -- Swap comma and semicolon
 vim.keymap.set("n", ",", ";")
 vim.keymap.set("n", ";", ",")
