@@ -2,7 +2,7 @@ require("blink.cmp").setup({
 	keymap = {
 		preset = "default",
 		["<C-a>"] = { 'select_and_accept', 'fallback' },
-		["<C-y>"] = { function(cmp) cmp.show({ providers = { 'ripgrep' } }) end },
+		["<C-y>"] = false, -- { function(cmp) cmp.show({ providers = { 'ripgrep' } }) end },
 		["<C-e>"] = { 'cancel', 'fallback' }
 	},
 	appearance = { nerd_font_variant = "mono" },
@@ -27,7 +27,6 @@ require("blink.cmp").setup({
 			"lsp",
 			"buffer",
 			"path",
-			"ripgrep"
 		},
 
 		providers = {
@@ -80,17 +79,17 @@ require("blink.cmp").setup({
 				score_offset = -2
 			},
 
-			ripgrep = {
-				async = true,
-				module = "blink-ripgrep",
-				name = "Ripgrep",
-				backend = { use = "gitgrep-or-ripgrep" },
-				toggles = {
-					on_off = "<leader>tg"
-				},
-
-				score_offset = -1000,
-			}
+			-- ripgrep = {
+			-- 	async = true,
+			-- 	module = "blink-ripgrep",
+			-- 	name = "Ripgrep",
+			-- 	-- backend = { use = "gitgrep-or-ripgrep" },
+			-- 	-- toggles = {
+			-- 	-- 	on_off = "<leader>tg"
+			-- 	-- },
+			--
+			-- 	score_offset = -1000,
+			-- }
 
 		}
 	},
