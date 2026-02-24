@@ -137,6 +137,7 @@ lspconfig("neocmake", {})
 lspconfig("openscad-lsp", {})
 lspconfig("markdown_oxide", {})
 lspconfig("tombi", {})
+lspconfig("gdscript", {})
 
 lspconfig("bashls", {
 	filetypes = { 'bash', 'sh' }
