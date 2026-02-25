@@ -12,12 +12,6 @@ return {
 	{ "mfussenegger/nvim-dap",             lazy = true },
 	{ "danymat/neogen",                    opts = {} },
 	{ "williamboman/mason.nvim",           opts = {} },
-	{ "HiPhish/rainbow-delimiters.nvim" },
-	{ "brenoprata10/nvim-highlight-colors" },
-	{ "stevearc/conform.nvim" },
-	{ "mfussenegger/nvim-lint" },
-	{ "NeogitOrg/neogit" },
-	{ "nvim-mini/mini.icons" },
 
 	{
 		"ptdewey/pendulum-nvim",

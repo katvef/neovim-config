@@ -4,7 +4,7 @@ local lsp_group = augroup("lsp", { clear = false })
 
 --- Enable and configure server
 ---@param server_name string
----@param config table|nil
+---@param config vim.lsp.Config|nil
 local function lspconfig(server_name, config)
 	if config ~= nil then vim.lsp.config(server_name, config) end
 	vim.lsp.enable(server_name)
