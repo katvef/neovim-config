@@ -1,5 +1,6 @@
 require("katve.functions")
 require("katve.lazy")
+require("packs")
 require("katve")
 require("config")
 ColorMyPencils()
