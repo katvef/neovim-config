@@ -94,7 +94,6 @@ local function handle_next_key(_, typed)
 		vim.api.nvim_buf_set_lines(0, prev_row - 1, prev_row, false, { before_cursor, after_cursor })
 	elseif typed == vim.api.nvim_replace_termcodes("<BS>", true, false, true) then
 		vim.api.nvim_win_set_cursor(0, { prev_row, prev_col + 1 })
-		-- vim.schedule_wrap(vim.api.nvim_put)({ prev_char }, "c", true, true)
 	elseif typed == " " then
 		vim.api.nvim_put({ " " }, "c", false, false)
 	end
@@ -105,6 +104,7 @@ end
 autocmd("InsertCharPre", {
 	group = augroup("CustomAutoPairs", { clear = true }),
 	callback = function()
+		if vim.o.paste == true then return end
 		local char = vim.v.char
 		local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 		local lines = vim.api.nvim_buf_get_lines(0, prev_row - 1, prev_row, false)
