@@ -1,6 +1,3 @@
--- Gotta figure out why I need this line
-vim.o.packpath = vim.o.pp .. "," .. vim.env.XDG_DATA_HOME .. "/nvim/site"
-
 ---@class Katpack.Spec : vim.pack.Spec
 ---@field build? string Command to call to build something required by the plugin
 ---@field config? string|function Function to configure the plugin or name of the config file
