@@ -1,18 +1,3 @@
----@class Katpack.Spec : vim.pack.Spec
----@field build? string Command to call to build something required by the plugin
----@field config? string|function Function to configure the plugin or name of the config file
----@field init? function Function to run before updating plugin
----@field branch? string|vim.VersionRange Alternate syntax for version
----@field dependencies? Katpack.Spec[] Dependencies of the plugin, loaded before
----@field _dependency? boolean If the plugin was added as a dependency
----@field _installed? boolean If the plugin has been installed
----@field data nil The contents will be overriden
-
----@class Katpack.Config
----@field configs? string|string[] Directory where the configuration files are stored or list of config files
----@field auto_delete? boolean Automatically delete plugins no longer added on startup
----@field auto_update? boolean Automatically update plugins on startup
-
 ---@class Katpack
 ---@field plugins Katpack.Spec[] Plugins installed
 ---@field config Katpack.Config Configuration that is used
@@ -25,6 +10,23 @@ local Katpack = {
 		{ clear = true --[[set to false after development is done]] }),
 	init_done = false
 }
+
+---@class Katpack.Spec : vim.pack.Spec
+---@field build? string Command to call to build something required by the plugin
+---@field config? string|function Function to configure the plugin or name of the config file
+---@field init? function Function to run before updating plugin
+---@field branch? string|vim.VersionRange Alternate syntax for version
+---@field dependencies? Katpack.Spec[] Dependencies of the plugin, loaded before
+---@field _dependency? boolean If the plugin was added as a dependency
+---@field _installed? boolean If the plugin has been installed
+---@field data nil The contents will be overriden
+local Spec = {}
+
+---@class Katpack.Config
+---@field configs? string|string[] Directory where the configuration files are stored or list of config files
+---@field auto_delete? boolean Automatically delete plugins no longer added on startup
+---@field auto_update? boolean Automatically update plugins on startup
+local Config = {}
 
 ---Add plugin to managed plugins
 ---@param specs (string|Katpack.Spec)[]
