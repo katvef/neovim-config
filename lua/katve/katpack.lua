@@ -52,7 +52,7 @@ function Katpack.add(specs)
 			end
 		end
 		spec.dependency = spec.dependency and true or false
-		spec.name = (type(spec.name) == 'string' and spec.name or ''):match('[^/]+$') or ''
+		spec.name = (type(spec.name) == 'string' and spec.name or spec.src):match('[^/]+$') or nil
 
 		local existing = Katpack.plugins[spec.name]
 		if existing then
@@ -90,7 +90,8 @@ function Katpack.install(specs)
 	end
 
 	vim.pack.add(plugin_specs, { confirm = Katpack.config.confirm.install })
-	for _, plugin in ipairs(plugin_specs) do if plugin.build then Katpack.build(plugin) end end
+	for _, plugin in pairs(plugin_specs) do if plugin.build then Katpack.build(plugin) end end
+	for _, plugin in pairs(plugin_specs) do if type(plugin.config) == "function" then plugin.config() end end
 end
 
 ---@param names string[] List of plugins to update
@@ -165,15 +166,22 @@ end
 
 --- Initialize the plugins and generate user commands
 function Katpack.init()
-	local plugin_names = vim.tbl_values(vim.tbl_map(function(plugin) return plugin.name end, Katpack.plugins))
+	local function plugin_names()
+		return vim.tbl_values(vim.tbl_map(function(plugin) return plugin.name end, Katpack.plugins))
+	end
+	local function complete_name(arg)
+		return vim.tbl_filter(function(item)
+			return item:find("^" .. arg)
+		end, plugin_names())
+	end
 
 	-- Auto update and delete
 	if Katpack.config.auto_delete then
-		local inactive = vim.tbl_filter(function(plug_data) return not plug_data.active end, vim.pack.get(plugin_names))
+		local inactive = vim.tbl_filter(function(plug_data) return not plug_data.active end, vim.pack.get(plugin_names()))
 		vim.pack.del(vim.tbl_values(vim.tbl_map(function(plugin) return plugin.spec.name end, inactive)))
 	end
 	if Katpack.config.auto_update then
-		Katpack.update(plugin_names)
+		Katpack.update(plugin_names())
 	end
 
 	-- Define auto commands
@@ -202,59 +210,36 @@ function Katpack.init()
 		for _, arg in ipairs(args.fargs) do Katpack.reload(arg) end
 	end, {
 		nargs = "+",
-		complete = function(arg)
-			local matches = {}
-			for _, plugin in pairs(plugin_names) do
-				if plugin:match("^", arg) then
-					matches[#matches + 1] = plugin
-				end
-			end
-			return matches
-		end,
+		complete = complete_name,
 		desc = "Reload plugins"
 	})
 
 	vim.api.nvim_create_user_command("KatpackUpdate", function(args)
-		Katpack.update(args.nargs > 0 and args.fargs or plugin_names)
+		Katpack.update(#(args.fargs) > 0 and args.fargs or plugin_names())
 	end, {
 		nargs = "*",
-		complete = function(arg)
-			local matches = {}
-			for _, plugin in pairs(plugin_names) do
-				if plugin:match("^", arg) then
-					matches[#matches + 1] = plugin
-				end
-			end
-			return matches
-		end,
+		complete = complete_name,
 		desc = "Update plugins"
 	})
 
 	vim.api.nvim_create_user_command("KatpackDelete", function(args)
-		Katpack.delete(args.nargs > 0 and args.fargs or plugin_names, false)
+		Katpack.delete(#(args.fargs) > 0 and args.fargs or plugin_names(), false)
 	end, {
 		nargs = "*",
-		complete = function(arg)
-			local matches = {}
-			for _, plugin in pairs(plugin_names) do
-				if plugin:match("^", arg) then
-					matches[#matches + 1] = plugin
-				end
-			end
-			return matches
-		end,
+		complete = complete_name,
 		desc = "Delete plugins"
 	})
 
 	vim.api.nvim_create_user_command("Katpack", function(args)
 		local iterator = vim.iter(args.fargs)
-		local operation = iterator:pop():lower()
+		local operation = iterator:rev():pop():lower()
+		vim.notify(operation)
 		if operation == "update" then
 			vim.cmd("KatpackUpdate " .. iterator:join(" "))
 		elseif operation == "reload" then
-			vim.cmd("KatpackUpdate " .. iterator:join(" "))
+			vim.cmd("KatpackReload " .. iterator:join(" "))
 		elseif operation == "delete" then
-			vim.cmd("KatpackUpdate " .. iterator:join(" "))
+			vim.cmd("KatpackDelete " .. iterator:join(" "))
 		else
 			vim.notify("Invalid operation \"" .. operation .. "\"")
 		end
@@ -262,22 +247,12 @@ function Katpack.init()
 		nargs = "+",
 		complete = function(arg, cmdline)
 			local args = vim.split(cmdline, " ")
-			if args[2] == nil then
-				local matches = {}
-				for _, plugin in ipairs({ "Reload", "Update", "Delete" }) do
-					if plugin:match("^", arg) then
-						matches[#matches + 1] = plugin
-					end
-				end
-				return matches
+			if args[2] == "" then
+				return vim.tbl_filter(function(item)
+					return item:find("^" .. arg)
+				end, { "Reload", "Update", "Delete" })
 			else
-				local matches = {}
-				for _, plugin in pairs(plugin_names) do
-					if plugin:match("^", arg) then
-						matches[#matches + 1] = plugin
-					end
-				end
-				return matches
+				return complete_name(arg)
 			end
 		end,
 		desc = "Manage plugins"
