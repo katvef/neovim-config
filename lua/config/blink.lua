@@ -11,7 +11,7 @@ require("blink.cmp").setup({
 		implementation = "rust",
 		frecency = { enabled = true },
 		sorts = {
-			-- "exact",
+			"exact",
 			-- function(item_a, item_b)
 			-- 	return item_a.score > item_b.score and
 			-- 		(item_a.source_id == "snippets" and item_b.source_id ~= "snippets")
@@ -30,10 +30,6 @@ require("blink.cmp").setup({
 		},
 
 		providers = {
-			snippets = {
-				score_offset = 5
-			},
-
 			lsp = {
 				async = true,
 			},
@@ -41,6 +37,7 @@ require("blink.cmp").setup({
 			path = {
 				async = true,
 				opts = { get_cwd = function(_) return vim.fn.getcwd() end },
+				selection = 5
 			},
 
 			buffer = {
@@ -78,18 +75,6 @@ require("blink.cmp").setup({
 				end,
 				score_offset = -2
 			},
-
-			-- ripgrep = {
-			-- 	async = true,
-			-- 	module = "blink-ripgrep",
-			-- 	name = "Ripgrep",
-			-- 	-- backend = { use = "gitgrep-or-ripgrep" },
-			-- 	-- toggles = {
-			-- 	-- 	on_off = "<leader>tg"
-			-- 	-- },
-			--
-			-- 	score_offset = -1000,
-			-- }
 
 		}
 	},
