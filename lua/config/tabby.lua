@@ -48,7 +48,9 @@ require("tabby").setup({
 				local cur_win = tab.current_win()
 				local win_icons = ""
 				wins.foreach(function(win)
-					win_icons = win_icons .. " " .. win.buf().id .. "/" .. win.file_icon()
+					if vim.bo[win.buf().id].buftype ~= "nofile" then
+						win_icons = win_icons .. " " .. win.buf().id .. "/" .. win.file_icon()
+					end
 				end)
 				win_icons = win_icons:sub(2)
 				return {
@@ -84,7 +86,7 @@ require("tabby").setup({
 					(function()
 						local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
 						if #cwd > 20 then
-							local first_slash = cwd:find('/', #cwd-#vim.fn.fnamemodify(cwd, ":t")-15) or 0
+							local first_slash = cwd:find('/', #cwd - #vim.fn.fnamemodify(cwd, ":t") - 15) or 0
 							vim.notify_once(tostring(first_slash))
 							cwd = "…" .. cwd:sub(first_slash)
 						end
