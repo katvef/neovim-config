@@ -1,12 +1,10 @@
 ---@class Katpack
----@field plugins Katpack.Spec[] Plugins installed
----@field plugins_map table<Katpack.Spec> Plugins installed, indexed by name
+---@field plugins table<Katpack.Spec> Plugins installed, indexed by name
 ---@field config Katpack.Config Configuration that is used
 ---@field augroup integer Id of the autocommand group for Katpack
 ---@field init_done boolean False during neovim startup, true after `VimEnter`
 local Katpack = {
 	plugins = {},
-	plugins_map = {},
 	config = {},
 	augroup = vim.api.nvim_create_augroup("KatpackEvent",
 		{ clear = true --[[set to false after development is done]] }),
@@ -47,17 +45,26 @@ local defaultConfig = {
 function Katpack.add(specs)
 	for _, spec in ipairs(specs) do
 		if type(spec) == "string" then
-			spec = { src = spec }
+			spec = { src = spec, name = spec:match('[^/]+$') }
 		elseif spec.dependencies then
 			for _, dep in ipairs(spec.dependencies) do
 				Katpack.add({ vim.tbl_extend('force', dep, { dependency = true }) })
 			end
 		end
 		spec.dependency = spec.dependency and true or false
-		Katpack.plugins[#Katpack.plugins + 1] = spec
-		if Katpack.init_done then
-			Katpack.install({ spec })
+		spec.name = (type(spec.name) == 'string' and spec.name or ''):match('[^/]+$') or ''
+
+		local existing = Katpack.plugins[spec.name]
+		if existing then
+			Katpack.plugins[spec.name] = vim.tbl_deep_extend('force', existing, spec)
+			if existing.dependency then
+				Katpack.plugins[spec.name].dependency = (existing.dependency or spec.dependency) and true or false
+			end
+		else
+			Katpack.plugins[spec.name] = spec
 		end
+
+		Katpack.install({ spec })
 	end
 end
 
@@ -88,7 +95,11 @@ end
 
 ---@param names string[] List of plugins to update
 ---@param opts? vim.pack.keyset.update
-function Katpack.update(names, opts) vim.pack.update(names, opts) end
+function Katpack.update(names, opts)
+	opts = opts or {}
+	opts.force = opts.force or not Katpack.config.confirm.update
+	vim.pack.update(names, opts)
+end
 
 ---@param names string[] List of plugins to delete
 ---@param force? boolean Delete plugin even if active
@@ -98,7 +109,7 @@ function Katpack.delete(names, force) vim.pack.del(names, { force = force }) end
 ---@param plugin string|Katpack.Spec Plugin name or spec
 function Katpack.build(plugin)
 	if type(plugin) == "string" then
-		plugin = Katpack.plugins_map[plugin]
+		plugin = Katpack.plugins[plugin]
 		if not plugin then
 			vim.notify("Plugin not found", vim.log.levels.ERROR)
 			return false, nil
@@ -124,7 +135,7 @@ end
 --- Reload provided plugin's config
 ---@param plugin string|Katpack.Spec
 function Katpack.reload(plugin)
-	if type(plugin) == "string" then plugin = Katpack.plugins_map[plugin] end
+	if type(plugin) == "string" then plugin = Katpack.plugins[plugin] end
 	local config = plugin.config
 	if config == nil or (Katpack.config.prefer_config_file and type(config) == "function") then
 		config = Katpack.config.configs[plugin.name]
@@ -155,29 +166,6 @@ end
 --- Initialize the plugins and generate user commands
 function Katpack.init()
 	local plugin_names = vim.tbl_values(vim.tbl_map(function(plugin) return plugin.name end, Katpack.plugins))
-	-- Assign plugin names
-	local plugin_map = Katpack.plugins_map
-	local plugin_src_map = {}
-	for _, spec in ipairs(Katpack.plugins) do
-		plugin_src_map[spec.src] = spec
-	end
-	local ok, packs = pcall(vim.pack.get)
-	for _, pack in ipairs(packs) do
-		local plugin = plugin_src_map[pack.spec.src]
-		if plugin then
-			plugin.name = pack.spec.name
-			local exists = plugin_map[plugin.name]
-			if exists then
-				plugin_map[plugin.name] = vim.tbl_deep_extend("force", exists, plugin)
-				plugin_map[plugin.name].dependency = (exists.dependency or plugin.dependency) and true or false
-			else
-				plugin_map[plugin.name] = plugin
-			end
-		end
-	end
-
-	vim.notify("Installing " .. vim.tbl_count(Katpack.plugins) .. " plugins...")
-	Katpack.install(Katpack.plugins)
 
 	-- Auto update and delete
 	if Katpack.config.auto_delete then
@@ -192,7 +180,7 @@ function Katpack.init()
 	vim.api.nvim_create_autocmd("PackChanged", {
 		group = Katpack.augroup,
 		callback = function(ev)
-			local plugin = Katpack.plugins_map[ev.data.spec.name]
+			local plugin = Katpack.plugins[ev.data.spec.name]
 			local kind = ev.data.kind
 			if plugin == nil then return end
 			if kind == "delete" and plugin.delete then plugin.delete() end
@@ -204,7 +192,7 @@ function Katpack.init()
 	vim.api.nvim_create_autocmd("PackChangedPre", {
 		group = Katpack.augroup,
 		callback = function(ev)
-			local plugin = Katpack.plugins_map[ev.data.spec.name] ---@type Katpack.Spec
+			local plugin = Katpack.plugins[ev.data.spec.name] ---@type Katpack.Spec
 			if ev.data.kind ~= "delete" and plugin.init then plugin.init() end
 		end
 	})
