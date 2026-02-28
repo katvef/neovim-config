@@ -4,3 +4,4 @@ _*
 /.undo
 *.exe
 lazy-lock.json
+nvim-pack-lock.json
