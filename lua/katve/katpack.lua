@@ -10,10 +10,9 @@ local Katpack = {
 		{ clear = true --[[set to false after development is done]] }),
 	init_done = false
 }
-
 ---@class Katpack.Config
 ---@field configs? string|string[] Directory where the configuration files are stored or list of config files
----@field confirm? { install: boolean, update: boolean } Wheter to ask confirmation for when installing plugins
+---@field confirm? { install: boolean, update: boolean } Whether to ask confirmation for when installing plugins
 ---@field update_opts? vim.pack.keyset.update Options for updates
 ---@field auto_delete? boolean Automatically delete plugins no longer added on startup
 ---@field auto_update? boolean Automatically update plugins on startup
@@ -38,7 +37,7 @@ local defaultConfig = {
 ---@field branch? string|vim.VersionRange Alternate syntax for version
 ---@field dependencies? Katpack.Spec[] Dependencies of the plugin, loaded before
 ---@field dependency? boolean If the plugin was added as a dependency
----@field data nil The contents will be overriden
+---@field data nil The contents will be overridden
 
 ---Add plugins to managed plugins
 ---@param specs (string|Katpack.Spec)[]
