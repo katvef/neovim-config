@@ -211,27 +211,15 @@ function Katpack.init()
 	-- Define user commands
 	vim.api.nvim_create_user_command("KatpackReload", function(args)
 		for _, arg in ipairs(args.fargs) do Katpack.reload(arg) end
-	end, {
-		nargs = "+",
-		complete = complete_name,
-		desc = "Reload plugins"
-	})
+	end, { nargs = "+", complete = complete_name, desc = "Reload plugins" })
 
 	vim.api.nvim_create_user_command("KatpackUpdate", function(args)
 		Katpack.update(#(args.fargs) > 0 and args.fargs or plugin_names())
-	end, {
-		nargs = "*",
-		complete = complete_name,
-		desc = "Update plugins"
-	})
+	end, { nargs = "*", complete = complete_name, desc = "Update plugins" })
 
 	vim.api.nvim_create_user_command("KatpackDelete", function(args)
 		Katpack.delete(#(args.fargs) > 0 and args.fargs or plugin_names(), false)
-	end, {
-		nargs = "*",
-		complete = complete_name,
-		desc = "Delete plugins"
-	})
+	end, { nargs = "*", complete = complete_name, desc = "Delete plugins" })
 
 	vim.api.nvim_create_user_command("Katpack", function(args)
 		local iterator = vim.iter(args.fargs)
