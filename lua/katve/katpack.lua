@@ -107,16 +107,18 @@ function Katpack.delete(names, force) vim.pack.del(names, { force = force }) end
 
 --- Build the plugin
 ---@param plugin string|Katpack.Spec Plugin name or spec
-function Katpack.build(plugin)
+---@param async? boolean Wheter to run build as async, overrides configuration
+---@return nil|boolean status, nil|integer exit_code, nil|vim.SystemObj system_object
+function Katpack.build(plugin, async)
 	if type(plugin) == "string" then
 		plugin = Katpack.plugins[plugin]
 		if not plugin then
 			vim.notify("Plugin not found", vim.log.levels.ERROR)
-			return false, nil
+			return false, nil, nil
 		end
 	end
 	local build = plugin.build
-	if build == nil then return false end
+	if build == nil then return false, nil, nil end
 	if build[1] == ":" then
 		vim.cmd(vim.split(build, " "))
 	else
@@ -126,9 +128,11 @@ function Katpack.build(plugin)
 				vim.notify("Building " .. plugin.name .. "was unsuccessfull! Program exited with code " .. out.code .. error)
 			end
 		end)
-		if not Katpack.config.async_build then
-			call:wait()
+		if not (async or Katpack.config.async_build) then
+			local res = call:wait()
+			return res.code == 0, res.code, call
 		end
+		return nil, nil, call
 	end
 end
 
