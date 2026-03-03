@@ -30,13 +30,15 @@ local defaultConfig = {
 }
 
 ---@class Katpack.Spec : vim.pack.Spec
----@field build? string Command to call to build something required by the plugin
----@field config? string|function Function to configure the plugin or name of the config file
+---@field build? string Command to call to build something required by the plugin.
+---@field opts? table Options to pass to the setup function of the module. katpack.Spec.config is preferred is both are set
+---@field config? string|fun(opts: table, module: string|nil, spec: Katpack.Spec) Function to configure the plugin or name of the config file
 ---@field delete? function Function to run when plugin is deleted
 ---@field init? function Function to run before updating plugin
 ---@field branch? string|vim.VersionRange Alternate syntax for version
 ---@field dependencies? Katpack.Spec[] Dependencies of the plugin, loaded before
 ---@field dependency? boolean If the plugin was added as a dependency
+---@field module? string|false Name of the module the plugin provides. Used for reloading the plugin and loading opts. Optionally set setup if the plugin uses a non-standard setup path. Set to false to tell the plugin doesn't provide a module. Defaults to false if build is set or to name if build is unset
 ---@field data nil The contents will be overridden
 
 ---Add plugins to managed plugins
@@ -52,6 +54,19 @@ function Katpack.add(specs)
 		end
 		spec.dependency = spec.dependency and true or false
 		spec.name = (type(spec.name) == 'string' and spec.name or spec.src):match('[^/]+$') or nil
+
+		if spec.module == false then
+			spec.module = false
+		elseif spec.module ~= nil then
+			spec.module = spec.module
+		elseif spec.build then
+			spec.module = false
+		else
+			spec.module = spec.name
+		end
+
+		spec.config = spec.config or (spec.module ~= false and spec.opts and function(opts, module, spec) require(module).setup(opts) end) or
+			 nil
 
 		local existing = Katpack.plugins[spec.name]
 		if existing then
@@ -72,13 +87,15 @@ function Katpack.install(specs)
 	specs = specs or Katpack.plugins
 	local plugin_specs = {}
 
-	for _, spec in ipairs(specs) do
+	for _, spec in pairs(specs) do
 		local katpack_data = {}
+		if spec.build ~= nil then katpack_data.build = spec.build end
 		if spec.config ~= nil then katpack_data.config = spec.config end
 		if spec.init ~= nil then katpack_data.init = spec.init end
 		if spec.branch ~= nil then katpack_data.branch = spec.branch end
 		if spec.dependencies ~= nil then katpack_data.dependencies = spec.dependencies end
 		if spec.dependency ~= nil then katpack_data.dependency = spec.dependency end
+		if spec.module ~= nil then katpack_data.module = spec.module end
 
 		plugin_specs[#plugin_specs + 1] = {
 			src = spec.src,
@@ -142,29 +159,32 @@ function Katpack.reload(plugin)
 	if type(plugin) == "string" then plugin = Katpack.plugins[plugin] end
 	local config = plugin.config
 	if config == nil or (Katpack.config.prefer_config_file and type(config) == "function") then
-		config = Katpack.config.configs[plugin.name]
+		if Katpack.config.configs[plugin.name] then
+			config = Katpack.config.configs[plugin.name]
+		end
 		if not config then
 			vim.notify("No config found for " .. plugin.name, vim.log.levels.ERROR)
 			return
 		end
 	end
 	if type(config) == "function" then
-		config()
+		config(plugin.opts, plugin.module, plugin)
 	elseif type(config) == "string" then
-		local stat = vim.uv.fs_stat(config)
+		local stat = vim.uv.fs_stat(vim.fn.stdpath("config") .. "/lua/" .. config)
 		if not stat or stat.type ~= "file" then
 			vim.notify("No file found at " .. config, vim.log.levels.ERROR)
 			return
 		end
+		require(config:gsub("/", "."):gsub(".lua$", ""))
 	end
 end
 
 --- Return the list of plugins and their count
 ---@return Katpack.Spec[], integer count
 ---@param filter fun(spec: Katpack.Spec):boolean
-function Katpack.get_specs(filter)
+function Katpack.get(filter)
 	local plugins = filter and vim.iter(Katpack.plugins):filter(filter):totable() or Katpack.plugins
-	return plugins, vim.tbl_count(plugins)
+	return vim.deepcopy(plugins, true), vim.tbl_count(plugins)
 end
 
 --- Initialize the plugins and generate user commands
