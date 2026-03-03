@@ -35,7 +35,7 @@ vim.opt.listchars = {
 }
 vim.opt.colorcolumn = "100"
 vim.opt.textwidth = 100
-vim.opt.formatoptions = "cqj"
+vim.opt.formatoptions = "qj"
 
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = true
