@@ -42,14 +42,15 @@ local defaultConfig = {
 ---@field data nil The contents will be overridden
 
 ---Add plugins to managed plugins
----@param specs (string|Katpack.Spec)[]
-function Katpack.add(specs)
+---@param specs (string|Katpack.Spec)[] Specs to add
+---@param no_install? boolean Don't install plugins after adding them
+function Katpack.add(specs, no_install)
 	for _, spec in ipairs(specs) do
 		if type(spec) == "string" then
-			spec = { src = spec, name = spec:match('[^/]+$') }
+			spec = { src = spec }
 		elseif spec.dependencies then
 			for _, dep in ipairs(spec.dependencies) do
-				Katpack.add({ vim.tbl_extend('force', dep, { dependency = true }) })
+				Katpack.add({ vim.tbl_extend('force', dep, { dependency = true }) }, true)
 			end
 		end
 		spec.dependency = spec.dependency and true or false
@@ -77,31 +78,21 @@ function Katpack.add(specs)
 		else
 			Katpack.plugins[spec.name] = spec
 		end
-
-		Katpack.install({ spec })
 	end
+	-- Install all newly added plugins
+	if not no_install then Katpack.install() end
 end
 
----@param specs? Katpack.Spec[] Specs to install or install all new specs
+---@param specs? Katpack.Spec[] Plugins to install or install all new plugins
 function Katpack.install(specs)
 	specs = specs or Katpack.plugins
 	local plugin_specs = {}
 
 	for _, spec in pairs(specs) do
-		local katpack_data = {}
-		if spec.build ~= nil then katpack_data.build = spec.build end
-		if spec.config ~= nil then katpack_data.config = spec.config end
-		if spec.init ~= nil then katpack_data.init = spec.init end
-		if spec.branch ~= nil then katpack_data.branch = spec.branch end
-		if spec.dependencies ~= nil then katpack_data.dependencies = spec.dependencies end
-		if spec.dependency ~= nil then katpack_data.dependency = spec.dependency end
-		if spec.module ~= nil then katpack_data.module = spec.module end
-
 		plugin_specs[#plugin_specs + 1] = {
 			src = spec.src,
 			name = spec.name,
-			version = spec.branch or spec.version,
-			data = katpack_data
+			version = spec.branch or spec.version
 		}
 	end
 
