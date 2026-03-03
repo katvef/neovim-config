@@ -49,10 +49,12 @@ vim.opt.grepprg = "rg --vimgrep"
 vim.opt.grepformat = "%f:%l:%c:%m"
 
 vim.opt.foldtext = "v:lua.HighlightedFoldtext()"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldmethod = "expr"
 vim.opt.foldlevelstart = 99
 vim.opt.foldcolumn = "0"
+
+vim.opt.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 
 vim.opt.fileformats = "unix"
 vim.opt.fileformat = "unix"
