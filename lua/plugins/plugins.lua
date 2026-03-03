@@ -2,7 +2,6 @@ return {
 	{ "nvim-treesitter/nvim-treesitter",   build = ":TSUpdate", dependencies = { "OXY2DEV/markview.nvim" } },
 	{ "nanozuki/tabby.nvim",               priority = 1000,     dependencies = { "nvim-tree/nvim-web-devicons" } },
 	{ "theprimeagen/harpoon",              branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" } },
-	{ "nvim-treesitter/playground",        event = "VeryLazy",  dependencies = { "nvim-treesitter/nvim-treesitter" } },
 	{ "esmuellert/codediff.nvim",          cmd = "CodeDiff",    dependencies = { "MunifTanjim/nui.nvim" } },
 	{ "SmiteshP/nvim-navic",               lazy = true,         dependencies = { "neovim/nvim-lspconfig" } },
 	{ "yorickpeterse/nvim-tree-pairs",     event = "VeryLazy",  opts = {} },
