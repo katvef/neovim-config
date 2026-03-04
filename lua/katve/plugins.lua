@@ -1,7 +1,7 @@
 require("katve.katpack").add {
-	{ src = "gh:nvim-treesitter/nvim-treesitter", build = ":TSUpdate",                             dependencies = { "gh:OXY2DEV/markview.nvim" } },
+	{ src = "gh:nvim-treesitter/nvim-treesitter", build = ":TSUpdate",                                dependencies = { "gh:OXY2DEV/markview.nvim" } },
 	{ src = "gh:nanozuki/tabby.nvim",             dependencies = { "gh:nvim-tree/nvim-web-devicons" } },
-	{ src = "gh:theprimeagen/harpoon",            branch = "harpoon2",                             dependencies = { "gh:nvim-lua/plenary.nvim" } },
+	{ src = "gh:theprimeagen/harpoon",            branch = "harpoon2",                                dependencies = { "gh:nvim-lua/plenary.nvim" } },
 	{ src = "gh:esmuellert/codediff.nvim",        dependencies = { "gh:MunifTanjim/nui.nvim" } },
 	{ src = "gh:SmiteshP/nvim-navic",             dependencies = { "gh:neovim/nvim-lspconfig" } },
 	{ src = "gh:yorickpeterse/nvim-tree-pairs",   opts = {} },
@@ -124,8 +124,9 @@ require("katve.katpack").add {
 	{
 		src = "gh:Saghen/blink.cmp",
 		dependencies = { "gh:rafamadriz/friendly-snippets", },
-		version = "1.*",
+		version = vim.version.range("v1.*"),
 		build = "cargo build --release",
+		async_build = false
 	},
 
 	{
@@ -155,27 +156,29 @@ require("katve.katpack").add {
 
 	{
 		src = "gh:nvim-mini/mini.surround",
-		opts = {
-			custom_surroundings = { ["”"] = { input = { "“().-()”" }, output = { left = "“", right = "”" } } },
-			n_lines = 20,
-			respect_selection_type = true,
-			search_method = "cover",
-			silent = false,
-			highlight_duration = 1000,
+		config = function()
+			require("mini.surround").setup({
+				custom_surroundings = { ["”"] = { input = { "“().-()”" }, output = { left = "“", right = "”" } } },
+				n_lines = 20,
+				respect_selection_type = true,
+				search_method = "cover",
+				silent = false,
+				highlight_duration = 1000,
 
-			mappings = {
-				add = "sa",
-				delete = "ds",
-				find = "sf",
-				find_left = "sF",
-				highlight = "sh",
-				replace = "sr",
-				update_n_lines = "sn",
+				mappings = {
+					add = "sa",
+					delete = "ds",
+					find = "sf",
+					find_left = "sF",
+					highlight = "sh",
+					replace = "sr",
+					update_n_lines = "sn",
 
-				suffix_last = "l",
-				suffix_next = "n",
-			},
-		},
+					suffix_last = "l",
+					suffix_next = "n",
+				},
+			})
+		end,
 	},
 
 	{

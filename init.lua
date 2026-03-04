@@ -1,17 +1,24 @@
+-- local orig = vim.notify
+
+-- vim.notify = function(msg, level, opts)
+-- 	print("Notify called from:\n" .. debug.traceback("", 2))
+-- 	return orig(msg, level, opts)
+-- end
+
 require("katve.functions")
 require("katve.remap")
-require("katve.lazy")
 
 require("katve.katpack").setup({
 	configs = "config",
 	async_build = true,
-	auto_delete = true,
+	auto_delete = false,
 	auto_update = false,
 	confirm = { install = false, update = false },
 	prefer_config_file = true,
 })
 
 require("katve.nightfox")
+ColorMyPencils()
 
 require("katve.katpack").add({
 	{ src = "gh:atiladefreitas/dooing", config = function() require("dooing").setup() end },
@@ -38,9 +45,8 @@ require("katve.telescope")
 require("katve.trouble")
 require("katve.whichkey")
 require("katve.windows")
--- require("katve.plugins")
 require("katve.mini")
+require("katve.plugins")
 
 require("katve")
 require("config")
-ColorMyPencils()

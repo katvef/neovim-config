@@ -6,10 +6,16 @@
 local Katpack = {
 	plugins = {},
 	config = {},
-	augroup = vim.api.nvim_create_augroup("KatpackEvent",
-		{ clear = true --[[set to false after development is done]] }),
+	augroup = vim.api.nvim_create_augroup("KatpackEvent", { clear = false }),
 	init_done = false
 }
+local repo_dir = vim.fn.stdpath("data") .. "/site/pack/core/start/"
+
+local plugins_mt = {}
+local name_lookup = {}
+plugins_mt.__index = name_lookup
+setmetatable(Katpack.plugins, plugins_mt)
+
 ---@class Katpack.Config
 ---@field configs? string|string[] Directory where the configuration files are stored or list of config files
 ---@field confirm? { install: boolean, update: boolean } Whether to ask confirmation for when installing plugins
@@ -33,14 +39,28 @@ local defaultConfig = {
 ---@class Katpack.Spec : vim.pack.Spec
 ---@field build? string Command to call to build something required by the plugin.
 ---@field opts? table Options to pass to the setup function of the module. katpack.Spec.config is preferred is both are set
----@field config? string|fun(opts: table) Function to configure the plugin or name of the config file
+---@field config? string|fun(spec: Katpack.Spec, opts: table) Function to configure the plugin or name of the config file
 ---@field delete? function Function to run when plugin is deleted
 ---@field init? function Function to run before updating plugin
 ---@field branch? string|vim.VersionRange Alternate syntax for version
 ---@field dependencies? (string|Katpack.Spec)[] Dependencies of the plugin, loaded before
 ---@field dependency? boolean If the plugin was added as a dependency
 ---@field module? string|false Name of the module the plugin provides. Used for reloading the plugin and loading opts. Optionally set setup if the plugin uses a non-standard setup path. Set to false to tell the plugin doesn't provide a module.
+---@field priority? boolean Load the plugin config as soon as possible if true
+---@field async_build? boolean Run build commands asynchronously
 ---@field data nil The contents will be overridden
+
+local function tbl_deep_extend_inplace(dst, src)
+	for k, v in pairs(src) do
+		if type(v) == "table" and type(dst[k]) == "table" then
+			tbl_deep_extend_inplace(dst[k], v)
+		else
+			dst[k] = v
+		end
+	end
+	return dst
+end
+
 
 ---Add plugins to managed plugins
 ---@param specs (string|Katpack.Spec)[] Specs to add
@@ -55,7 +75,9 @@ function Katpack.add(specs, no_install)
 				Katpack.add({ vim.tbl_extend('force', dep, { dependency = true }) }, true)
 			end
 		end
-		spec.dependency = spec.dependency and true or false
+
+		if spec.dependency then spec.dependency = true else spec.dependency = false end
+
 		spec.name = (type(spec.name) == 'string' and spec.name or spec.src):match('[^/]+$') or nil
 
 		if spec.module == false then
@@ -66,17 +88,18 @@ function Katpack.add(specs, no_install)
 			spec.module = spec.name:gsub("%.nvim$", "")
 		end
 
-		spec.config = spec.config or (spec.module ~= false and spec.opts) and
-			 function() require(spec.module).setup(spec.opts) end or nil
+		spec.config = spec.config or (spec.module ~= false and spec.opts)
+			 and function(spec, opts) require(spec.module).setup(spec.opts) end or nil
 
 		local existing = Katpack.plugins[spec.name]
 		if existing then
-			Katpack.plugins[spec.name] = vim.tbl_deep_extend('force', existing, spec)
+			name_lookup[spec.name] = tbl_deep_extend_inplace(existing, spec)
 			if existing.dependency then
 				Katpack.plugins[spec.name].dependency = (existing.dependency or spec.dependency) and true or false
 			end
 		else
-			Katpack.plugins[spec.name] = spec
+			plugins_mt.__index[spec.name] = spec
+			Katpack.plugins[#Katpack.plugins + 1] = spec
 		end
 	end
 	-- Install all newly added plugins
@@ -88,7 +111,7 @@ function Katpack.install(specs)
 	specs = specs or Katpack.plugins
 	local plugin_specs = {}
 
-	for _, spec in pairs(specs) do
+	for _, spec in ipairs(specs) do
 		plugin_specs[#plugin_specs + 1] = {
 			src = spec.src,
 			name = spec.name,
@@ -97,6 +120,12 @@ function Katpack.install(specs)
 	end
 
 	vim.pack.add(plugin_specs, { confirm = Katpack.config.confirm.install })
+	if not Katpack.init_done then
+		for _, plugin in ipairs(specs) do
+			plugin.module = vim.fs.dir(vim.pack.get({ plugin.name })[1].path .. "/lua")()
+			if plugin.priority then Katpack.reload(plugin) end
+		end
+	end
 end
 
 ---@param names string[] List of plugins to update
@@ -129,12 +158,14 @@ function Katpack.build(plugin, async)
 	if build == nil then return false, nil, nil end
 	if build:sub(1, 1) == ":" then
 		if Katpack.init_done then
+			vim.notify("Starting neovim build command for " .. plugin.name)
 			vim.cmd(build)
 		else
 			build_queue[#build_queue + 1] = plugin
 		end
 	else
-		local call = vim.system(vim.split(build, " "), function(out)
+		vim.notify("Starting system build command for " .. plugin.name)
+		local call = vim.system({ "sh", "-c", build }, { cwd = vim.pack.get({ plugin.name })[1].path }, function(out)
 			if out.code ~= 0 then
 				local error = out.stderr and " and message " .. out.stderr or ""
 				vim.notify("Building " .. plugin.name .. "was unsuccessfull! Program exited with code " .. out.code .. error)
@@ -163,7 +194,7 @@ function Katpack.reload(plugin)
 		end
 	end
 	if type(config) == "function" then
-		config(plugin.opts)
+		config(plugin, plugin.opts)
 	elseif type(config) == "string" then
 		local stat = vim.uv.fs_stat(vim.fn.stdpath("config") .. "/lua/" .. config)
 		if not stat or stat.type ~= "file" then
@@ -201,9 +232,17 @@ function Katpack.init()
 	end
 
 	-- Load all configs
-	for _, plugin in pairs(Katpack.plugins) do
+	for i, plugin in ipairs(Katpack.plugins) do
 		vim.cmd("packadd " .. plugin.name)
-		if plugin.build then Katpack.build(plugin) end
+		if plugin.build then
+			local async
+			if plugin.async_build ~= nil then
+				async = plugin.async_build
+			else
+				async = Katpack.config.async_build
+			end
+			Katpack.build(plugin, async)
+		end
 		if plugin.config or Katpack.config.configs[plugin.name] then Katpack.reload(plugin) end
 	end
 
