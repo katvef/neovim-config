@@ -1,5 +1,5 @@
-return {
-	"nvim-telescope/telescope.nvim",
+require("katve.katpack").add { {
+	src = "gh:nvim-telescope/telescope.nvim",
 	config = function()
 		require("telescope").setup({
 			extensions = {
@@ -55,5 +55,4 @@ return {
 		map("<leader>/", builtin.current_buffer_fuzzy_find, { desc = "Telescope fuzzy search" })
 		map("<C-p>", builtin.git_files, { desc = "Telescope git files" })
 	end,
-	-- tag = "0.1.8"
-}
+} }

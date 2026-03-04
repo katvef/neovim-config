@@ -1,13 +1,10 @@
-return {
+require("katve.katpack").add {
 	{
-		"lukas-reineke/indent-blankline.nvim",
-		main = "ibl",
-		opts = {
-			rawlen
-		},
+		src = "gh:lukas-reineke/indent-blankline.nvim",
+		module = "ibl",
 		dependencies = {
-			"HiPhish/rainbow-delimiters.nvim",
-			"shellRaining/hlchunk.nvim",
+			"gh:HiPhish/rainbow-delimiters.nvim",
+			"gh:shellRaining/hlchunk.nvim",
 		},
 
 		config = function()

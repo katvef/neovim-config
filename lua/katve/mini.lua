@@ -1,15 +1,11 @@
-return {
+require("katve.katpack").add {
 	{
-		"echasnovski/mini.bracketed",
-		version = "*",
-		config = function()
-			require("mini.bracketed").setup()
-		end
+		src = "gh:echasnovski/mini.bracketed",
+		config = function() require("mini.bracketed").setup() end
 	},
 
 	{
-		"echasnovski/mini.files",
-		version = false,
+		src = "gh:echasnovski/mini.files",
 		config = function()
 			local mini_files = require("mini.files")
 			mini_files.setup({

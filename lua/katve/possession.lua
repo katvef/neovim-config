@@ -1,6 +1,6 @@
-return {
-	"jedrzejboczar/possession.nvim",
-	dependencies = { 'nvim-lua/plenary.nvim' },
+require("katve.katpack").add { {
+	src = "gh:jedrzejboczar/possession.nvim",
+	dependencies = { "gh:nvim-lua/plenary.nvim" },
 	config = function()
 		require("possession").setup({
 			-- session_dir = (Path:new(vim.fn.stdpath('data')) / 'possession'):absolute(),
@@ -98,4 +98,4 @@ return {
 		vim.keymap.set("n", "<leader>rl", function() vim.cmd("PossessionLoad") end)
 		vim.keymap.set("n", "<leader>rL", function() vim.cmd("PossessionLoadCwd") end)
 	end
-}
+} }

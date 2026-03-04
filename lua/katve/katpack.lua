@@ -26,7 +26,8 @@ local defaultConfig = {
 	auto_delete = true,
 	auto_update = true,
 	async_build = true,
-	prefer_config_file = false
+	prefer_config_file = false,
+	init_done = false
 }
 
 ---@class Katpack.Spec : vim.pack.Spec
@@ -36,7 +37,7 @@ local defaultConfig = {
 ---@field delete? function Function to run when plugin is deleted
 ---@field init? function Function to run before updating plugin
 ---@field branch? string|vim.VersionRange Alternate syntax for version
----@field dependencies? Katpack.Spec[] Dependencies of the plugin, loaded before
+---@field dependencies? (string|Katpack.Spec)[] Dependencies of the plugin, loaded before
 ---@field dependency? boolean If the plugin was added as a dependency
 ---@field module? string|false Name of the module the plugin provides. Used for reloading the plugin and loading opts. Optionally set setup if the plugin uses a non-standard setup path. Set to false to tell the plugin doesn't provide a module.
 ---@field data nil The contents will be overridden
@@ -50,6 +51,7 @@ function Katpack.add(specs, no_install)
 			spec = { src = spec }
 		elseif spec.dependencies then
 			for _, dep in ipairs(spec.dependencies) do
+				if type(dep) == "string" then dep = { src = dep } end
 				Katpack.add({ vim.tbl_extend('force', dep, { dependency = true }) }, true)
 			end
 		end
@@ -61,7 +63,7 @@ function Katpack.add(specs, no_install)
 		elseif spec.module ~= nil then
 			spec.module = spec.module
 		else
-			spec.module = spec.name:gsub("%..*$", "")
+			spec.module = spec.name:gsub("%.nvim$", "")
 		end
 
 		spec.config = spec.config or (spec.module ~= false and spec.opts) and
@@ -95,11 +97,6 @@ function Katpack.install(specs)
 	end
 
 	vim.pack.add(plugin_specs, { confirm = Katpack.config.confirm.install })
-	for _, plugin in pairs(specs) do
-		vim.cmd("packadd " .. plugin.name)
-		if plugin.config or Katpack.config.configs[plugin.name] then Katpack.reload(plugin) end
-		if plugin.build then Katpack.build(plugin) end
-	end
 end
 
 ---@param names string[] List of plugins to update
@@ -113,6 +110,8 @@ end
 ---@param names string[] List of plugins to delete
 ---@param force? boolean Delete plugin even if active
 function Katpack.delete(names, force) vim.pack.del(names, { force = force }) end
+
+local build_queue = {}
 
 --- Build the plugin
 ---@param plugin string|Katpack.Spec Plugin name or spec
@@ -129,7 +128,11 @@ function Katpack.build(plugin, async)
 	local build = plugin.build
 	if build == nil then return false, nil, nil end
 	if build:sub(1, 1) == ":" then
-		vim.cmd(build)
+		if Katpack.init_done then
+			vim.cmd(build)
+		else
+			build_queue[#build_queue + 1] = plugin
+		end
 	else
 		local call = vim.system(vim.split(build, " "), function(out)
 			if out.code ~= 0 then
@@ -185,18 +188,23 @@ function Katpack.init()
 		return vim.tbl_values(vim.tbl_map(function(plugin) return plugin.name end, Katpack.plugins))
 	end
 	local function complete_name(arg)
-		return vim.tbl_filter(function(item)
-			return item:find("^" .. arg)
-		end, plugin_names())
+		return vim.tbl_filter(function(item) return item:find("^" .. arg) end, plugin_names())
 	end
 
 	-- Auto update and delete
 	if Katpack.config.auto_delete then
-		local inactive = vim.tbl_filter(function(plug_data) return not plug_data.active end, vim.pack.get(plugin_names()))
+		local inactive = vim.tbl_filter(function(plug_data) return not plug_data.active end, vim.pack.get())
 		vim.pack.del(vim.tbl_values(vim.tbl_map(function(plugin) return plugin.spec.name end, inactive)))
 	end
 	if Katpack.config.auto_update then
 		Katpack.update(plugin_names())
+	end
+
+	-- Load all configs
+	for _, plugin in pairs(Katpack.plugins) do
+		vim.cmd("packadd " .. plugin.name)
+		if plugin.build then Katpack.build(plugin) end
+		if plugin.config or Katpack.config.configs[plugin.name] then Katpack.reload(plugin) end
 	end
 
 	-- Define auto commands
@@ -263,6 +271,11 @@ function Katpack.init()
 
 	-- Set init_done to true
 	Katpack.init_done = true
+	for _, plugin in
+	ipairs(build_queue) do
+		Katpack.build(plugin)
+	end
+	build_queue = nil
 end
 
 ---@param config Katpack.Config

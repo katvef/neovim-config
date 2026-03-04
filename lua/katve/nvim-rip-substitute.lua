@@ -1,10 +1,7 @@
-return {
+vim.keymap.set({ "n", "x" }, "<leader>sr", function() require("rip-substitute").sub() end, { desc = " rip substitute" })
+require("katve.katpack").add {
 	{
-		"chrisgrieser/nvim-rip-substitute",
-		cmd = "RipSubstitute",
-		keys = {
-			{ "<leader>sr", function() require("rip-substitute").sub() end, mode = { "n", "x" }, desc = " rip substitute", },
-		},
+		src = "gh:chrisgrieser/nvim-rip-substitute",
 		config = function()
 			require("rip-substitute").setup {
 				editingBehavior = { autoCaptureGroups = true },

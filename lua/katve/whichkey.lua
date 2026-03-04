@@ -1,7 +1,7 @@
-return {
+vim.keymap.set("n", "<leader>?", function() require("which-key").show({ global = false }) end, { desc = "Buffer Local Keymaps (which-key)" })
+require("katve.katpack").add {
 	{
-		"folke/which-key.nvim",
-		event = "VeryLazy",
+		src = "gh:folke/which-key.nvim",
 		opts = {
 			plugins = {
 				marks = true,
@@ -19,16 +19,6 @@ return {
 					z = true,
 					g = true,
 				},
-			},
-
-		},
-		keys = {
-			{
-				"<leader>?",
-				function()
-					require("which-key").show({ global = false })
-				end,
-				desc = "Buffer Local Keymaps (which-key)",
 			},
 		},
 	}

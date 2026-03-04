@@ -1,6 +1,5 @@
-return {
-	"chentoast/marks.nvim",
-	event = "VeryLazy",
+require("katve.katpack").add { {
+	src = "gh:chentoast/marks.nvim",
 	opts = {
 		default_mappings = true,
 		builtin_marks = { ".", "<", ">", "^", "{", "}" },
@@ -18,4 +17,4 @@ return {
 		},
 		mappings = {}
 	}
-}
+} }

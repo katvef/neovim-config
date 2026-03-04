@@ -1,7 +1,6 @@
-return {
-	"nvim-lualine/lualine.nvim",
-	priority = 1000,
-	dependencies = { "nvim-tree/nvim-web-devicons" },
+require"katve.katpack".add {{
+	src = "gh:nvim-lualine/lualine.nvim",
+	dependencies = { "gh:nvim-tree/nvim-web-devicons" },
 	config = function()
 		require('lualine').setup({
 			options = {
@@ -69,4 +68,4 @@ return {
 			callback = require("lualine").refresh,
 		})
 	end
-}
+}}

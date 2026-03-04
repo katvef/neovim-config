@@ -1,5 +1,5 @@
-return {
-	'lewis6991/gitsigns.nvim',
+require "katve.katpack".add {{
+	src = "gh:lewis6991/gitsigns.nvim",
 	config = function()
 		require("gitsigns").setup({
 			signs                   = {
@@ -88,4 +88,4 @@ return {
 			end
 		})
 	end
-}
+}}

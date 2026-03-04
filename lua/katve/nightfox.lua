@@ -1,6 +1,5 @@
-return {
-	"EdenEast/nightfox.nvim",
-	priority = 1000,
+require("katve.katpack").add { {
+	src = "gh:EdenEast/nightfox.nvim",
 	config = function()
 		require('nightfox').setup({
 			options = {
@@ -57,4 +56,4 @@ return {
 		-- setup must be called before loading
 		vim.cmd.colorscheme "nightfox"
 	end
-}
+} }
