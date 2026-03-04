@@ -32,13 +32,13 @@ local defaultConfig = {
 ---@class Katpack.Spec : vim.pack.Spec
 ---@field build? string Command to call to build something required by the plugin.
 ---@field opts? table Options to pass to the setup function of the module. katpack.Spec.config is preferred is both are set
----@field config? string|fun(opts: table, module: string|nil, spec: Katpack.Spec) Function to configure the plugin or name of the config file
+---@field config? string|fun(opts: table) Function to configure the plugin or name of the config file
 ---@field delete? function Function to run when plugin is deleted
 ---@field init? function Function to run before updating plugin
 ---@field branch? string|vim.VersionRange Alternate syntax for version
 ---@field dependencies? Katpack.Spec[] Dependencies of the plugin, loaded before
 ---@field dependency? boolean If the plugin was added as a dependency
----@field module? string|false Name of the module the plugin provides. Used for reloading the plugin and loading opts. Optionally set setup if the plugin uses a non-standard setup path. Set to false to tell the plugin doesn't provide a module. Defaults to false if build is set or to name if build is unset
+---@field module? string|false Name of the module the plugin provides. Used for reloading the plugin and loading opts. Optionally set setup if the plugin uses a non-standard setup path. Set to false to tell the plugin doesn't provide a module.
 ---@field data nil The contents will be overridden
 
 ---Add plugins to managed plugins
@@ -60,14 +60,12 @@ function Katpack.add(specs, no_install)
 			spec.module = false
 		elseif spec.module ~= nil then
 			spec.module = spec.module
-		elseif spec.build then
-			spec.module = false
 		else
-			spec.module = spec.name
+			spec.module = spec.name:gsub("%..*$", "")
 		end
 
-		spec.config = spec.config or (spec.module ~= false and spec.opts and function(opts, module, spec) require(module).setup(opts) end) or
-			 nil
+		spec.config = spec.config or (spec.module ~= false and spec.opts) and
+			 function() require(spec.module).setup(spec.opts) end or nil
 
 		local existing = Katpack.plugins[spec.name]
 		if existing then
@@ -97,8 +95,11 @@ function Katpack.install(specs)
 	end
 
 	vim.pack.add(plugin_specs, { confirm = Katpack.config.confirm.install })
-	for _, plugin in pairs(plugin_specs) do if plugin.build then Katpack.build(plugin) end end
-	for _, plugin in pairs(plugin_specs) do if type(plugin.config) == "function" then plugin.config() end end
+	for _, plugin in pairs(specs) do
+		vim.cmd("packadd " .. plugin.name)
+		if plugin.config or Katpack.config.configs[plugin.name] then Katpack.reload(plugin) end
+		if plugin.build then Katpack.build(plugin) end
+	end
 end
 
 ---@param names string[] List of plugins to update
@@ -127,8 +128,8 @@ function Katpack.build(plugin, async)
 	end
 	local build = plugin.build
 	if build == nil then return false, nil, nil end
-	if build[1] == ":" then
-		vim.cmd(vim.split(build, " "))
+	if build:sub(1, 1) == ":" then
+		vim.cmd(build)
 	else
 		local call = vim.system(vim.split(build, " "), function(out)
 			if out.code ~= 0 then
@@ -159,7 +160,7 @@ function Katpack.reload(plugin)
 		end
 	end
 	if type(config) == "function" then
-		config(plugin.opts, plugin.module, plugin)
+		config(plugin.opts)
 	elseif type(config) == "string" then
 		local stat = vim.uv.fs_stat(vim.fn.stdpath("config") .. "/lua/" .. config)
 		if not stat or stat.type ~= "file" then
