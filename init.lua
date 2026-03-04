@@ -1,6 +1,6 @@
 require("katve.functions")
+require("katve.remap")
 require("katve.lazy")
-
 
 require("katve.katpack").setup({
 	configs = "config",
@@ -22,6 +22,8 @@ require("katve.katpack").add({
 	"gh:nvim-mini/mini.icons",
 	"gh:HiPhish/rainbow-delimiters.nvim"
 })
+
+require("katve.cord")
 
 require("katve")
 require("config")
