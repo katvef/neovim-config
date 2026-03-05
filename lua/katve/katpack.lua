@@ -9,7 +9,6 @@ local Katpack = {
 	augroup = vim.api.nvim_create_augroup("KatpackEvent", { clear = false }),
 	init_done = false
 }
-local repo_dir = vim.fn.stdpath("data") .. "/site/pack/core/start/"
 
 local plugins_mt = {}
 local name_lookup = {}
@@ -123,7 +122,7 @@ function Katpack.install(specs)
 	if not Katpack.init_done then
 		for _, plugin in ipairs(specs) do
 			plugin.module = vim.fs.dir(vim.pack.get({ plugin.name })[1].path .. "/lua")()
-			if plugin.priority then Katpack.reload(plugin) end
+			-- if plugin.priority then Katpack.reload(plugin) end
 		end
 	end
 end
@@ -158,13 +157,11 @@ function Katpack.build(plugin, async)
 	if build == nil then return false, nil, nil end
 	if build:sub(1, 1) == ":" then
 		if Katpack.init_done then
-			vim.notify("Starting neovim build command for " .. plugin.name)
 			vim.cmd(build)
 		else
 			build_queue[#build_queue + 1] = plugin
 		end
 	else
-		vim.notify("Starting system build command for " .. plugin.name)
 		local call = vim.system({ "sh", "-c", build }, { cwd = vim.pack.get({ plugin.name })[1].path }, function(out)
 			if out.code ~= 0 then
 				local error = out.stderr and " and message " .. out.stderr or ""
@@ -176,32 +173,6 @@ function Katpack.build(plugin, async)
 			return res.code == 0, res.code, call
 		end
 		return nil, nil, call
-	end
-end
-
---- Reload provided plugin's config
----@param plugin string|Katpack.Spec
-function Katpack.reload(plugin)
-	if type(plugin) == "string" then plugin = Katpack.plugins[plugin] end
-	local config = plugin.config
-	if config == nil or (Katpack.config.prefer_config_file and type(config) == "function") then
-		if Katpack.config.configs[plugin.name] then
-			config = Katpack.config.configs[plugin.name]
-		end
-		if not config then
-			vim.notify("No config found for " .. plugin.name, vim.log.levels.ERROR)
-			return
-		end
-	end
-	if type(config) == "function" then
-		config(plugin, plugin.opts)
-	elseif type(config) == "string" then
-		local stat = vim.uv.fs_stat(vim.fn.stdpath("config") .. "/lua/" .. config)
-		if not stat or stat.type ~= "file" then
-			vim.notify("No file found at " .. config, vim.log.levels.ERROR)
-			return
-		end
-		require(config:gsub("/", "."):gsub(".lua$", ""))
 	end
 end
 
@@ -232,8 +203,7 @@ function Katpack.init()
 	end
 
 	-- Load all configs
-	for i, plugin in ipairs(Katpack.plugins) do
-		vim.cmd("packadd " .. plugin.name)
+	for _, plugin in ipairs(Katpack.plugins) do
 		if plugin.build then
 			local async
 			if plugin.async_build ~= nil then
@@ -243,7 +213,7 @@ function Katpack.init()
 			end
 			Katpack.build(plugin, async)
 		end
-		if plugin.config or Katpack.config.configs[plugin.name] then Katpack.reload(plugin) end
+		-- if plugin.config or Katpack.config.configs[plugin.name] then Katpack.reload(plugin) end
 	end
 
 	-- Define auto commands
@@ -267,11 +237,6 @@ function Katpack.init()
 		end
 	})
 
-	-- Define user commands
-	vim.api.nvim_create_user_command("KatpackReload", function(args)
-		for _, arg in ipairs(args.fargs) do Katpack.reload(arg) end
-	end, { nargs = "+", complete = complete_name, desc = "Reload plugins" })
-
 	vim.api.nvim_create_user_command("KatpackUpdate", function(args)
 		Katpack.update(#(args.fargs) > 0 and args.fargs or plugin_names())
 	end, { nargs = "*", complete = complete_name, desc = "Update plugins" })
@@ -283,7 +248,6 @@ function Katpack.init()
 	vim.api.nvim_create_user_command("Katpack", function(args)
 		local iterator = vim.iter(args.fargs)
 		local operation = iterator:rev():pop():lower()
-		vim.notify(operation)
 		if operation == "update" then
 			vim.cmd("KatpackUpdate " .. iterator:join(" "))
 		elseif operation == "reload" then
