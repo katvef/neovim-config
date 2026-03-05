@@ -80,3 +80,20 @@ function DeattachClients(client_name_or_id)
 		vim.lsp.buf_detach_client(buf, client_id)
 	end
 end
+
+local start = {}
+local stop = {}
+--- Store current time by id
+function TimerStart(id)
+	id = id or 0
+	start[id] = vim.uv.hrtime()
+	return start[id]
+end
+
+--- Print time from id
+function TimerStop(id, get, msg)
+	id = id or 0
+	if not get then stop[id] = vim.uv.hrtime() end
+	if msg then print("Time from id " .. id .. ": " .. (stop[id] - start[id]) / 1e6) end
+	return (stop[id] - start[id]) / 1e6
+end

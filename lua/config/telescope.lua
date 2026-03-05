@@ -1,6 +1,3 @@
-require("katve.katpack").add { {
-	src = "gh:nvim-telescope/telescope.nvim",
-	config = function()
 		require("telescope").setup({
 			extensions = {
 				aerial = {
@@ -54,5 +51,3 @@ require("katve.katpack").add { {
 		map("<leader>fh", builtin.current_buffer_fuzzy_find, { desc = "Telescope fuzzy search" })
 		map("<leader>/", builtin.current_buffer_fuzzy_find, { desc = "Telescope fuzzy search" })
 		map("<C-p>", builtin.git_files, { desc = "Telescope git files" })
-	end,
-} }

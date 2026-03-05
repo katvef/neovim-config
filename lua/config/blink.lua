@@ -37,7 +37,6 @@ require("blink.cmp").setup({
 			path = {
 				async = true,
 				opts = { get_cwd = function(_) return vim.fn.getcwd() end },
-				selection = 5
 			},
 
 			buffer = {
