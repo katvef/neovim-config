@@ -31,7 +31,8 @@ vim.opt.listchars = {
 	trail = "",
 	nbsp = "⍽",
 	extends = "→",
-	multispace = "× + = "
+	multispace = "× + = ",
+	eol = "↵"
 }
 vim.opt.colorcolumn = "100"
 vim.opt.textwidth = 100
