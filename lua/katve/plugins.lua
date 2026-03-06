@@ -45,7 +45,7 @@ require("katve.katpack").add({
 	{ src = "gh:anuvyklack/animation.nvim",                dependencies = { "gh:anuvyklack/middleclass" }, },
 	{ src = "gh:folke/noice.nvim",                         dependencies = { "gh:ibhagwan/fzf-lua", "gh:MunifTanjim/nui.nvim" }, },
 	{ src = "gh:anuvyklack/windows.nvim",                  dependencies = { "gh:anuvyklack/middleclass", "gh:anuvyklack/animation.nvim" }, },
-	{ src = "gh:lukas-reineke/indent-blankline.nvim",      dependencies = { "gh:HiPhish/rainbow-delimiters.nvim", "gh:shellRaining/hlchunk.nvim", }, },
+	{ src = "gh:lukas-reineke/indent-blankline.nvim",      dependencies = { "gh:HiPhish/rainbow-delimiters.nvim" }, },
 	{ src = "gh:rachartier/tiny-code-action.nvim",         dependencies = { "gh:nvim-lua/plenary.nvim", "gh:nvim-telescope/telescope.nvim" },         opts = {}, },
 	{ src = "gh:theprimeagen/harpoon",                     dependencies = { "gh:nvim-lua/plenary.nvim", branch = "harpoon2" } },
 	{ src = "gh:nvim-telescope/telescope-fzy-native.nvim", dependencies = { { src = "gh:romgrk/fzy-lua-native", build = "make", } }, },
@@ -54,9 +54,9 @@ require("katve.katpack").add({
 	{ src = "gh:Saghen/blink.cmp",                         dependencies = { "gh:rafamadriz/friendly-snippets", },                                     version = vim.version.range("v1.*"), build = "cargo build --release", },
 })
 
-require("tree-pairs")
-require("tmux")
-require("neogen")
-require("mason")
-require("dooing")
-require("neogit")
+require("tree-pairs").setup()
+require("tmux").setup()
+require("neogen").setup()
+require("mason").setup()
+require("dooing").setup()
+require("neogit").setup()

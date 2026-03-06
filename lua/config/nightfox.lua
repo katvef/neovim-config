@@ -3,14 +3,14 @@ require('nightfox').setup({
 		compile_path = vim.fn.stdpath("cache") .. "/nightfox",
 		compile_file_suffix = "_compiled",
 		transparent = false,
-		terminal_colors = true,
+		terminal_colors = false,
 		dim_inactive = true,
 		module_default = true,
 		styles = {
-			comments = "italic,altfont",
+			comments = "italic",
 			conditionals = "italic",
 			constants = "bold,italic",
-			functions = "bold,underline",
+			functions = "italic",
 			keywords = "italic",
 			numbers = "NONE",
 			operators = "bold",
@@ -32,8 +32,8 @@ require('nightfox').setup({
 			navic = {
 				enabled = true,
 				custom_bg = "lualine"
-
 			},
+
 			native_lsp = {
 				enabled = true,
 				underlines = {
@@ -46,7 +46,17 @@ require('nightfox').setup({
 		},
 	},
 	palettes = {},
-	specs = {},
+	specs = {
+		nightfox = {
+			syntax = {
+				field = "NONE",
+				func = "blue",
+				bracket = "orange.dim",
+				string = "green.bright",
+				builtin0 = "red"
+			}
+		}
+	},
 	groups = {},
 })
 

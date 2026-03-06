@@ -21,11 +21,11 @@ hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
 end)
 
 vim.g.rainbow_delimiters = { highlight = highlight }
-require("ibl").setup {
+require("ibl").setup({
+	debounce = 0,
 	indent = {
 		char = "│",
 		tab_char = nil,
-		highlight = "IblIndent",
 		smart_indent_cap = true,
 		priority = 1,
 		repeat_linebreak = true,
@@ -37,50 +37,11 @@ require("ibl").setup {
 	},
 
 	scope = {
-		highlight = highlight
+		highlight = highlight,
+		include = {
+			node_type = { lua = { "return_statement", "table_constructor" } },
+		}
 	}
-}
+})
 
 hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
-
-
-require("hlchunk").setup({
-	chunk = {
-		enable = false,
-		priority = 15,
-		notify = true,
-		style = {
-			-- "#5ef33e",
-			-- "#c21f30",
-		},
-		chars = {
-			horizontal_line = "─",
-			vertical_line = "│",
-			left_top = "┌",
-			left_bottom = "└",
-			right_arrow = "",
-		},
-		textobject = "ic",
-		duration = 0,
-		error_sign = true,
-		exclude_filetypes = {
-			TelescopePrompt = true,
-			cmp = true,
-			cmp_docs = true,
-		},
-	},
-	line_num = {
-		enable = true,
-		style = {
-			"#DBC074",
-			"#E06C75",
-			"#E5C07B",
-			"#61AFEF",
-			"#D19A66",
-			"#98C379",
-			"#C678DD",
-			"#56B6C2",
-		},
-	},
-	blank = { enable = false },
-})

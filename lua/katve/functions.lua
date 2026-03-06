@@ -1,5 +1,8 @@
+---@param hl string Name of the highlight
+---@param prop string Which prop to return
+---@return string hex The hex code of the highlight
 function HighlightToHex(hl, prop)
-	return string.format("#%x", vim.api.nvim_get_hl(0, { name = hl, link = false })[prop])
+	return string.format("#%x", vim.api.nvim_get_hl(0, { name = hl, link = false })[prop] or 0)
 end
 
 -- Set custom colors for theme

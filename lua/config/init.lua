@@ -1,7 +1,7 @@
+require("config.rainbow-delimiters")
 require("config.nightfox")
 require("config.lsp")
 require("config.tabby")
-require("config.rainbow-delimiters")
 require("config.blink")
 require("config.highlight-colors")
 require("config.harpoon")
