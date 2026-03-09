@@ -153,13 +153,18 @@ autocmd({ "BufEnter", "TextChanged", "TextChangedI", "WinResized" }, {
 		vim.api.nvim_buf_clear_namespace(0, dash_ns, 0, -1)
 		local dashline = string.rep("-", vim.api.nvim_win_get_width(0))
 
-		for i, l in ipairs(vim.api.nvim_buf_get_lines(0, 0, -1, false)) do
-			if l:match("^%s*$") and not IblAffectsLine(0, i - 1) then
-				vim.api.nvim_buf_set_extmark(0, dash_ns, i - 1, 0, {
-					virt_text = { { dashline, "EmptyLineDash" } },
-					virt_text_pos = "eol",
-					hl_mode = "combine"
-				})
+		local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+		for i = 1, #lines do
+			local prev = lines[i - 1] or ""
+			local next = lines[i + 1] or ""
+			if prev ~= "" or next ~= "" then
+				if lines[i]:match("^%s*$") and not IblAffectsLine(0, i - 1) then
+					vim.api.nvim_buf_set_extmark(0, dash_ns, i - 1, 0, {
+						virt_text = { { dashline, "EmptyLineDash" } },
+						virt_text_pos = "eol",
+						hl_mode = "combine"
+					})
+				end
 			end
 		end
 	end
