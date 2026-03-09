@@ -10,7 +10,7 @@ require('nightfox').setup({
 			comments = "italic",
 			conditionals = "italic",
 			constants = "bold,italic",
-			functions = "italic",
+			functions = "bold",
 			keywords = "italic",
 			numbers = "NONE",
 			operators = "bold",
@@ -50,7 +50,7 @@ require('nightfox').setup({
 		nightfox = {
 			syntax = {
 				field = "NONE",
-				func = "blue",
+				func = "NONE",
 				bracket = "orange.dim",
 				string = "green.bright",
 				builtin0 = "red"
