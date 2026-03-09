@@ -11,7 +11,7 @@ local function lspconfig(server_name, config)
 end
 
 local lspconfig_defaults = require("lspconfig").util.default_config
-local inlay_hint_state = true
+local inlay_hint_state = false
 
 vim.diagnostic.config({
 	virtual_text = true,
