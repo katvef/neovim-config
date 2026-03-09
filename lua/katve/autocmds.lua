@@ -138,3 +138,29 @@ autocmd("InsertCharPre", {
 		prev_col = col
 	end,
 })
+
+local dash_ns = vim.api.nvim_create_namespace("empty_line_dashes")
+local ibl_ns = vim.api.nvim_get_namespaces()["indent_blankline"]
+vim.api.nvim_set_hl(0, "EmptyLineDash", { fg = BrightenColor(HighlightToHex("Normal", "bg"), 1.33) })
+
+local function IblAffectsLine(buf, line)
+	if not ibl_ns then return false end
+	return #(vim.api.nvim_buf_get_extmarks(buf, ibl_ns, { line, 0 }, { line, -1 }, {})) > 0
+end
+
+autocmd({ "BufEnter", "TextChanged", "TextChangedI", "WinResized" }, {
+	callback = function()
+		vim.api.nvim_buf_clear_namespace(0, dash_ns, 0, -1)
+		local dashline = string.rep("-", vim.api.nvim_win_get_width(0))
+
+		for i, l in ipairs(vim.api.nvim_buf_get_lines(0, 0, -1, false)) do
+			if l:match("^%s*$") and not IblAffectsLine(0, i - 1) then
+				vim.api.nvim_buf_set_extmark(0, dash_ns, i - 1, 0, {
+					virt_text = { { dashline, "EmptyLineDash" } },
+					virt_text_pos = "eol",
+					hl_mode = "combine"
+				})
+			end
+		end
+	end
+})

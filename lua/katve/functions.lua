@@ -5,6 +5,23 @@ function HighlightToHex(hl, prop)
 	return string.format("#%x", vim.api.nvim_get_hl(0, { name = hl, link = false })[prop] or 0)
 end
 
+--- Brighten a hex color
+---@param hex string Hex code of the color
+---@param amount number Float number to use as the multiplier
+function BrightenColor(hex, amount)
+	hex = hex:gsub("#", "")
+
+	local r = tonumber(hex:sub(1, 2), 16)
+	local g = tonumber(hex:sub(3, 4), 16)
+	local b = tonumber(hex:sub(5, 6), 16)
+
+	r = math.min(255, math.max(0, math.floor(r * amount)))
+	g = math.min(255, math.max(0, math.floor(g * amount)))
+	b = math.min(255, math.max(0, math.floor(b * amount)))
+
+	return string.format("#%x%x%x", math.floor(r), math.floor(g), math.floor(b))
+end
+
 -- Set custom colors for theme
 function ColorMyPencils()
 	vim.api.nvim_set_hl(0, "cursorline", { bg = HighlightToHex("colorcolumn", "bg") })
