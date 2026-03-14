@@ -1,22 +1,16 @@
-require("nvim-treesitter").setup {
-	-- ensure_installed = { "lua", "markdown", "markdown_inline", "comment" },
-	-- sync_install = false,
-	-- indent = { enable = true },
-	-- install_info = { only_install = true },
-	-- auto_install = true,
-	--
-	-- incremental_selection = {
-	-- 	enable = true,
-	-- 	keymaps = {
-	-- 		init_selection = "gnn",
-	-- 		node_incremental = "grn",
-	-- 		node_decremental = "grm",
-	-- 		scope_incremental = "grc",
-	-- 	},
-	-- },
-	--
-	-- highlight = {
-	-- 	enable = true,
-	-- 	additional_vim_regex_highlighting = true,
-	-- },
-}
+require("nvim-treesitter").setup()
+
+local parsers = require("nvim-treesitter.parsers")
+
+vim.api.nvim_create_autocmd("FileType", {
+	callback = function(args)
+		local lang = vim.treesitter.language.get_lang(args.match)
+
+		if parsers[lang] then require("nvim-treesitter").install({ lang }) end
+
+		if lang and vim.treesitter.language.add(lang) then
+			vim.treesitter.start(args.buf, lang)
+		else
+		end
+	end,
+})
