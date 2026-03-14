@@ -28,8 +28,8 @@ require("lualine").setup({
 		lualine_c = { { 'filename', path = 0, newfile_status = true },
 			function()
 				local names = {}
-				for i, server in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
-					names[i] = server.name
+				for _, server in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+					if server.name ~= "pendulum-lsp" then names[#names + 1] = server.name end
 				end
 				local lsps = table.concat(names, " ")
 				return lsps ~= "" and " [" .. lsps .. "]" or ""
