@@ -141,7 +141,7 @@ autocmd("InsertCharPre", {
 
 local dash_ns = vim.api.nvim_create_namespace("empty_line_dashes")
 local ibl_ns = vim.api.nvim_get_namespaces()["indent_blankline"]
-vim.api.nvim_set_hl(0, "EmptyLineDash", { fg = BrightenColor(HighlightToHex("Normal", "bg"), 1.33) })
+vim.api.nvim_set_hl(0, "EmptyLineDash", { fg = BrightenColor(HighlightToHex("Normal", "bg"), 1.8) })
 
 local function IblAffectsLine(buf, line)
 	if not ibl_ns then return false end
