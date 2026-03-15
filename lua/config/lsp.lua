@@ -139,6 +139,7 @@ lspconfig("markdown_oxide", {})
 lspconfig("tombi", {})
 lspconfig("gdscript", {})
 lspconfig("bashls", {})
+lspconfig("gopls", {})
 
 lspconfig("ltex_plus", {
 	filetypes = {

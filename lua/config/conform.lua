@@ -7,5 +7,7 @@ require("conform").setup({
 		yaml = { "yamlfix" },
 		sh = { "shfmt" },
 		gdscript = { "gdformat" },
+		cs = { "clang-format" },
+		cpp = { "clang-format" }
 	},
 })
