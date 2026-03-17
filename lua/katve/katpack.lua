@@ -22,15 +22,13 @@ setmetatable(Katpack.plugins, plugins_mt)
 ---@field auto_delete? boolean Automatically delete plugins no longer added on startup
 ---@field auto_update? boolean Automatically update plugins on startup
 ---@field prefer_config_file? boolean Prefer config file over config function when loading configurations using Katpack.reload
----@field async_build? boolean Run build commands asynchronously
 local defaultConfig = {
 	confirm = {
 		install = false,
-		update = false,
+		update = true,
 	},
 	auto_delete = true,
 	auto_update = true,
-	async_build = true,
 	prefer_config_file = false,
 	init_done = false
 }
@@ -46,7 +44,6 @@ local defaultConfig = {
 ---@field dependency? boolean If the plugin was added as a dependency
 ---@field module? string|false Name of the module the plugin provides. Used for reloading the plugin and loading opts. Optionally set setup if the plugin uses a non-standard setup path. Set to false to tell the plugin doesn't provide a module.
 ---@field priority? boolean Load the plugin config as soon as possible if true
----@field async_build? boolean Run build commands asynchronously
 ---@field data nil The contents will be overridden
 
 local function tbl_deep_extend_inplace(dst, src)
@@ -139,13 +136,10 @@ end
 ---@param force? boolean Delete plugin even if active
 function Katpack.delete(names, force) vim.pack.del(names, { force = force }) end
 
-local build_queue = {}
-
 --- Build the plugin
 ---@param plugin string|Katpack.Spec Plugin name or spec
----@param async? boolean Wheter to run build as async, overrides configuration
 ---@return nil|boolean status, nil|integer exit_code, nil|vim.SystemObj system_object
-function Katpack.build(plugin, async)
+function Katpack.build(plugin)
 	if type(plugin) == "string" then
 		plugin = Katpack.plugins[plugin]
 		if not plugin then
@@ -156,22 +150,20 @@ function Katpack.build(plugin, async)
 	local build = plugin.build
 	if build == nil then return false, nil, nil end
 	if build:sub(1, 1) == ":" then
-		if Katpack.init_done then
-			vim.cmd(build)
-		else
-			build_queue[#build_queue + 1] = plugin
-		end
+		vim.cmd(build)
 	else
-		local call = vim.system({ "sh", "-c", build }, { cwd = vim.pack.get({ plugin.name })[1].path }, function(out)
+		local call = vim.system((function()
+			local t = {}
+			for str in string.gmatch(build, "([^ ]+)") do
+				table.insert(t, str)
+			end
+			return t
+		end)(), { cwd = vim.pack.get({ plugin.name })[1].path }, function(out)
 			if out.code ~= 0 then
 				local error = out.stderr and " and message " .. out.stderr or ""
 				vim.notify("Building " .. plugin.name .. "was unsuccessfull! Program exited with code " .. out.code .. error)
 			end
 		end)
-		if not (async or Katpack.config.async_build) then
-			local res = call:wait()
-			return res.code == 0, res.code, call
-		end
 		return nil, nil, call
 	end
 end
@@ -202,19 +194,16 @@ function Katpack.init()
 		Katpack.update(plugin_names())
 	end
 
-	-- Load all configs
-	for _, plugin in ipairs(Katpack.plugins) do
-		if plugin.build then
-			local async
-			if plugin.async_build ~= nil then
-				async = plugin.async_build
-			else
-				async = Katpack.config.async_build
+	-- Build plugins
+	vim.api.nvim_create_autocmd("UIEnter", {
+		callback = function()
+			for _, plugin in ipairs(Katpack.plugins) do
+				if plugin.build then
+					vim.schedule(function() Katpack.build(plugin) end)
+				end
 			end
-			Katpack.build(plugin, async)
 		end
-		-- if plugin.config or Katpack.config.configs[plugin.name] then Katpack.reload(plugin) end
-	end
+	})
 
 	-- Define auto commands
 	vim.api.nvim_create_autocmd("PackChanged", {
@@ -274,11 +263,6 @@ function Katpack.init()
 
 	-- Set init_done to true
 	Katpack.init_done = true
-	for _, plugin in
-	ipairs(build_queue) do
-		Katpack.build(plugin)
-	end
-	build_queue = nil
 end
 
 ---@param config Katpack.Config
