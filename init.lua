@@ -6,7 +6,7 @@ require("katve.katpack").setup({
 	async_build = true,
 	auto_delete = false,
 	auto_update = false,
-	confirm = { install = false, update = false },
+	confirm = { install = false, update = true },
 	prefer_config_file = true,
 })
 
