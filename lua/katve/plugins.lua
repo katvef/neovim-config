@@ -47,7 +47,6 @@ require("katve.katpack").add({
 	{ src = "gh:anuvyklack/windows.nvim",                  dependencies = { "gh:anuvyklack/middleclass", "gh:anuvyklack/animation.nvim" }, },
 	{ src = "gh:lukas-reineke/indent-blankline.nvim",      dependencies = { "gh:HiPhish/rainbow-delimiters.nvim" }, },
 	{ src = "gh:rachartier/tiny-code-action.nvim",         dependencies = { "gh:nvim-lua/plenary.nvim", "gh:nvim-telescope/telescope.nvim" },         opts = {}, },
-	{ src = "gh:theprimeagen/harpoon",                     dependencies = { "gh:nvim-lua/plenary.nvim", branch = "harpoon2" } },
 	{ src = "gh:nvim-telescope/telescope-fzy-native.nvim", dependencies = { { src = "gh:romgrk/fzy-lua-native", build = "make", } }, },
 	{ src = "gh:stevearc/aerial.nvim",                     dependencies = { "gh:nvim-treesitter/nvim-treesitter", "gh:nvim-tree/nvim-web-devicons" }, },
 	{ src = "gh:L3MON4D3/LuaSnip",                         dependencies = { "gh:rafamadriz/friendly-snippets" },                                      build = "make install_jsregexp", },
