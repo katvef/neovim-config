@@ -169,3 +169,5 @@ autocmd({ "BufEnter", "TextChanged", "TextChangedI", "WinResized" }, {
 		end
 	end
 })
+
+autocmd("FileType", { callback = function() vim.opt_local.formatoptions = "jql" end, })
