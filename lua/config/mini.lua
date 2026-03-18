@@ -40,7 +40,7 @@ require("mini.files").setup({
 
 require("mini.surround").setup({
 	custom_surroundings = { ["”"] = { input = { "“().-()”" }, output = { left = "“", right = "”" } } },
-	n_lines = 20,
+	n_lines = 100,
 	respect_selection_type = true,
 	search_method = "cover",
 	silent = false,

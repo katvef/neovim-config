@@ -1,7 +1,7 @@
 require("pendulum").setup({
 	log_file = vim.env.HOME .. "/.pendulum-log.csv",
 	timeout_len = 300,
-	timer_len = 120,
+	timer_len = 500,
 	gen_reports = true,
 	top_n = 10,
 	hours_n = 10,
