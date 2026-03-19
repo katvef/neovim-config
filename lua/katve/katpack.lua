@@ -1,6 +1,6 @@
 ---@class Katpack
 ---@field plugins table<Katpack.Spec> Plugins installed, indexed by name
----@field config Katpack.Config Configuration that is used
+---@field config Katpack.Config Katpack configuration options
 ---@field augroup integer Id of the autocommand group for Katpack
 ---@field init_done boolean False during neovim startup, true after `VimEnter`
 local Katpack = {
@@ -16,7 +16,6 @@ plugins_mt.__index = name_lookup
 setmetatable(Katpack.plugins, plugins_mt)
 
 ---@class Katpack.Config
----@field configs? string|string[] Directory where the configuration files are stored or list of config files
 ---@field confirm? { install: boolean, update: boolean } Whether to ask confirmation for when installing plugins
 ---@field update_opts? vim.pack.keyset.update Options for updates
 ---@field auto_delete? boolean Automatically delete plugins no longer added on startup
@@ -35,15 +34,12 @@ local defaultConfig = {
 
 ---@class Katpack.Spec : vim.pack.Spec
 ---@field build? string Command to call to build something required by the plugin.
----@field opts? table Options to pass to the setup function of the module. katpack.Spec.config is preferred is both are set
----@field config? string|fun(spec: Katpack.Spec, opts: table) Function to configure the plugin or name of the config file
 ---@field delete? function Function to run when plugin is deleted
 ---@field init? function Function to run before updating plugin
 ---@field branch? string|vim.VersionRange Alternate syntax for version
 ---@field dependencies? (string|Katpack.Spec)[] Dependencies of the plugin, loaded before
 ---@field dependency? boolean If the plugin was added as a dependency
 ---@field module? string|false Name of the module the plugin provides. Used for reloading the plugin and loading opts. Optionally set setup if the plugin uses a non-standard setup path. Set to false to tell the plugin doesn't provide a module.
----@field priority? boolean Load the plugin config as soon as possible if true
 ---@field data nil The contents will be overridden
 
 local function tbl_deep_extend_inplace(dst, src)
@@ -83,9 +79,6 @@ function Katpack.add(specs, no_install)
 		else
 			spec.module = spec.name:gsub("%.nvim$", "")
 		end
-
-		spec.config = spec.config or (spec.module ~= false and spec.opts)
-			 and function(spec, opts) require(spec.module).setup(spec.opts) end or nil
 
 		local existing = Katpack.plugins[spec.name]
 		if existing then
@@ -267,38 +260,7 @@ end
 
 ---@param config Katpack.Config
 function Katpack.setup(config)
-	local configs = {}
-	if type(config.configs) == "string" then
-		local config_path = vim.fn.stdpath("config") .. "/lua/" .. config.configs
-		local config_stat = vim.uv.fs_stat(config_path)
-
-		if not config_stat then
-			vim.notify("Config directory not found! Make sure the directory provided is relative to the lua directory",
-				vim.log.levels.ERROR)
-		elseif config_stat.type ~= "directory" then
-			vim.notify("Configs must be a directory or a list of files!", vim.log.levels.ERROR)
-		else
-			for name, type in vim.fs.dir(config_path) do
-				if type == "file" then
-					configs[vim.fn.fnamemodify(name, ":t:r")] = vim.fn.fnamemodify(config_path .. "/" .. name, ":p")
-				end
-			end
-		end
-	elseif type(config.configs) == "table" then
-		---@diagnostic disable-next-line: param-type-mismatch
-		for _, file in ipairs(config.configs) do
-			file = vim.fn.fnamemodify(vim.fn.stdpath("config") .. "/lua/" .. file, ":p")
-			local stat = vim.uv.fs_stat(file)
-			if stat and stat.type == "file" then
-				configs[vim.fn.fnamemodify(file, ":t:r")] = file
-			else
-				vim.notify("Config file \"" .. file .. "\"is not found or isn't a file!", vim.log.levels.WARN)
-			end
-		end
-	end
-
-	Katpack.config = vim.tbl_deep_extend("force", defaultConfig, config, { configs })
-
+	Katpack.config = vim.tbl_deep_extend("force", defaultConfig, config)
 	vim.api.nvim_create_autocmd("VimEnter", { group = Katpack.augroup, callback = vim.schedule_wrap(Katpack.init) })
 end
 
