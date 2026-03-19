@@ -127,7 +127,15 @@ end
 
 ---@param names string[] List of plugins to delete
 ---@param force? boolean Delete plugin even if active
-function Katpack.delete(names, force) vim.pack.del(names, { force = force }) end
+function Katpack.delete(names, force)
+	if names == {} or names == nil or names == "" then
+		names = vim.iter(vim.pack.get()):filter(function(pack) return not pack.active end)
+			 :map(function(pack) return pack.spec.name end)
+			 :totable()
+			 or {}
+	end
+	vim.pack.del(names, { force = force })
+end
 
 --- Build the plugin
 ---@param plugin string|Katpack.Spec Plugin name or spec
@@ -224,7 +232,7 @@ function Katpack.init()
 	end, { nargs = "*", complete = complete_name, desc = "Update plugins" })
 
 	vim.api.nvim_create_user_command("KatpackDelete", function(args)
-		Katpack.delete(#(args.fargs) > 0 and args.fargs or plugin_names(), false)
+		Katpack.delete(args.fargs, false)
 	end, { nargs = "*", complete = complete_name, desc = "Delete plugins" })
 
 	vim.api.nvim_create_user_command("Katpack", function(args)
