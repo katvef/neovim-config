@@ -159,7 +159,7 @@ function Katpack.build(plugin)
 				if out.code ~= 0 then
 					local error = out.stderr and " and message " .. out.stderr or ""
 					vim.notify("Building " ..
-					plugin.name .. "was unsuccessfull! Program exited with code " .. out.code .. error)
+						plugin.name .. "was unsuccessfull! Program exited with code " .. out.code .. error)
 				end
 			end)
 		return nil, nil, call
@@ -230,7 +230,7 @@ function Katpack.init()
 	end, { nargs = "*", complete = complete_name, desc = "Update plugins" })
 
 	vim.api.nvim_create_user_command("KatpackDelete", function(args)
-		Katpack.delete(args.fargs, false)
+		Katpack.delete(args.fargs, true)
 	end, { nargs = "*", complete = complete_name, desc = "Delete plugins" })
 
 	vim.api.nvim_create_user_command("Katpack", function(args)
