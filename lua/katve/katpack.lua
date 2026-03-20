@@ -91,6 +91,7 @@ function Katpack.add(specs, no_install)
 			Katpack.plugins[#Katpack.plugins + 1] = spec
 		end
 	end
+
 	-- Install all newly added plugins
 	if not no_install then Katpack.install() end
 end
@@ -153,18 +154,14 @@ function Katpack.build(plugin)
 	if build:sub(1, 1) == ":" then
 		vim.cmd(build)
 	else
-		local call = vim.system((function()
-			local t = {}
-			for str in string.gmatch(build, "([^ ]+)") do
-				table.insert(t, str)
-			end
-			return t
-		end)(), { cwd = vim.pack.get({ plugin.name })[1].path }, function(out)
-			if out.code ~= 0 then
-				local error = out.stderr and " and message " .. out.stderr or ""
-				vim.notify("Building " .. plugin.name .. "was unsuccessfull! Program exited with code " .. out.code .. error)
-			end
-		end)
+		local call = vim.system(vim.split(build, " "),
+			{ cwd = vim.pack.get({ plugin.name })[1].path }, function(out)
+				if out.code ~= 0 then
+					local error = out.stderr and " and message " .. out.stderr or ""
+					vim.notify("Building " ..
+					plugin.name .. "was unsuccessfull! Program exited with code " .. out.code .. error)
+				end
+			end)
 		return nil, nil, call
 	end
 end
@@ -197,6 +194,7 @@ function Katpack.init()
 
 	-- Build plugins
 	vim.api.nvim_create_autocmd("UIEnter", {
+		group = Katpack.augroup,
 		callback = function()
 			for _, plugin in ipairs(Katpack.plugins) do
 				if plugin.build then
