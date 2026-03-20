@@ -20,7 +20,7 @@ require("katve.katpack").add({
 	"gh:chrisgrieser/nvim-rip-substitute",
 	"gh:nvim-mini/mini.surround",
 	"gh:folke/flash.nvim",
-	"gh:mbbill/undotree",
+	"gh:jiaoshijie/undotree",
 	"gh:numToStr/Comment.nvim",
 	"gh:nvim-mini/mini.ai",
 	"gh:EdenEast/nightfox.nvim",
