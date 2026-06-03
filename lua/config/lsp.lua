@@ -141,6 +141,10 @@ lspconfig("gdscript", {})
 lspconfig("bashls", {})
 lspconfig("gopls", {})
 
+lspconfig("qmlls", {
+	cmd = { "qmlls6", "-E" }
+})
+
 lspconfig("ltex_plus", {
 	filetypes = {
 		"bibtex",
