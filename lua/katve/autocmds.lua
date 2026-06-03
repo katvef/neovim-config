@@ -171,3 +171,6 @@ autocmd({ "BufEnter", "TextChanged", "TextChangedI", "WinResized" }, {
 })
 
 autocmd("FileType", { callback = function() vim.opt_local.formatoptions = "jql" end, })
+
+-- Ensure alternate screen is left on exit
+vim.api.nvim_create_autocmd('VimLeave', { callback = function() io.write('\27[?1049l') end })
