@@ -31,7 +31,6 @@ require("katve.katpack").add({
 	"gh:atiladefreitas/dooing",
 	"gh:NeogitOrg/neogit",
 
-	{ src = "gh:ptdewey/pendulum-nvim",                    branch = "v2",                                                                             build = ":PendulumRebuild", },
 	{ src = "gh:vyfor/cord.nvim",                          build = ":Cord update", },
 	{ src = "gh:nvim-treesitter/nvim-treesitter",          build = ":TSUpdate", },
 	{ src = "gh:esmuellert/codediff.nvim",                 dependencies = { "gh:MunifTanjim/nui.nvim" } },
