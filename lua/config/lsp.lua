@@ -141,9 +141,16 @@ lspconfig("gdscript", {})
 lspconfig("bashls", {})
 lspconfig("gopls", {})
 
-lspconfig("qmlls", {
-	cmd = { "qmlls6", "-E" }
+-- lspconfig("qmlls", {
+-- 	cmd = { "qmlls6", "-E" }
+-- })
+
+lspconfig("qml-ls", {
+	cmd = { "qml-language-server" },
+	filetypes = { "qml" },
+	root_markers = { { "qmldir", "shell.qml" }, ".git" },
 })
+
 
 lspconfig("ltex_plus", {
 	filetypes = {
