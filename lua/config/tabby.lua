@@ -87,7 +87,6 @@ require("tabby").setup({
 						local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
 						if #cwd > 20 then
 							local first_slash = cwd:find('/', #cwd - #vim.fn.fnamemodify(cwd, ":t") - 15) or 0
-							vim.notify_once(tostring(first_slash))
 							cwd = "…" .. cwd:sub(first_slash)
 						end
 						return cwd
