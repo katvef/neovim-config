@@ -104,16 +104,16 @@ end
 local start = {}
 local stop = {}
 --- Store current time by id
-function TimerStart(id)
+function TimerStart(id, force)
 	id = id or 0
+	if start[id] ~= nil and force ~= true then return end
 	start[id] = vim.uv.hrtime()
 	return start[id]
 end
 
 --- Print time from id
-function TimerStop(id, get, msg)
+function TimerStop(id, get)
 	id = id or 0
-	if not get then stop[id] = vim.uv.hrtime() end
-	if msg then print("Time from id " .. id .. ": " .. (stop[id] - start[id]) / 1e6) end
-	return (stop[id] - start[id]) / 1e6
+	if get == false then stop[id] = vim.uv.hrtime() end
+	return ((stop[id] or vim.uv.hrtime()) - start[id]) / 1e6
 end
