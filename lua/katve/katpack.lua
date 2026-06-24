@@ -110,11 +110,13 @@ function Katpack.install(specs)
 	end
 
 	vim.pack.add(plugin_specs, { confirm = Katpack.config.confirm.install })
-	if not Katpack.init_done then
-		for _, plugin in ipairs(specs) do
-			plugin.module = vim.fs.dir(vim.pack.get({ plugin.name })[1].path .. "/lua")()
-			-- if plugin.priority then Katpack.reload(plugin) end
-		end
+
+	local packs = vim.pack.get(nil, { info = false })
+	local paths = {}; for _, v in ipairs(packs) do paths[v.spec.name] = v.path end
+
+	for _, plugin in ipairs(specs) do
+		plugin.module = vim.fs.dir(paths[plugin.name] .. "/lua")()
+		-- if plugin.priority then Katpack.reload(plugin) end
 	end
 end
 
