@@ -30,6 +30,7 @@ require("katve.katpack").add({
 	"gh:williamboman/mason.nvim",
 	"gh:atiladefreitas/dooing",
 	"gh:NeogitOrg/neogit",
+	"gh:Tummetott/reticle.nvim",
 
 	{ src = "gh:vyfor/cord.nvim",                          build = ":Cord update", },
 	{ src = "gh:nvim-treesitter/nvim-treesitter",          build = ":TSUpdate", },
@@ -58,3 +59,9 @@ require("neogen").setup()
 require("mason").setup()
 require("dooing").setup()
 require("neogit").setup()
+require("reticle").setup({
+	on_startup = {
+		cursorline = true,
+		cursorcolumn = true,
+	},
+})
