@@ -4,7 +4,7 @@ require('nightfox').setup({
 		compile_file_suffix = "_compiled",
 		transparent = false,
 		terminal_colors = false,
-		dim_inactive = true,
+		dim_inactive = false,
 		module_default = true,
 		styles = {
 			comments = "italic",
