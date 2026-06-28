@@ -1,6 +1,7 @@
 require("flash").setup({
 	modes = {
-		char = { enabled = false }
+		char = { enabled = false },
+		search = { enabled = false },
 	},
 	jump = {
 		autojump = true,
