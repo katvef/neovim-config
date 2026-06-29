@@ -140,6 +140,7 @@ lspconfig("tombi", {})
 lspconfig("gdscript", {})
 lspconfig("bashls", {})
 lspconfig("gopls", {})
+lspconfig("serve_d", {})
 
 -- lspconfig("qmlls", {
 -- 	cmd = { "qmlls6", "-E" }
