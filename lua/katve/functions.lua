@@ -121,12 +121,15 @@ end
 --- Copy selection with file name and line numbers
 function CopyReference(args)
 	local path
+	local lang = ""
 	local selection_start = args.line1
 	local selection_end = args.line2
 	local settings = {
 		nums = false,
-		nopath = false
+		nopath = false,
+		code = false
 	}
+
 	for _, arg in ipairs(args.fargs) do
 		settings[arg] = true
 	end
@@ -157,7 +160,11 @@ function CopyReference(args)
 	local val = {}
 	if settings.nopath == false then val[#val + 1] = path .. ": " .. selection_start end
 
-	-- Add line numbers
+	if settings.code == true then
+		lang = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+		val[#val + 1] = "```" .. lang
+	end
+	-- Add lines
 	if settings.nums == true then
 		if lines ~= nil then
 			for i, line in ipairs(lines) do
@@ -170,6 +177,10 @@ function CopyReference(args)
 				val[#val + 1] = line
 			end
 		end
+	end
+
+	if settings.code == true then
+		val[#val + 1] = "```"
 	end
 
 	vim.fn.setreg("+", table.concat(val, "\n"))
