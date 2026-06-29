@@ -117,3 +117,62 @@ function TimerStop(id, get)
 	if get == false then stop[id] = vim.uv.hrtime() end
 	return ((stop[id] or vim.uv.hrtime()) - start[id]) / 1e6
 end
+
+--- Copy selection with file name and line numbers
+function CopyReference(args)
+	local path
+	local selection_start = args.line1
+	local selection_end = args.line2
+	local settings = {
+		nums = false,
+		nopath = false
+	}
+	for _, arg in ipairs(args.fargs) do
+		settings[arg] = true
+	end
+
+	-- Make path relative to project root
+	local git_root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n", "")
+	if git_root ~= "" and vim.v.shell_error == 0 then
+		path = vim.fn.expand("%:p")
+		if path:sub(1, #git_root) == git_root then
+			path = path:sub(#git_root + 2)
+		end
+	else
+		path = vim.fn.expand("%") -- Use path relative to pwd if git root isnẗ found
+	end
+
+	if args.range == 0 then
+		vim.fn.setreg("+", path .. ": " .. selection_start)
+		return
+	end
+
+	-- Get range
+	local lines = nil
+	if selection_start ~= selection_end then
+		lines = vim.api.nvim_buf_get_lines(0, selection_start, selection_end + 1, false)
+	end
+
+
+	local val = {}
+	if settings.nopath == false then val[#val + 1] = path .. ": " .. selection_start end
+
+	-- Add line numbers
+	if settings.nums == true then
+		if lines ~= nil then
+			for i, line in ipairs(lines) do
+				val[#val + 1] = selection_start + i - 1 .. " " .. line
+			end
+		end
+	else
+		if lines ~= nil then
+			for _, line in ipairs(lines) do
+				val[#val + 1] = line
+			end
+		end
+	end
+
+	vim.fn.setreg("+", table.concat(val, "\n"))
+end
+
+vim.api.nvim_create_user_command("CopyReference", CopyReference, { range = true, nargs = "*" })
