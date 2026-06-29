@@ -150,7 +150,7 @@ function CopyReference(args)
 	-- Get range
 	local lines = nil
 	if selection_start ~= selection_end then
-		lines = vim.api.nvim_buf_get_lines(0, selection_start, selection_end + 1, false)
+		lines = vim.api.nvim_buf_get_lines(0, selection_start - 1, selection_end, false)
 	end
 
 
