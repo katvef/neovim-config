@@ -6,6 +6,7 @@ require('nightfox').setup({
 		terminal_colors = false,
 		dim_inactive = false,
 		module_default = true,
+
 		styles = {
 			comments = "italic",
 			conditionals = "italic",
@@ -18,13 +19,14 @@ require('nightfox').setup({
 			types = "italic",
 			variables = "NONE",
 		},
+
 		inverse = { -- Inverse highlight for different types
 			match_paren = false,
 			visual = false,
 			search = false,
 		},
-		modules = {
 
+		modules = {
 			indent_blankline = {
 				enabled = true
 			},
@@ -45,7 +47,9 @@ require('nightfox').setup({
 			},
 		},
 	},
+
 	palettes = {},
+
 	specs = {
 		nightfox = {
 			syntax = {
@@ -57,6 +61,7 @@ require('nightfox').setup({
 			}
 		}
 	},
+
 	groups = {},
 })
 
