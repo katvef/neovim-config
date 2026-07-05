@@ -15,7 +15,6 @@ require("katve.katpack").add({
 	"gh:folke/trouble.nvim",
 	"gh:folke/which-key.nvim",
 	"gh:echasnovski/mini.bracketed",
-	"gh:echasnovski/mini.files",
 	"gh:chentoast/marks.nvim",
 	"gh:chrisgrieser/nvim-rip-substitute",
 	"gh:nvim-mini/mini.surround",
@@ -34,6 +33,7 @@ require("katve.katpack").add({
 
 	{ src = "gh:vyfor/cord.nvim",                          build = ":Cord update", },
 	{ src = "gh:nvim-treesitter/nvim-treesitter",          build = ":TSUpdate", },
+	{ src = "gh:stevearc/oil.nvim",                        dependencies = { "gh:nvim-mini/mini.icons" } },
 	{ src = "gh:esmuellert/codediff.nvim",                 dependencies = { "gh:MunifTanjim/nui.nvim" } },
 	{ src = "gh:SmiteshP/nvim-navic",                      dependencies = { "gh:neovim/nvim-lspconfig" } },
 	{ src = "gh:nanozuki/tabby.nvim",                      dependencies = { "gh:nvim-tree/nvim-web-devicons" } },

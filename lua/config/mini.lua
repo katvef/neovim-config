@@ -1,43 +1,3 @@
-require("mini.files").setup({
-	content = {
-		-- Predicate for which file system entries to show
-		filter = nil,
-		-- What prefix to show to the left of file system entry
-		prefix = nil,
-		-- In which order to show file system entries
-		sort = nil,
-	},
-
-	mappings = {
-		close = 'q',
-		go_in = '<CR>',
-		go_in_plus = '',
-		go_out = '-',
-		go_out_plus = '',
-		mark_goto = "'",
-		mark_set = 'm',
-		reset = '<BS>',
-		reveal_cwd = '@',
-		show_help = 'g?',
-		synchronize = 'Y',
-		trim_left = '<',
-		trim_right = '>',
-	},
-
-	options = {
-		permanent_delete = true,
-		use_as_default_explorer = false, -- Causes annoying issues with the popup opening when not wanted
-	},
-
-	windows = {
-		max_number = math.huge,
-		preview = true,
-		width_focus = 50,
-		width_nofocus = 15,
-		width_preview = 40,
-	},
-})
-
 require("mini.surround").setup({
 	custom_surroundings = { ["”"] = { input = { "“().-()”" }, output = { left = "“", right = "”" } } },
 	n_lines = 100,
@@ -80,5 +40,4 @@ require("mini.ai").setup({
 	},
 })
 
-vim.keymap.set("n", "<leader>pe", function() require("mini.files").open() end)
 vim.keymap.set("n", "<C-n>", function() require("mini.files").open() end)
