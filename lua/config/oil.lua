@@ -56,7 +56,7 @@ oil.setup({
 		["g\\"] = { "actions.toggle_trash", mode = "n" },
 	},
 
-	skip_confirm_for_simple_edits = false,
+	skip_confirm_for_simple_edits = true,
 	cleanup_delay_ms = 10000,
 })
 
