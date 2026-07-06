@@ -39,5 +39,3 @@ require("mini.ai").setup({
 		goto_right = "g]",
 	},
 })
-
-vim.keymap.set("n", "<C-n>", function() require("mini.files").open() end)
