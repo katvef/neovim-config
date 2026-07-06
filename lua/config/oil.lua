@@ -22,7 +22,7 @@ oil.setup({
 
 	buf_options = {
 		buflisted = true,
-		bufhidden = "hide",
+		bufhidden = "delete",
 	},
 
 	float = {
@@ -57,7 +57,6 @@ oil.setup({
 	},
 
 	skip_confirm_for_simple_edits = true,
-	cleanup_delay_ms = 10000,
 })
 
 vim.keymap.set("n", "<C-b>", function() oil.toggle_float(vim.fn.getcwd(), nil, require("oil.actions").preview.callback) end)
