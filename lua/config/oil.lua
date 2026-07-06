@@ -57,8 +57,8 @@ oil.setup({
 	},
 
 	skip_confirm_for_simple_edits = false,
-	cleanup_delay_ms = false,
+	cleanup_delay_ms = 10000,
 })
 
-vim.keymap.set("n", "<C-n>", function() oil.open_float(vim.fn.getcwd(), nil, require("oil.actions").preview.callback) end)
+vim.keymap.set("n", "<C-b>", function() oil.open_float(vim.fn.getcwd(), nil, require("oil.actions").preview.callback) end)
 vim.keymap.set("n", "<leader>e", function() oil.open_float(nil, nil, require("oil.actions").preview.callback) end)
