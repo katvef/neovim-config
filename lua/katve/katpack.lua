@@ -131,11 +131,10 @@ end
 ---@param names string[] List of plugins to delete
 ---@param force? boolean Delete plugin even if active
 function Katpack.delete(names, force)
-	if names == {} or names == nil or names == "" then
-		names = vim.iter(vim.pack.get()):filter(function(pack) return not pack.active end)
+	if vim.tbl_isempty(names) or names == nil or names == "" then
+		names = vim.iter(vim.pack.get()):filter(function(pack) return pack.active == false end)
 			 :map(function(pack) return pack.spec.name end)
 			 :totable()
-			 or {}
 	end
 	vim.pack.del(names, { force = force })
 end
