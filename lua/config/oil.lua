@@ -59,5 +59,19 @@ oil.setup({
 	skip_confirm_for_simple_edits = true,
 })
 
-vim.keymap.set("n", "<C-b>", function() oil.toggle_float(vim.fn.getcwd(), nil, require("oil.actions").preview.callback) end)
-vim.keymap.set("n", "<leader>e", function() oil.toggle_float(nil, nil, require("oil.actions").preview.callback) end)
+vim.keymap.set("n", "<C-b>",
+	function() oil.toggle_float(vim.fn.getcwd(), nil, require("oil.actions").preview.callback) end)
+vim.keymap.set("n", "<leader>ep", function() oil.toggle_float(nil, nil, require("oil.actions").preview.callback) end)
+
+local function complete(arg_lead)
+	return "foor\nbar\nbaz"
+end
+
+vim.keymap.set("n", "<leader>er", function()
+	vim.ui.input({
+		prompt = "Enter uri: ",
+	}, function(input)
+		if input == nil or input == "" then return end
+		oil.toggle_float(input, nil, require("oil.actions").preview.callback)
+	end)
+end)
