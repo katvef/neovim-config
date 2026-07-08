@@ -38,7 +38,8 @@ local theme = require("telescope.themes")
 map("<leader>ff",
 	function() builtin.fd(vim.tbl_extend("force", theme.get_dropdown(), { no_ignore = true, hidden = true })) end,
 	{ desc = "Telescope find files" })
-map("<leader>fp", function() builtin.fd(vim.tbl_extend("force", theme.get_dropdown(), { no_ignore = true })) end,
+map("<leader>fp",
+	function() builtin.fd(vim.tbl_extend("force", theme.get_dropdown(), { file_ignore_patterns = { "^build/", "^dist/" } })) end,
 	{ desc = "Telescope find files" })
 map("<leader>fr", function() builtin.git_files({ hidden = true }) end, { desc = "Telescope git files" })
 map("<leader>fg", function() builtin.live_grep(theme.get_dropdown()) end, { desc = "Telescope live grep" })
