@@ -137,9 +137,10 @@ vim.keymap.set("n", "<leader>rW", "\"_diWhp", { desc = "Replace WORD with yank r
 vim.keymap.set("n", "L", vim.diagnostic.open_float)
 
 -- Commandline movement
-vim.keymap.set("c", "<C-a>", "<Home>")
-vim.keymap.set("c", "<C-e>", "<End>")
 vim.keymap.set("c", "<M-BS>", "<C-w>")
 vim.keymap.set("c", "<C-BS>", "<C-w>")
 
 vim.keymap.set("n", "zn", vim.show_pos, { desc = "Show all the items at a given buffer position" })
+
+vim.keymap.set("n", "<leader>oh", OpenHeader, { desc = "Open header associated with current file" })
+vim.keymap.set("n", "<leader>os", OpenSource, { desc = "Open source associated with current file" })

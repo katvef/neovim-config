@@ -187,3 +187,51 @@ function CopyReference(args)
 end
 
 vim.api.nvim_create_user_command("CopyReference", CopyReference, { range = true, nargs = "*" })
+
+-- Open a split with the header/source file associated with the current source/header file
+local header_extensions = { c = "h", cpp = "hpp" }
+local source_extensions = {}
+for source, header in pairs(header_extensions) do
+	source_extensions[header] = source
+end
+
+function OpenHeaderOrSource(kind)
+	local extensions
+	local new_kind
+	if type(kind) ~= "string" then return end
+	kind = kind:lower()
+	if kind == "header" then
+		extensions = header_extensions
+		new_kind = "Source"
+	end
+	if kind == "source" then
+		extensions = source_extensions
+		new_kind = "Header"
+	end
+	if extensions == nil then return end
+
+	local current_file = vim.api.nvim_buf_get_name(0)
+	local extension = vim.fn.fnamemodify(current_file, ":e")
+	local new_extension = extensions[extension]
+	if new_extension == nil then
+		vim.notify("File extension not recognized", vim.log.levels.WARN)
+		return
+	end
+	local target = vim.fn.fnamemodify(current_file, ":r:p") .. "." .. new_extension
+	if vim.uv.fs_stat(target) == nil then
+		local confirm = vim.fn.confirm(new_kind .. " file does not exist, create " .. target .. "?\n", "&Yes\n&No")
+		if confirm == 0 or confirm == 2 then return end
+	end
+	vim.cmd.split(target)
+end
+
+-- Open a split with the header file associated with the current source file
+function OpenHeader() OpenHeaderOrSource("header") end
+
+vim.api.nvim_create_user_command("OpenHeader", OpenHeader, {})
+
+-- Open a split with the source file associated with the current header file
+
+function OpenSource() OpenHeaderOrSource("source") end
+
+vim.api.nvim_create_user_command("OpenSource", OpenSource, {})
