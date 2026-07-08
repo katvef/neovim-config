@@ -2,7 +2,7 @@ require("cord").setup {
 	enabled = true,
 	editor = {
 		client = "neovim",
-		tooltip = "Not Emacs",
+		tooltip = "Still updating the config",
 		icon = nil,
 	},
 	display = {
@@ -18,8 +18,8 @@ require("cord").setup {
 	},
 	idle = {
 		enabled = true,
-		timeout = 300000,
-		show_status = true,
+		timeout = 600000,
+		show_status = false,
 		ignore_focus = true,
 		unidle_on_focus = true,
 		smart_idle = true,
