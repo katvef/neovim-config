@@ -4,6 +4,7 @@ require("conform").setup({
 		python = { "isort", "black" },
 		rust = { "rustfmt", lsp_format = "fallback" },
 		javascript = { "biome-check" },
+		typescript = { "biome-check" },
 		yaml = { "yamlfix" },
 		sh = { "shfmt" },
 		gdscript = { "gdformat" },
