@@ -67,18 +67,6 @@ require("tabby").setup({
 
 			line.spacer(),
 
-			-- Windows in tab
-			winsInTab.foreach(function(win)
-				local hl = win.is_current() and theme.current_tab or theme.tab
-				return {
-					line.sep("", hl, theme.fill),
-					win.buf_name(),
-					line.sep("", hl, theme.fill),
-					margin = " ",
-					hl = hl,
-				}
-			end),
-
 			-- Tail
 			{
 				line.sep("", theme.tail, theme.fill),
