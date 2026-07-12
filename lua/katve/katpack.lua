@@ -6,7 +6,7 @@
 local Katpack = {
 	plugins = {},
 	config = {},
-	augroup = vim.api.nvim_create_augroup("KatpackEvent", { clear = false }),
+	augroup = vim.api.nvim_create_augroup("KatpackEvent", { clear = true }),
 	init_done = false
 }
 
@@ -193,18 +193,6 @@ function Katpack.init()
 		Katpack.update(plugin_names())
 	end
 
-	-- Build plugins
-	vim.api.nvim_create_autocmd("UIEnter", {
-		group = Katpack.augroup,
-		callback = function()
-			for _, plugin in ipairs(Katpack.plugins) do
-				if plugin.build then
-					vim.schedule(function() Katpack.build(plugin) end)
-				end
-			end
-		end
-	})
-
 	-- Define auto commands
 	vim.api.nvim_create_autocmd("PackChanged", {
 		group = Katpack.augroup,
@@ -268,7 +256,8 @@ end
 ---@param config Katpack.Config
 function Katpack.setup(config)
 	Katpack.config = vim.tbl_deep_extend("force", defaultConfig, config)
-	vim.api.nvim_create_autocmd("VimEnter", { group = Katpack.augroup, callback = vim.schedule_wrap(Katpack.init) })
+	vim.api.nvim_create_autocmd("VimEnter",
+		{ group = Katpack.augroup, callback = vim.schedule_wrap(Katpack.init), once = true })
 end
 
 return Katpack
