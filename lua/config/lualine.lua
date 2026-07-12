@@ -24,7 +24,7 @@ require("lualine").setup({
 				function() return require("noice").api.statusline.mode.get() or "NORMAL" end,
 			},
 		},
-		lualine_b = { 'branch', 'diff', 'diagnostics' },
+		lualine_b = { 'diff', 'diagnostics' },
 		lualine_c = { { 'filename', path = 0, newfile_status = true },
 			function()
 				local names = {}
