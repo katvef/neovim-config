@@ -231,7 +231,6 @@ function OpenHeader() OpenHeaderOrSource("header") end
 vim.api.nvim_create_user_command("OpenHeader", OpenHeader, {})
 
 -- Open a split with the source file associated with the current header file
-
 function OpenSource() OpenHeaderOrSource("source") end
 
 vim.api.nvim_create_user_command("OpenSource", OpenSource, {})
