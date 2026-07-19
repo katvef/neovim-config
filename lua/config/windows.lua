@@ -10,6 +10,7 @@ vim.o.equalalways = false
 require("windows").setup({
 	ignore = {
 		buftype = { "nofile", "quickfix" },
-		filetype = { "undotree", "aerial", "diff", "gitcommit", "git" },
+		filetype = { "undotree", "aerial", "diff", "gitcommit", "git", "query" },
 	},
+	autowidth = { enable = false }
 })
