@@ -58,7 +58,6 @@ autocmd("LspAttach", {
 		map("<F2>", lsp.rename, "Rename object")
 		map("<leader>ga", lsp.code_action, "Code action")
 		map("<F4>", require("tiny-code-action").code_action, "Code action")
-		map("<F3>", function() require("conform").format({ async = true, lsp_format = "fallback" }) end, "Format buffer")
 		map("gd", function() telescope_lsp("definitions") end, "Goto definition")
 		map("gi", function() telescope_lsp("implementations") end, "Goto implementation")
 		map("go", function() telescope_lsp("type_definitions") end, "Goto type definition")
@@ -143,6 +142,8 @@ lspconfig("gopls", {})
 lspconfig("serve_d", {})
 lspconfig("gh_actions_ls", {})
 lspconfig("yamlls", {})
+lspconfig("tsgo", {})
+lspconfig("djlint", {})
 
 
 lspconfig("qml-ls", {
@@ -280,13 +281,6 @@ lspconfig("lua_ls", {
 	settings = {
 		Lua = {},
 	},
-})
-
-lspconfig("ts_ls", {
-	cmd = { "typescript-language-server", "--stdio" },
-	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-	root_markers = { "tsconfig.json", "jsconfig.json", "package.json", "module.json", ".git" },
-	single_file_support = true,
 })
 
 lspconfig("hyprls", {
